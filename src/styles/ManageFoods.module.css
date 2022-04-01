@@ -1,0 +1,91 @@
+.foods-container h2 {
+    color: var(--main-txt-color__bright);
+    text-align: center;
+}
+
+.btn-menu {
+    align-items: center;
+    background-color: var(--main-color1);
+    border: none;
+    border-radius: 2rem;
+    color: var(--main-txt-color__bright);
+    cursor: pointer;
+    display: flex;
+    font-size: 1.2rem;
+    font-weight: 600;
+    justify-self: center;
+    padding: 1rem 1.2rem;
+    text-transform: uppercase;
+    transition: all 0.2s;
+}
+
+.btn-menu:hover {
+    transform: scale(1.05);
+}
+
+.btn-menu:focus {
+    outline: none;
+}
+
+.btn-menu>*:first-child {
+    margin-right: 1rem;
+}
+
+
+
+.food-item {
+    background-color: var(--main-bg-color__bright);
+    border-radius: 4px;
+    box-shadow: 0 2px 8px var(--box-shadow-color);
+    margin: 0.2rem 0;
+    position: relative;
+    padding: 0.2rem;
+}
+
+.food-item:hover {
+    background-color: var(--main-color1__pale);
+}
+
+.food-item fieldset {
+    border-color: var(--main-color1__pale);
+    padding: 0.5rem;
+}
+
+.food-item legend {
+    color: var(--main-color1);
+    font-size: 1.2rem;
+    text-transform: uppercase;
+}
+
+.btn--del-food {
+    background: none;
+    border: none;
+    color: var(--attentive-color);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 2rem;
+    position: absolute;
+    right: 0.3rem;
+    top: 0.8rem;
+}
+
+.btn--del-food:hover {
+    font-weight: 600;
+    color: var(--attentive-color__focus);
+}
+
+.btn--del-food path {
+    fill: var(--attentive-color);
+    stroke: var(--attentive-color);
+}
+
+.btn--del-food:hover path {
+    fill: var(--attentive-color__focus);
+    stroke: var(--attentive-color__focus);
+}
+
+@media (max-width: 768px) {
+    .food-item {
+        margin: 0.4rem 0;
+    }
+}
