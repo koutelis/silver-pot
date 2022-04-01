@@ -1,3 +1,10 @@
+// API endpoints
+
+const endpoints = {
+    foods: "https://silver-pot-srv.herokuapp.com/api/foods/",
+    drinks: "https://silver-pot-srv.herokuapp.com/api/drinks/"
+}
+
 // #region ModalManageFood.js
 
 const ModalManageFood_Defaults = {
@@ -43,4 +50,4 @@ const categories = {
 
 // #endregion
 
-export { ModalManageFood_Defaults, categories }
+export { endpoints, ModalManageFood_Defaults, categories }

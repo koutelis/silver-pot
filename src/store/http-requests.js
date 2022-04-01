@@ -1,7 +1,12 @@
+import { endpoints } from 'store/defaults.js';
+
+// const apiFoodUrl = "http://localhost:3001/api/foods/";  // dev path
+// const apiDrinksUrl = "http://localhost:3001/api/drinks/";  // dev path
+const apiFoodsUrl = endpoints.foods;
+const apiDrinksUrl = endpoints.drinks;
+
 
 //#region "FOODS"
-
-const apiFoodUrl = "http://localhost:3001/api/foods/";
 
 /**
  * GET request for all stored foods.
@@ -9,7 +14,7 @@ const apiFoodUrl = "http://localhost:3001/api/foods/";
  */
 async function getFoods() {
     try {
-        const response = await fetch(apiFoodUrl);
+        const response = await fetch(apiFoodsUrl);
         const result = await response.json();
         return result;
     } catch (err) {
@@ -25,7 +30,7 @@ async function getFoods() {
  */
 async function getFood(_id) {
     try {
-        const response = await fetch(`${apiFoodUrl}${_id}`);
+        const response = await fetch(`${apiFoodsUrl}${_id}`);
         const result = await response.json();
         if (result.length === 1) return result[0];
         else throw Error("A single food should have been returned, given a valid _id")
@@ -47,7 +52,7 @@ async function postFood(data) {
     };
 
     try {
-        const response = await fetch(apiFoodUrl, settings);
+        const response = await fetch(apiFoodsUrl, settings);
         const result = await response.json();
         return result;
     } catch (err) {
@@ -62,7 +67,7 @@ async function postFood(data) {
  */
 async function deleteFood(_id) {
     try {
-        const response = await fetch(`${apiFoodUrl}${_id}`, { method: "DELETE" });
+        const response = await fetch(`${apiFoodsUrl}${_id}`, { method: "DELETE" });
         return response;
     } catch (err) {
         console.error(err);
@@ -83,7 +88,7 @@ async function putFood(_id, data) {
     };
 
     try {
-        const response = await fetch(`${apiFoodUrl}${_id}`, settings);
+        const response = await fetch(`${apiFoodsUrl}${_id}`, settings);
         const result = await response.json();
         return result;
     } catch (err) {
@@ -103,8 +108,6 @@ const foodRequests = {
 //#endregion
 
 //#region "DRINKS"
-
-const apiDrinksUrl = "http://localhost:3001/api/drinks/";
 
 async function getDrinks() {}
 
