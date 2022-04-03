@@ -72,7 +72,7 @@ const CreateMenu = () => {
             <br/>
             <br/>
             <div className={mask}>
-                <MenuList_DnD itemList={items} onDragDrop={cbHandleDragDrop} />
+                {<MenuList_DnD itemList={items} onDragDrop={cbHandleDragDrop} />}
             </div>
         </div>
     );

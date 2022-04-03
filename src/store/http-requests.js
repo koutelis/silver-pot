@@ -1,12 +1,8 @@
 import { endpoints } from 'store/defaults.js';
 
-// const apiDrinksUrl = "http://localhost:3001/api/drinks/";  // dev path
-// const apiFoodsUrl = "http://localhost:3001/api/foods/";  // dev path
-// const apiMenusUrl = "http://localhost:3001/api/menu/";  // dev path
 const apiDrinksUrl = endpoints.drinks;
 const apiFoodsUrl = endpoints.foods;
 const apiMenusUrl = endpoints.menus;
-
 
 //#region "FOODS"
 
