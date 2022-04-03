@@ -1,16 +1,17 @@
 // API endpoints
 
-// const endpoints = {
-//     drinks: process.env.DRINKS_URI,
-//     foods: process.env.FOODS_URI,
-//     menus: process.env.MENUS_URI
-// }
-
 const endpoints = {
-    drinks: "http://localhost:3001/api/drinks/",
-    foods: "http://localhost:3001/api/foods/",
-    menus: "http://localhost:3001/api/menus/"
+    drinks: "https://silver-pot-srv.herokuapp.com/api/drinks/",
+    foods: "https://silver-pot-srv.herokuapp.com/api/foods/",
+    menus: "https://silver-pot-srv.herokuapp.com/api/menus/"
 }
+
+// dev:
+// const endpoints = {
+//     drinks: "http://localhost:3001/api/drinks/",
+//     foods: "http://localhost:3001/api/foods/",
+//     menus: "http://localhost:3001/api/menus/"
+// }
 
 const ModalManageMenuItem_Defaults = {
     formModel: {
