@@ -1,9 +1,9 @@
-import React from 'react';
-import InputFoodAddonBox from 'components/ManageMenu/ModalManageFood/InputFoodAddonBox.js';
-import styles from 'styles/ModalManageFood.module.css'
+import React from "react";
+import InputFoodAddonBox from "components/ManageMenu/ManageFoods/ModalManageFood/InputFoodAddonBox.js";
+import styles from "styles/ModalManageMenuItem.module.css"
 
 /**
- * SUBCONTAINER component for ModalManageFood CONTAINER form
+ * SUBCONTAINER component for ModalManageMenuItem CONTAINER form
  * @param {Object} props - {addonsData: Object, visible: Boolean, onSelect: function, onChange: function}
  * @returns {JSX}
  */
@@ -35,9 +35,18 @@ const InputFoodAddons = (props) => {
         <div className={styles["inputs__column"]}>
             <h3 className={styles["inputs__heading"]} onClick={onHeaderClick}>Addons</h3>
             <div className={mask}>
-                <InputFoodAddonBox label="item 1" name="addon1" title={addonsData["addon1"]["title"]} price={addonsData["addon1"]["price"]} cbInputChanged={cbInputChanged} />
-                <InputFoodAddonBox label="item 2" name="addon2" title={addonsData["addon2"]["title"]} price={addonsData["addon2"]["price"]} cbInputChanged={cbInputChanged} />
-                <InputFoodAddonBox label="item 3" name="addon3" title={addonsData["addon3"]["title"]} price={addonsData["addon3"]["price"]} cbInputChanged={cbInputChanged} />
+                <InputFoodAddonBox 
+                    label="item 1" name="addon1" title={addonsData["addon1"]["title"]} 
+                    price={addonsData["addon1"]["price"]} cbInputChanged={cbInputChanged} 
+                />
+                <InputFoodAddonBox 
+                    label="item 2" name="addon2" title={addonsData["addon2"]["title"]} 
+                    price={addonsData["addon2"]["price"]} cbInputChanged={cbInputChanged} 
+                />
+                <InputFoodAddonBox 
+                    label="item 3" name="addon3" title={addonsData["addon3"]["title"]} 
+                    price={addonsData["addon3"]["price"]} cbInputChanged={cbInputChanged} 
+                />
             </div>
         </div>
     )

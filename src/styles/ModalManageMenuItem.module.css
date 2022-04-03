@@ -1,4 +1,4 @@
-.add-food-window {
+.add-item-window {
     background-color: var(--main-bg-color__bright);
     border-radius: 9px;
     box-shadow: 0 4rem 6rem var(--box-shadow-color);
@@ -53,7 +53,7 @@
     z-index: 10;
 }
 
-.add-food-form {
+.add-item-form {
     align-items: center;
     display: flex;
     flex-direction: column;
@@ -103,19 +103,19 @@
     text-transform: uppercase;
 }
 
-.food-item {
+.menu-item {
     display: flex;
     flex-direction: column;
     padding: 10px;
     position: relative;
 }
 
-.food-item fieldset {
+.menu-item fieldset {
     border: 1px solid var(--main-border-color__dark);
     padding: 1.5rem 2rem;
 }
 
-.food-item legend {
+.menu-item legend {
     background-color: var(--main-bg-color__bright);
     font-size: 1.2rem;
     font-weight: 700;
@@ -127,19 +127,15 @@
     transform: rotate(0deg);
 }
 
-.food-item div {
-    padding-bottom: 5px;
-}
-
-.food-item label {
+.menu-item label {
     color: inherit;
     font-size: 1rem;
     font-weight: 600;
 }
 
-.food-item input,
-.food-item textarea,
-.food-item select {
+.menu-item input,
+.menu-item textarea,
+.menu-item select {
     border: 1px solid var(--main-border-color__bright);
     border-radius: 0.5rem;
     font-size: 1rem;
@@ -147,13 +143,17 @@
     transition: all 0.2s;
 }
 
-.food-item input::placeholder,
-.food-item textarea::placeholder {
+.menu-item textarea {
+    border-radius: 0;
+}
+
+.menu-item input::placeholder,
+.menu-item textarea::placeholder {
     color: #d3c7c3;
 }
 
-.food-item input:focus,
-.food-item textarea:focus {
+.menu-item input:focus,
+.menu-item textarea:focus {
     background-color: var(--main-bg-color__focus);
     border: 1px solid var(--main-border-color__focus);
     outline: none;
@@ -188,8 +188,22 @@
 }
 
 @media (max-width: 768px) {
-    .add-food-window {
+    .add-menu-window {
         max-height: 90%;
         width: 90%;
+    }
+}
+
+@media (min-width: 1024px) {
+    .menu-item fieldset {
+        display: flex;
+        flex-direction: row;
+    }
+    
+    .menu-item div {
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        margin-right: 2px;
     }
 }

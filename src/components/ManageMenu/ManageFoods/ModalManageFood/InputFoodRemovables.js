@@ -1,6 +1,6 @@
-import React from 'react';
-import InputFoodRemovableBox from 'components/ManageMenu/ModalManageFood/InputFoodRemovableBox.js';
-import styles from 'styles/ModalManageFood.module.css'
+import React from "react";
+import InputFoodRemovableBox from "components/ManageMenu/ManageFoods/ModalManageFood/InputFoodRemovableBox.js";
+import styles from "styles/ModalManageMenuItem.module.css"
 
 /**
  * SUBCONTAINER component for ModalAddFood CONTAINER form

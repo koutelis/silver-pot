@@ -1,0 +1,33 @@
+.printable {
+    background-color: white;
+    background-image: url(assets/printable-bg.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    box-shadow: 5px 5px 10px black;
+    height: 29.7cm;
+    margin: auto;
+    padding: 6mm;
+    width: 21cm;
+    /* size: A4; */
+}
+
+.printableInside {
+    font-family: 'Handlee', sans-serif;
+    height: 100%;
+    padding-top: 15%;
+    width: 100%;
+}
+
+.printableInside h2 {
+    text-align: center;
+}
+
+.printableInside > div {
+    padding: 5px 0;
+}
+
+@media print {
+    .printable {
+        page-break-before: always;
+    }
+}

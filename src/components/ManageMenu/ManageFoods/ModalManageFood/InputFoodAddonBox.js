@@ -1,5 +1,5 @@
-import React from 'react';
-import styles from 'styles/ModalManageFood.module.css'
+import React from "react";
+import styles from "styles/ModalManageMenuItem.module.css"
 
 /**
  * INPUT component for InputFoodAddons CONTAINER
@@ -7,7 +7,6 @@ import styles from 'styles/ModalManageFood.module.css'
  * @returns {JSX}
  */
 const InputFoodAddonBox = (props) => {
-
     const { label, name, title, price, cbInputChanged: liftStateUp } = props;
 
     /**
@@ -34,7 +33,7 @@ const InputFoodAddonBox = (props) => {
         });
     }
 
-    return <div className={styles["food-item"]}>
+    return <div className={styles["menu-item"]}>
         <fieldset>
             <legend>{label}</legend>
             <div>

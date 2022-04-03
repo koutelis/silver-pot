@@ -1,9 +1,11 @@
 import { endpoints } from 'store/defaults.js';
 
-// const apiFoodUrl = "http://localhost:3001/api/foods/";  // dev path
 // const apiDrinksUrl = "http://localhost:3001/api/drinks/";  // dev path
-const apiFoodsUrl = endpoints.foods;
+// const apiFoodsUrl = "http://localhost:3001/api/foods/";  // dev path
+// const apiMenusUrl = "http://localhost:3001/api/menu/";  // dev path
 const apiDrinksUrl = endpoints.drinks;
+const apiFoodsUrl = endpoints.foods;
+const apiMenusUrl = endpoints.menus;
 
 
 //#region "FOODS"
@@ -109,15 +111,77 @@ const foodRequests = {
 
 //#region "DRINKS"
 
-async function getDrinks() {}
+/**
+ * GET request for all stored drinks.
+ * @returns {Array[Object]} - Array of drink objects
+ */
+async function getDrinks() {
+    try {
+        const response = await fetch(apiDrinksUrl);
+        const result = await response.json();
+        return result;
+    } catch (err) {
+        console.error(err);
+        return null;
+    }
+}
 
-async function getDrink(_id) {}
+/**
+ * GET request for single drink.
+ * @param {String} _id - mongoDB ObjectID
+ * @returns {Object} - drink object
+ */
+async function getDrink(_id) {
+    try {
+        const response = await fetch(`${apiDrinksUrl}${_id}`);
+        const result = await response.json();
+        if (result.length === 1) return result[0];
+        else throw Error("A single drink should have been returned, given a valid _id")
+    } catch (err) {
+        console.error(err);
+    }
+}
 
-async function postDrink(data) {}
+async function postDrink(data) {
+    const settings = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+    };
 
-async function deleteDrink(_id) {}
+    try {
+        const response = await fetch(apiDrinksUrl, settings);
+        const result = await response.json();
+        return result;
+    } catch (err) {
+        console.error(err);
+    }
+}
 
-async function putDrink(_id, data) {}
+async function deleteDrink(_id) {
+    try {
+        const response = await fetch(`${apiDrinksUrl}${_id}`, { method: "DELETE" });
+        return response;
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+async function putDrink(_id, data) {
+    const settings = {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+    };
+
+    try {
+        const response = await fetch(`${apiDrinksUrl}${_id}`, settings);
+        const result = await response.json();
+        return result;
+    } catch (err) {
+        console.error(err);
+    }
+}
 
 const drinkRequests = {
     getAll: getDrinks,
@@ -129,4 +193,44 @@ const drinkRequests = {
 
 //#endregion
 
-export { foodRequests, drinkRequests };
+//#region "MENU"
+
+/**
+ * GET request for the template menu.
+ * @returns {Array[Object]} - Array of food items
+ */
+ async function getTemplateMenu() {
+    try {
+        const response = await fetch(apiMenusUrl);
+        const result = await response.json();
+        return result.items;
+    } catch (err) {
+        console.error(err);
+        return null;
+    }
+}
+
+async function postTemplateMenu(data) {
+    const settings = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+    };
+
+    try {
+        const response = await fetch(apiMenusUrl, settings);
+        const result = await response.json();
+        return result;
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+const menuRequests = {
+    getTemplate: getTemplateMenu,
+    saveTemplate: postTemplateMenu
+}
+
+//#endregion
+
+export { foodRequests, drinkRequests, menuRequests };

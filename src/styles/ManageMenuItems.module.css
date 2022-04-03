@@ -1,6 +1,11 @@
-.foods-container h2 {
+.items-container h2 {
     color: var(--main-txt-color__bright);
     text-align: center;
+}
+
+.item-list {
+    height: 70vh;
+    overflow-y: auto;
 }
 
 .btn-menu {
@@ -10,7 +15,6 @@
     border-radius: 2rem;
     color: var(--main-txt-color__bright);
     cursor: pointer;
-    display: flex;
     font-size: 1.2rem;
     font-weight: 600;
     justify-self: center;
@@ -27,13 +31,13 @@
     outline: none;
 }
 
-.btn-menu>*:first-child {
+.btn-menu > *:first-child {
     margin-right: 1rem;
 }
 
 
 
-.food-item {
+.menu-item {
     background-color: var(--main-bg-color__bright);
     border-radius: 4px;
     box-shadow: 0 2px 8px var(--box-shadow-color);
@@ -42,22 +46,22 @@
     padding: 0.2rem;
 }
 
-.food-item:hover {
+.menu-item:hover {
     background-color: var(--main-color1__pale);
 }
 
-.food-item fieldset {
+.menu-item fieldset {
     border-color: var(--main-color1__pale);
     padding: 0.5rem;
 }
 
-.food-item legend {
+.menu-item legend {
     color: var(--main-color1);
     font-size: 1.2rem;
     text-transform: uppercase;
 }
 
-.btn--del-food {
+.btn--del-item {
     background: none;
     border: none;
     color: var(--attentive-color);
@@ -69,23 +73,23 @@
     top: 0.8rem;
 }
 
-.btn--del-food:hover {
+.btn--del-item:hover {
     font-weight: 600;
     color: var(--attentive-color__focus);
 }
 
-.btn--del-food path {
+.btn--del-item path {
     fill: var(--attentive-color);
     stroke: var(--attentive-color);
 }
 
-.btn--del-food:hover path {
+.btn--del-item:hover path {
     fill: var(--attentive-color__focus);
     stroke: var(--attentive-color__focus);
 }
 
 @media (max-width: 768px) {
-    .food-item {
+    .menu-item {
         margin: 0.4rem 0;
     }
 }

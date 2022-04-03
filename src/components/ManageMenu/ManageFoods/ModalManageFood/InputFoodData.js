@@ -1,19 +1,16 @@
-import React, { useState } from 'react';
-import InputFoodDataBox_Generic from 'components/ManageMenu/ModalManageFood/InputFoodDataBox_Generic.js';
-import InputFoodDataBox_Categories from 'components/ManageMenu/ModalManageFood/InputFoodDataBox_Categories.js';
-import InputFoodDataBox_Description from 'components/ManageMenu/ModalManageFood/InputFoodDataBox_Description.js';
-import styles from 'styles/ModalManageFood.module.css'
+import React, { useState } from "react";
+import InputFoodDataBox_Generic from "components/ManageMenu/ManageFoods/ModalManageFood/InputFoodDataBox_Generic.js";
+import InputFoodDataBox_Categories from "components/ManageMenu/ManageFoods/ModalManageFood/InputFoodDataBox_Categories.js";
+import InputFoodDataBox_Description from "components/ManageMenu/ManageFoods/ModalManageFood/InputFoodDataBox_Description.js";
+import styles from "styles/ModalManageMenuItem.module.css"
 
 /**
- * SUBCONTAINER component for foodModalManageFood CONTAINER form
+ * SUBCONTAINER component for ModalManageMenuItem CONTAINER form
  * @param {Object} props - {foodData: Object, onChange: function}
  * @returns {JSX}
  */
 const InputFoodData = (props) => {
     const { foodData, onChange: liftStateUp } = props;
-
-    ////////
-    // state
     const [displayData, setDisplayData] = useState(true);
     
     /**

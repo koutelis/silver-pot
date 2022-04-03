@@ -1,11 +1,10 @@
 import React from "react";
 
-
-const Home = () => {
+const CashierSection = () => {
     return <div>
-        <h2>SILVER POT HOME</h2>
+        <h2>Cashier section</h2>
         <h3>Not implemented...</h3>
     </div>
 }
 
-export default Home;
+export default CashierSection;

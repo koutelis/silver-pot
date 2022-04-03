@@ -1,6 +1,6 @@
-import React from 'react';
-import { categories } from 'store/defaults.js';
-import styles from 'styles/ModalManageFood.module.css'
+import React from "react";
+import { categories } from "store/defaults.js";
+import styles from "styles/ModalManageMenuItem.module.css"
 
 /**
  * INPUT component for InputFoodAddons CONTAINER.
@@ -30,7 +30,7 @@ const InputFoodDataBox_Categories = (props) => {
      */
     const setupCategories = () => {
         const options = Object
-            .entries(categories.food)
+            .entries(categories.foods)
             .map(([val, desc]) => <option key={val} value={val}>{desc}</option>)
 
         return <select value={value} name={name} onChange={cbInputChanged}>
@@ -38,7 +38,7 @@ const InputFoodDataBox_Categories = (props) => {
         </select>
     }
 
-    return <div className={`${styles["food-item"]} ${styles[className]}`}>
+    return <div className={`${styles["menu-item"]} ${styles[className]}`}>
         <label htmlFor={name}>{label}</label>
         {setupCategories()}
     </div>

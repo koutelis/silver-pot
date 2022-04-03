@@ -1,13 +1,13 @@
 import React from 'react';
-import styles from 'styles/ModalManageFood.module.css'
+import styles from 'styles/ModalManageMenuItem.module.css'
 
 /**
- * INPUT component for InputFoodAddons CONTAINER.
+ * INPUT component for InputDrinkData CONTAINER.
  * props.value regards the expected input value
  * @param {Object} props - { label: String, name: String, value: any, className: String, onChange: function, ...rest: attributes for <textarea> }
  * @returns {JSX}
  */
-const InputFoodDataBox_Description = (props) => {
+const InputDrinkDataBox_Description = (props) => {
 
     const {label, name, value, className, onChange: liftStateUp, ...rest} = props;
 
@@ -16,17 +16,16 @@ const InputFoodDataBox_Description = (props) => {
      * @param {Event} e 
      */
     const cbInputChanged = (e) => {
-        // lift state up
         liftStateUp({
             attribute: name,
             value: e.target.value
         });
     }
 
-    return <div className={`${styles["food-item"]} ${styles[className]}`}>
+    return <div className={`${styles["menu-item"]} ${styles[className]}`}>
         <label htmlFor={name}>{label}</label>
         <textarea required value={value} name={name} {...rest} onChange={cbInputChanged} />
     </div>
 }
 
-export default InputFoodDataBox_Description;
+export default InputDrinkDataBox_Description;

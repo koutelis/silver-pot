@@ -1,5 +1,5 @@
-import React from 'react';
-import styles from 'styles/ModalManageFood.module.css'
+import React from "react";
+import styles from "styles/ModalManageMenuItem.module.css"
 
 /**
  * INPUT component for InputFoodRemovables CONTAINER
@@ -34,7 +34,7 @@ const InputFoodRemovableBox = (props) => {
         });
     }
 
-    return <div className={styles["food-item"]}>
+    return <div className={styles["menu-item"]}>
         <fieldset>
             <legend>{label}</legend>
             <div>

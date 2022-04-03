@@ -1,36 +1,35 @@
 import React, { useState } from "react";
-import { FaBars } from 'react-icons/fa';
-import { NavLink } from 'react-router-dom';
-import styles from 'styles/Nav.module.css';
+import { FaBars } from "react-icons/fa";
+import { NavLink } from "react-router-dom";
+import styles from "styles/Nav.module.css";
 
+const NavMenu = (props) => {
 
-const NavMenu = () => {
     return <>
-        <div className={styles["nav-link"]}><NavLink to="/">HOME</NavLink></div>
-        <div className={styles["nav-link"]}><NavLink to="/manageFoods">Manage Menu</NavLink></div>
-        <div className={styles["nav-link"]}><NavLink to="/createMenu">Create Menu</NavLink></div>
-        <div className={styles["nav-link"]}><NavLink to="/waiters">Waiters</NavLink></div>
-        <div className={styles["nav-link"]}><NavLink to="/kitchenStaff">Kitchen staff</NavLink></div>
-        <div className={styles["nav-link"]}><NavLink to="/cashier">Cashier</NavLink></div>
+        <div className={styles["nav-link"]} {...props}><NavLink to="/">HOME</NavLink></div>
+        <div className={styles["nav-link"]} {...props}><NavLink to="/manageMenu">Manage Menu</NavLink></div>
+        <div className={styles["nav-link"]} {...props}><NavLink to="/createMenu">Create Menu</NavLink></div>
+        <div className={styles["nav-link"]} {...props}><NavLink to="/waiters">Waiters</NavLink></div>
+        <div className={styles["nav-link"]} {...props}><NavLink to="/kitchenStaff">Kitchen staff</NavLink></div>
+        <div className={styles["nav-link"]} {...props}><NavLink to="/cashier">Cashier</NavLink></div>
     </>
 }
-
 
 const Navbar = () => {
     const [hamMenuVisible, setHamMenuVisible] = useState(false);
 
-    const toggleHamMenu = () => {
-        setHamMenuVisible(!hamMenuVisible);
-    }
+    const toggleHamMenu = () => setHamMenuVisible(!hamMenuVisible);
+
+    const cbCloseHamMenu = () => setHamMenuVisible(false);
 
     const hamMenuClass = `${styles["nav-menu__ham"]}${hamMenuVisible ? "" : " hidden"}`;
 
     return (
         <nav>
             <div className={styles["ham-bars"]}>
-                <FaBars  onClick={toggleHamMenu} />
+                <FaBars onClick={toggleHamMenu} />
                 <div className={hamMenuClass}>
-                    <NavMenu />
+                    <NavMenu onClick={cbCloseHamMenu}/>
                 </div>
             </div>
 

@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import { ModalManageFood_Defaults as defaults } from 'store/defaults.js';
-import { foodRequests } from 'store/http-requests.js';
-import { cloneObject } from 'store/utils.js';
-import { GrClose } from 'react-icons/gr';
-import InputFoodData from 'components/ManageMenu/ModalManageFood/InputFoodData.js';
-import InputFoodAddons from 'components/ManageMenu/ModalManageFood/InputFoodAddons.js';
-import InputFoodRemovables from 'components/ManageMenu/ModalManageFood/InputFoodRemovables.js';
-import styles from 'styles/ModalManageFood.module.css';
+import React, { useState, useEffect } from "react";
+import { ModalManageMenuItem_Defaults as defaults } from "store/defaults.js";
+import { foodRequests } from "store/http-requests.js";
+import { cloneObject } from "store/utils.js";
+import { GrClose } from "react-icons/gr";
+import { Button } from "components/generic.js";
+import InputFoodData from "components/ManageMenu/ManageFoods/ModalManageFood/InputFoodData.js";
+import InputFoodAddons from "components/ManageMenu/ManageFoods/ModalManageFood/InputFoodAddons.js";
+import InputFoodRemovables from "components/ManageMenu/ManageFoods/ModalManageFood/InputFoodRemovables.js";
+import styles from "styles/ModalManageMenuItem.module.css";
+
 
 /**
- * MODAL for adding a new food menu option.
- * Parent container of all components in the ModalManageFood group, child of CreateFood
- * @param {Object} props { visible, closeButtonHandler, submitButtonHandler }
+ * MODAL for adding/editing a 'food' menu option.
+ * Parent container of all components in the ModalManageMenuItem group, child of ManageFoods.js
+ * @param {Object} props { visible: Boolean, closeButtonHandler: function, submitButtonHandler: function, selectedFoodId: String }
  * @returns {JSX}
  */
-const ModalManageFood = (props) => {
+const ModalManageMenuItem = (props) => {
+    const { visible, closeButtonHandler, submitButtonHandler, selectedFoodId, selectedCategory } = props;
 
-    const { visible, closeButtonHandler, submitButtonHandler, selectedFoodId } = props;
-
-    // state
     const [formModel, setFormModel] = useState(cloneObject(defaults.formModel));
     const [foodData, setFoodData] = useState(cloneObject(defaults.foodData));
     const [addonsData, setAddonsData] = useState(cloneObject(defaults.addonsData));
@@ -26,10 +26,11 @@ const ModalManageFood = (props) => {
     const [displayAddons, setDisplayAddons] = useState(false);
     const [displayRemovables, setDisplayRemovables] = useState(false);
 
+    // reset form inputs and preselect category according to category filter (from ManageFoods.js)
     useEffect(() => {
         if (selectedFoodId) foodRequests.get(selectedFoodId).then(data => fillFormData(data));
         else resetFormData();
-    }, [selectedFoodId])
+    }, [selectedFoodId, selectedCategory])
 
     /**
      * Helper of useEffect.
@@ -61,12 +62,19 @@ const ModalManageFood = (props) => {
      * Reset all inputs.
      */
     const resetFormData = () => {
-        setFoodData( cloneObject(defaults.foodData) );
+        setFoodData({
+            ...cloneObject(defaults.foodData),
+            category: selectedCategory
+        });
+
         setAddonsData( cloneObject(defaults.addonsData) );
+        setDisplayAddons(false);
+
         setRemovablesData( cloneObject(defaults.removablesData) );
+        setDisplayRemovables(false);
     }
 
-    // multiple dispatch
+    // multiple dispatch for cbDataChanged()
     const attributeDataHandlers = {
         "main": setFoodData,
         "addons": setAddonsData,
@@ -81,9 +89,11 @@ const ModalManageFood = (props) => {
         const {attribute, value} = data;
         const cbHandler = attributeDataHandlers[attribute];
         cbHandler(value);
-        setFormModel({
-            ...formModel,
-            [attribute]: value
+        setFormModel(snapshot => {
+            return {
+                ...snapshot,
+                [attribute]: value
+            }
         });
     }
 
@@ -96,12 +106,12 @@ const ModalManageFood = (props) => {
     const cbButtonSubmit = (e) => {
         e.preventDefault();
         const isValid = Boolean(
-            formModel.main && Object.entries(formModel.main).every(([k, v]) => Boolean(v) || k === "size")
+            formModel.main && Object.entries(formModel.main).every(([k, v]) => Boolean(v) || k === "description" || k === "size")
         );
         if (isValid) {
             formModel.id = selectedFoodId;
             submitButtonHandler(formModel);
-            // resetFormData();
+            resetFormData();
         } else {
             alert("missing content");
         }
@@ -115,22 +125,28 @@ const ModalManageFood = (props) => {
         setDisplayRemovables(!displayRemovables);
     }
 
+    const cbCloseModal = () => {
+        resetFormData();
+        closeButtonHandler();
+    }
+
     const mask = visible ? "" : " hidden"
+    const btnText = selectedFoodId ? "Save" : "Add"
 
     return (
         <>
-            <div className={`${styles["overlay"]}${mask}`} onClick={closeButtonHandler}></div>
-            <div className={`${styles["add-food-window"]}${mask}`}>
-                <div className={styles["btn--close-modal"]} onClick={closeButtonHandler}><GrClose /></div>
-                <form className={styles["add-food-form"]} onSubmit={cbButtonSubmit}>
+            <div className={`${styles["overlay"]}${mask}`} onClick={cbCloseModal}></div>
+            <div className={`${styles["add-item-window"]}${mask}`}>
+                <div className={styles["btn--close-modal"]} onClick={cbCloseModal}><GrClose /></div>
+                <form className={styles["add-item-form"]} >
                     <InputFoodData foodData={foodData} onChange={cbDataChanged} />
                     <InputFoodAddons addonsData={addonsData} visible={displayAddons} onSelect={cbAddonsOnClick} onChange={cbDataChanged} />
                     <InputFoodRemovables removablesData={removablesData} visible={displayRemovables} onSelect={cbRemovablesOnClick} onChange={cbDataChanged} />
-                    <button type="submit" className={styles["btn"]} >Upload</button>
+                    <Button type="button" onClick={cbButtonSubmit} className={styles["btn"]} text={btnText} />                    
                 </form>
             </div>
         </>
     )
 }
 
-export default ModalManageFood
+export default ModalManageMenuItem
