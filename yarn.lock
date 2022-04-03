@@ -7124,7 +7124,7 @@ prompts@^2.0.1, prompts@^2.4.2:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@^15.7.2:
+prop-types@^15.7.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -7375,6 +7375,13 @@ react-scripts@5.0.0:
     workbox-webpack-plugin "^6.4.1"
   optionalDependencies:
     fsevents "^2.3.2"
+
+react-to-print@^2.14.5:
+  version "2.14.5"
+  resolved "https://registry.yarnpkg.com/react-to-print/-/react-to-print-2.14.5.tgz#48ea5af6b73ee514772da96e4b98694cba1cec70"
+  integrity sha512-FeFBo4oRscVNiuw9/qET3RHOArN5wo1z0skzABdzFaxZNIy6FM8beJyBHxYWsiQ92M6Dv2To9Fp03Gve02GS5A==
+  dependencies:
+    prop-types "^15.8.1"
 
 react@^17.0.2:
   version "17.0.2"
