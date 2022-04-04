@@ -1,13 +1,13 @@
 import React from "react";
-import styles from "styles/ModalManageMenuItem.module.css"
+import styles from "styles/ManageMenu_Modal.module.css"
 
 /**
- * INPUT component for InputFoodData CONTAINER.
+ * INPUT component for InputFoodAddons CONTAINER.
  * props.value regards the expected input value
  * @param {Object} props - { label: String, name: String, value: any, onChange: function, className: String, ...rest: attributes for <input> }
  * @returns {JSX}
  */
-const InputDrinkDataBox_Generic = (props) => {
+const InputFoodDataBox_Generic = (props) => {
 
     const {label, name, value, className, onChange: liftStateUp, ...rest} = props;
 
@@ -16,6 +16,7 @@ const InputDrinkDataBox_Generic = (props) => {
      * @param {Event} e 
      */
     const inputHandler = (e) => {
+        // lift state up
         liftStateUp({
             attribute: name,
             value: e.target.value
@@ -28,4 +29,4 @@ const InputDrinkDataBox_Generic = (props) => {
     </div>
 }
 
-export default InputDrinkDataBox_Generic;
+export default InputFoodDataBox_Generic;

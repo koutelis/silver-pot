@@ -9,7 +9,7 @@ import MenuItem from "components/CreateMenu/MenuItem.js";
  * @returns {JSX}
  */
 const MenuList_DnD = (props) => {
-    const { itemList, onDragDrop } = props;
+    const { itemList, onDragDrop, visible } = props;
     
     const setDroppables = provided => {
         return <div {...provided.droppableProps} ref={provided.innerRef}>
@@ -26,13 +26,17 @@ const MenuList_DnD = (props) => {
         </div>
     }
 
+    const mask = visible ? "" : "hidden";
+
     if (itemList.length === 0) return <h2>No menu options have been selected...</h2>
 
-    return <DragDropContext onDragEnd={onDragDrop}>
-        <Droppable droppableId="droppable">
-            {setDroppables}
-        </Droppable>
-    </DragDropContext>
+    return <div className={mask}>
+        <DragDropContext onDragEnd={onDragDrop}>
+            <Droppable droppableId="droppable">
+                {setDroppables}
+            </Droppable>
+        </DragDropContext>
+    </div>
 }
 
 export default MenuList_DnD

@@ -1,13 +1,13 @@
 import React from "react";
-import styles from "styles/ModalManageMenuItem.module.css"
+import styles from "styles/ManageMenu_Modal.module.css"
 
 /**
- * INPUT component for InputDrinkData CONTAINER.
+ * INPUT component for InputFoodData CONTAINER.
  * props.value regards the expected input value
- * @param {Object} props - { label: String, name: String, value: any, className: String, onChange: function, ...rest: attributes for <textarea> }
+ * @param {Object} props - { label: String, name: String, value: any, onChange: function, className: String, ...rest: attributes for <input> }
  * @returns {JSX}
  */
-const InputFoodDataBox_Description = (props) => {
+const InputDrinkDataBox_Generic = (props) => {
 
     const {label, name, value, className, onChange: liftStateUp, ...rest} = props;
 
@@ -15,8 +15,7 @@ const InputFoodDataBox_Description = (props) => {
      * CHANGE handler for title input (lift state up)
      * @param {Event} e 
      */
-    const cbInputChanged = (e) => {
-        // lift state up
+    const inputHandler = (e) => {
         liftStateUp({
             attribute: name,
             value: e.target.value
@@ -25,8 +24,8 @@ const InputFoodDataBox_Description = (props) => {
 
     return <div className={`${styles["menu-item"]} ${styles[className]}`}>
         <label htmlFor={name}>{label}</label>
-        <textarea required value={value} name={name} {...rest} onChange={cbInputChanged} />
+        <input required value={value} name={name} {...rest} onChange={inputHandler} />
     </div>
 }
 
-export default InputFoodDataBox_Description;
+export default InputDrinkDataBox_Generic;

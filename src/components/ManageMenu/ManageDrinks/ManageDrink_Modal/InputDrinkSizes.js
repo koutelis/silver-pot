@@ -1,9 +1,9 @@
 import React from "react";
-import InputDrinkSizeBox from "components/ManageMenu/ManageDrinks/ModalManageDrink/InputDrinkSizeBox.js";
-import styles from "styles/ModalManageMenuItem.module.css"
+import InputDrinkSizeBox from "components/ManageMenu/ManageDrinks/ManageDrink_Modal/InputDrinkSizeBox.js";
+import styles from "styles/ManageMenu_Modal.module.css"
 
 /**
- * SUBCONTAINER component for ModalManageDrink CONTAINER form
+ * SUBCONTAINER component for ManageDrink_Modal CONTAINER form
  * @param {Object} props - {sizeData: Object, onChange: function}
  * @returns {JSX}
  */

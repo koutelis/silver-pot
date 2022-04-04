@@ -13,7 +13,7 @@ const endpoints = {
 //     menus: "http://localhost:3001/api/menus/"
 // }
 
-const ModalManageMenuItem_Defaults = {
+const ManageFood_Defaults = {
     formModel: {
         main: {},
         addons: [],
@@ -40,10 +40,20 @@ const ModalManageMenuItem_Defaults = {
         "removable1": {title: "", price: 0, amount: 1},
         "removable2": {title: "", price: 0, amount: 1},
         "removable3": {title: "", price: 0, amount: 1}
+    },
+    categories: {
+        other: "OTHERS",
+        starter: "STARTERS",
+        main: "MAINS",
+        salad: "SALADS",
+        pizza: "PIZZAS",
+        sandwich: "SANDWICHES",
+        soup: "SOUPS",
+        dessert: "DESSERTS"
     }
 }
 
-const ModalManageDrink_Defaults = {
+const ManageDrink_Defaults = {
     formModel: {
         main: {},
         sizes: {
@@ -62,27 +72,14 @@ const ModalManageDrink_Defaults = {
         small: 0,
         regular: 3,
         large: 0
-    }
-}
-
-const categories = {
-    foods: {
-        other: "other",
-        starter: "starter",
-        main: "main",
-        salad: "salad",
-        pizza: "pizza",
-        sandwich: "sandwich",
-        soup: "soup",
-        desert: "desert"
     },
-    drinks: {
-        other: "other",
-        coffee: "coffee",
-        tea: "tea",
-        juice: "juice",
-        smoothie: "smoothie"
+    categories: {
+        other: "OTHERS",
+        coffee: "COFFEE",
+        tea: "TEA",
+        juice: "JUICE",
+        smoothie: "SMOOTHIE"
     }
 }
 
-export { endpoints, ModalManageMenuItem_Defaults, ModalManageDrink_Defaults, categories }
+export { endpoints, ManageFood_Defaults, ManageDrink_Defaults }

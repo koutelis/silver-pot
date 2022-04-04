@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import InputDrinkDataBox_Generic from "components/ManageMenu/ManageDrinks/ModalManageDrink/InputDrinkDataBox_Generic.js";
-import InputDrinkDataBox_Categories from "components/ManageMenu/ManageDrinks/ModalManageDrink/InputDrinkDataBox_Categories.js";
-import InputDrinkDataBox_Description from "components/ManageMenu/ManageDrinks/ModalManageDrink/InputDrinkDataBox_Description.js";
-import styles from "styles/ModalManageMenuItem.module.css"
+import InputDrinkDataBox_Generic from "components/ManageMenu/ManageDrinks/ManageDrink_Modal/InputDrinkDataBox_Generic.js";
+import InputDrinkDataBox_Categories from "components/ManageMenu/ManageDrinks/ManageDrink_Modal/InputDrinkDataBox_Categories.js";
+import InputDrinkDataBox_Description from "components/ManageMenu/ManageDrinks/ManageDrink_Modal/InputDrinkDataBox_Description.js";
+import styles from "styles/ManageMenu_Modal.module.css"
 
 /**
- * SUBCONTAINER component for ModalManageDrink CONTAINER form
+ * SUBCONTAINER component for ManageDrink_Modal CONTAINER form
  * @param {Object} props - {drinkData: Object, onChange: function}
  * @returns {JSX}
  */

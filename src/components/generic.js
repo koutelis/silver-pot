@@ -1,17 +1,5 @@
 import React from "react";
-import styles from "styles/Card.module.css";
-
-
-/**
- * Generic component wrapper for specific card-like container.
- * @param {Object} props 
- * @returns {JSX}
- */
-const Card = (props) => {
-    return <div className={styles.card}>
-        {props.children}
-    </div>
-}
+import styles from "styles/generic.module.css";
 
 /**
  * Generic button
@@ -19,9 +7,21 @@ const Card = (props) => {
  * @returns {JSX}
  */
 const Button = (props) => {
-    const {text, ...rest} = props;
+    const {text, className, ...rest} = props;
+    const classList = [ styles["btn"], (className ?? "") ].join(" ");
 
-    return <button {...rest}>{text}</button>
+    return <button className={classList} {...rest}>{text}</button>
+}
+
+/**
+ * Generic component wrapper for specific card-like container.
+ * @param {Object} props 
+ * @returns {JSX}
+ */
+const Card = (props) => {
+    const classList = [ styles["card"], (props.className ?? "") ].join(" ");
+
+    return <div className={classList}>{props.children}</div>
 }
 
 /**
@@ -30,23 +30,35 @@ const Button = (props) => {
  * @returns {JSX}
  */
  const DropDownList = (props) => {
-    const label = props.label;
+    let {className, hasEmpty, label, onChange, options} = props;
+    const classList = [ styles["dropdownlist"], (className ?? "") ].join(" ");
     
-    const options = Object
-        .entries(props.options)
+    options = Object
+        .entries(options)
         .map(([k, v]) => <option key={k} value={k}>{v}</option>);
 
-    if (options.length === 0) return <label>No options available</label>;
+    if (options.length === 0) return <div className={classList}>
+        <label>No options available</label>
+    </div>;
     
-    const hasEmpty = props.hasEmpty ?? false;
+    hasEmpty = hasEmpty ?? false;
     if (hasEmpty) options.splice(0, 0, <option key="empty" value="">-</option>);
     
-    return <>
+    return <div className={classList}>
         <label htmlFor={label}> {label} </label>
-        <select name={label} onChange={props.onChange}>
+        <select name={label} onChange={onChange}>
             {options}
         </select>
-    </>
+    </div>
 }
 
-export { Button, Card, DropDownList };
+const Title = (props) => {
+    const { className, text } = props;
+    const classList = [ styles["title"], (className ?? "") ].join(" ");
+
+    return <div className={classList}>
+        <h1>{text}</h1>
+    </div>
+}
+
+export { Button, Card, DropDownList, Title };

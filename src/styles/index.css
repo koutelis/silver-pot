@@ -2,26 +2,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Handlee&display=swap');
 
 :root {
-    --attentive-color: rgb(119, 0, 0);
-    --attentive-color__focus: rgb(190, 0, 0);
+    --attentive-color: rgb(255, 72, 0);
+    --attentive-color__focus: rgb(231, 35, 0);
+    --border-radius-small: 8px;
     --border-radius-medium: 20px;
     --box-shadow-color: rgba(0, 0, 0, 0.25);
-    --ham-bars-size: 2rem;
+    --ham-bars-size: 2.6rem;
     --main-bg-color__bright: white;
     --main-bg-color__dark: black;
     --main-bg-color__focus: #f9f5f3;
+    --main-body-color__dark: #3f3f3f;
     --main-border-color__bright: #ddd;
+    --main-border-color__pale: #d3c7c3;
     --main-border-color__dark: black;
-    --main-border-color__focus: #f38e82;
-    --main-color1: rgb(140, 0, 168);
-    --main-color1__pale: rgb(228, 207, 231);
-    --main-color2: rgb(168, 67, 0);
+    --main-color: rgb(40, 112, 88);
+    --main-color__pale: rgb(204, 241, 225);
     --main-txt-color__bright: white;
     --main-txt-color__dark: black;
+    --main-txt-color__pale: #d3c7c3;
     --nav-bg-color: #ddd;
-    --overlay-bg-color: rgba(0, 0, 0, 0.4);
+    --overlay-bg-color: rgba(0, 0, 0, 0.8);
 }
-
+/* rgb(0, 97, 52) */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -34,22 +36,17 @@ html {
 
 body {
     margin: auto;
-    background-color: #3f3f3f;
+    background-color: var(--main-body-color__dark);
     width: 60%;
 }
 
-nav {
-    align-items: center;
-    background-color: white;
-    display: flex;
-    height: 10vh;
-    margin-bottom: 10px;
+main {
+    background-color: var(--main-body-color__dark);
 }
 
 .hidden {
     display: none !important;
 }
-
 
 @media screen and (max-width: 1200px) {
     body {
@@ -63,7 +60,6 @@ nav {
     }
 }
 
-
 /* @media (max-width: 768px) {} */
 
 @page {
@@ -73,7 +69,7 @@ nav {
 @media print {
     body {
         margin: auto;
-        background-color: white;
+        background-color: var(--main-bg-color__bright);
         width: 100%;
     }
 }

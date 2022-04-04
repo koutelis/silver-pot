@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { foodRequests, menuRequests } from "store/http-requests.js";
-import { Button } from "components/generic.js";
+import { Button, Card, Title } from "components/generic.js";
 import MenuList_Selection from "components/CreateMenu/MenuList_Selection.js";
 import PrintableMenu from "components/CreateMenu/PrintableMenu.js"
 import MenuList_DnD from "components/CreateMenu/MenuList_DnD.js";
+import styles from "styles/CreateMenu.module.css";
 
 /**
  * FR2: The system must enable the owner to compose the daily menu. 
@@ -61,21 +62,20 @@ const CreateMenu = () => {
     }
 
     const cbSaveTemplate = () => menuRequests.saveTemplate(items);
+    const btnText = `Switch to ${previewMode ? "Drag & Drop" : "Print"} mode`;
 
-    const mask = previewMode ? "hidden" : "";
-
-    return (
-        <div className="App">
-            <Button text="Save As Template" onClick={cbSaveTemplate} />
-            <MenuList_Selection onChange={cbSelectItemAdd} />
-            <PrintableMenu itemList={items} onModeButtonClick={toggleMode} visible={previewMode} />
-            <br/>
-            <br/>
-            <div className={mask}>
-                {<MenuList_DnD itemList={items} onDragDrop={cbHandleDragDrop} />}
-            </div>
+    return <div className={styles["master-container"]}>
+        <div className={styles["top-panel"]} >
+            <Title className={styles["title"]} text="Create Menu" />
+            <MenuList_Selection onSelection={cbSelectItemAdd} />
+            <Button className={styles["btn--save-template"]} text="Save As Template" onClick={cbSaveTemplate} />
         </div>
-    );
+        <Card className={styles["card"]}>
+            <Button className={styles["btn--toggle-mode"]} text={btnText} type="button" onClick={toggleMode} />
+            <PrintableMenu visible={previewMode} itemList={items} />
+            <MenuList_DnD visible={!previewMode} itemList={items} onDragDrop={cbHandleDragDrop} />
+        </Card>
+    </div>
 };
 
 export default CreateMenu;

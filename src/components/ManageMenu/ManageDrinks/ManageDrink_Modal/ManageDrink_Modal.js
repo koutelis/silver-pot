@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { ModalManageDrink_Defaults as defaults } from "store/defaults.js";
+import { ManageDrink_Defaults as defaults } from "store/defaults.js";
 import { drinkRequests } from "store/http-requests.js";
 import { cloneObject } from "store/utils.js";
 import { GrClose } from "react-icons/gr";
 import { Button } from "components/generic.js";
-import InputDrinkData from "components/ManageMenu/ManageDrinks/ModalManageDrink/InputDrinkData.js";
-import InputDrinkSizes from "components/ManageMenu/ManageDrinks/ModalManageDrink/InputDrinkSizes.js";
-import styles from "styles/ModalManageMenuItem.module.css"
+import InputDrinkData from "components/ManageMenu/ManageDrinks/ManageDrink_Modal/InputDrinkData.js";
+import InputDrinkSizes from "components/ManageMenu/ManageDrinks/ManageDrink_Modal/InputDrinkSizes.js";
+import styles from "styles/ManageMenu_Modal.module.css"
 
 /**
  * MODAL for adding/editing a 'drink' menu option.
- * Parent container of all components in the ModalManageDrink group, child of ManageDrinks.js
+ * Parent container of all components in the ManageDrink_Modal group, child of ManageDrinks.js
  * @param {Object} props { visible: Boolean, closeButtonHandler: function, submitButtonHandler: function, selectedDrinkId: String }
  * @returns {JSX}
  */
-const ModalManageDrink = (props) => {
+const ManageDrink_Modal = (props) => {
     const { visible, closeButtonHandler, submitButtonHandler, selectedDrinkId, selectedCategory } = props;
     
     const [formModel, setFormModel] = useState( cloneObject(defaults.formModel) );
@@ -121,4 +121,4 @@ const ModalManageDrink = (props) => {
     )
 }
 
-export default ModalManageDrink
+export default ManageDrink_Modal

@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "styles/ManageMenuItems.module.css";
+import styles from "styles/ManageMenu.module.css";
 
 /**
  * Component of MenuList_DnD.js

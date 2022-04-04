@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "styles/ModalManageMenuItem.module.css"
+import styles from "styles/ManageMenu_Modal.module.css"
 
 /**
  * INPUT component for InputDrinkSizes CONTAINER
@@ -27,7 +27,7 @@ const InputDrinkSizeBox = (props) => {
             <div>
                 <span>
                     <label htmlFor={`${name}-price`}>Price (&euro;)</label>
-                    <input value={price} name={`${name}-price`} type="Number" min="0.25" max="5" step="0.25" onChange={cbPriceChanged}/>
+                    <input value={price} name={`${name}-price`} type="Number" min="0" max="5" step="0.25" onChange={cbPriceChanged}/>
                 </span>
             </div>
         </fieldset>

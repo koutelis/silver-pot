@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from 'styles/ModalManageMenuItem.module.css'
+import styles from 'styles/ManageMenu_Modal.module.css'
 
 /**
  * INPUT component for InputDrinkData CONTAINER.

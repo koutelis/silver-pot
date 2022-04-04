@@ -1,6 +1,6 @@
 import React from "react";
 import FoodItem from "components/ManageMenu/ManageFoods/FoodItem.js";
-import styles from "styles/ManageMenuItems.module.css";
+import styles from "styles/ManageMenu.module.css";
 
 /**
  * Container of 'food' items
@@ -10,10 +10,12 @@ import styles from "styles/ManageMenuItems.module.css";
 const FoodList = (props) => {
     const { foodsData, onFoodClick, onFoodDelete } = props;
 
-    if (foodsData.length === 0) return <h2>No options found...</h2>
+    if (foodsData.length === 0) return <div className={styles["item-list-container2"]} >
+        <h3>No options found...</h3>
+    </div>
 
-    return <>
-        <h2>Available Options:</h2>
+    return <div className={styles["item-list-container"]} >
+        <h3>Available Options:</h3>
         <div className={styles["item-list"]} >
             {foodsData.map(food => 
                 <FoodItem 
@@ -24,7 +26,7 @@ const FoodList = (props) => {
                 />)
             }
         </div>
-    </>
+    </div>
 }
 
 export default FoodList

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import InputFoodDataBox_Generic from "components/ManageMenu/ManageFoods/ModalManageFood/InputFoodDataBox_Generic.js";
-import InputFoodDataBox_Categories from "components/ManageMenu/ManageFoods/ModalManageFood/InputFoodDataBox_Categories.js";
-import InputFoodDataBox_Description from "components/ManageMenu/ManageFoods/ModalManageFood/InputFoodDataBox_Description.js";
-import styles from "styles/ModalManageMenuItem.module.css"
+import InputFoodDataBox_Generic from "components/ManageMenu/ManageFoods/ManageFood_Modal/InputFoodDataBox_Generic.js";
+import InputFoodDataBox_Categories from "components/ManageMenu/ManageFoods/ManageFood_Modal/InputFoodDataBox_Categories.js";
+import InputFoodDataBox_Description from "components/ManageMenu/ManageFoods/ManageFood_Modal/InputFoodDataBox_Description.js";
+import styles from "styles/ManageMenu_Modal.module.css"
 
 /**
  * SUBCONTAINER component for ModalManageMenuItem CONTAINER form
@@ -48,7 +48,7 @@ const InputFoodData = (props) => {
                     className="box-c" onChange={cbInputChanged} />
 
                 <InputFoodDataBox_Generic label="Price" name="basePrice" value={foodData.basePrice} 
-                    type="number" min="1" max="20" 
+                    type="number" min="1" max="20" step="0.5"
                     className="box-d" onChange={cbInputChanged} />
 
             </div>

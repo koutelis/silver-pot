@@ -1,9 +1,8 @@
 import React from "react";
 
-
 const Header = () => {
     return <div>
-
+        {/* <span>My Header</span> */}
     </div>
 }
 

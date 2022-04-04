@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { drinkRequests } from "store/http-requests.js";
-import { categories } from "store/defaults.js";
+import { ManageDrink_Defaults as defaults } from "store/defaults.js";
 import { Button, Card, DropDownList } from "components/generic.js";
-import ModalManageDrink from "components/ManageMenu/ManageDrinks/ModalManageDrink/ModalManageDrink.js";
+import ManageDrink_Modal from "components/ManageMenu/ManageDrinks/ManageDrink_Modal/ManageDrink_Modal.js";
 import DrinkList from "components/ManageMenu/ManageDrinks/DrinkList.js";
-import styles from "styles/ManageMenuItems.module.css";
+import styles from "styles/ManageMenu.module.css";
 
 /**
  * SUBCONTAINER of ManageMenu.js
@@ -92,24 +92,27 @@ const ManageDrinks = () => {
 
     const selectedCategory = categoryFilter === "" ? "other" : categoryFilter;
 
-    return <div className={styles["items-container"]}>
-        <Card>
-            <Button className={styles["btn-menu"]} text="add drink" onClick={() => cbModalOpen(null)} />
-            <DropDownList hasEmpty={true} label="Filter by Category" options={categories.drinks} onChange={cbCategoryFilter} />
-        </Card>
+    return <Card>
+            <div className={styles["card-container"]}>
+                <h2>MANAGE DRINK ITEMS</h2>
+                <Button className={styles["btn--add-item"]} text="add drink" onClick={() => cbModalOpen(null)} />
+                <DropDownList hasEmpty={true} label="Filter by Category" className={styles["ddl--category"]}
+                    options={defaults.categories} onChange={cbCategoryFilter} 
+                />
+            </div>
         <DrinkList 
             drinksData={filteredDrinks} 
             onDrinkClick={cbModalOpen} 
             onDrinkDelete={cbDeleteDrink}
         />
-        <ModalManageDrink 
+        <ManageDrink_Modal 
             visible={modalIsVisible} 
             closeButtonHandler={cbModalClose} 
             submitButtonHandler={cbModalSubmit} 
             selectedDrinkId={selectedDrinkId}
             selectedCategory={selectedCategory}
         />
-    </div>
+    </Card>
 }
 
 export default ManageDrinks;

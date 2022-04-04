@@ -1,0 +1,45 @@
+.btn {
+    background-color: var(--main-color);
+    border: none;
+    border-radius: 2rem;
+    color: var(--main-txt-color__bright);
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: 0.6rem 1.2rem;
+    text-transform: uppercase;
+    transition: all 0.2s;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+}
+
+.btn:focus {
+    outline: none;
+}
+
+.btn > *:first-child {
+    margin-right: 1rem;
+}
+
+.card {
+    background-color: var(--main-bg-color__bright);
+    border-radius: 14px;
+    box-shadow: 5px 5px 8px var(--box-shadow-color);
+    padding: 1rem;
+}
+
+.card h2,
+.title h1 {
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.dropdownlist select {
+    border: 1px solid var(--main-border-color__bright);
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    padding: 0.3rem 1rem;
+    transition: all 0.2s;
+}

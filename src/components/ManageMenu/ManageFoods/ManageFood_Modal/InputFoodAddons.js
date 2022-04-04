@@ -1,6 +1,6 @@
 import React from "react";
-import InputFoodAddonBox from "components/ManageMenu/ManageFoods/ModalManageFood/InputFoodAddonBox.js";
-import styles from "styles/ModalManageMenuItem.module.css"
+import InputFoodAddonBox from "components/ManageMenu/ManageFoods/ManageFood_Modal/InputFoodAddonBox.js";
+import styles from "styles/ManageMenu_Modal.module.css"
 
 /**
  * SUBCONTAINER component for ModalManageMenuItem CONTAINER form

@@ -1,6 +1,6 @@
 import React from "react";
-import { categories } from "store/defaults.js";
-import styles from "styles/ModalManageMenuItem.module.css"
+import { ManageFood_Defaults as defaults } from "store/defaults.js";
+import styles from "styles/ManageMenu_Modal.module.css"
 
 /**
  * INPUT component for InputFoodAddons CONTAINER.
@@ -8,7 +8,7 @@ import styles from "styles/ModalManageMenuItem.module.css"
  * @param {Object} props - { label: String, name: String, value: String, className: String, onChange: function }
  * @returns {JSX}
  */
-const InputDrinkDataBox_Categories = (props) => {
+const InputFoodDataBox_Categories = (props) => {
     
     const {label, name, value, className, onChange: liftStateUp} = props;
 
@@ -17,6 +17,7 @@ const InputDrinkDataBox_Categories = (props) => {
      * @param {Event} e 
      */
     const cbInputChanged = (e) => {
+        // lift state up
         liftStateUp({
             attribute: name,
             value: e.target.value
@@ -29,7 +30,7 @@ const InputDrinkDataBox_Categories = (props) => {
      */
     const setupCategories = () => {
         const options = Object
-            .entries(categories.drinks)
+            .entries(defaults.categories)
             .map(([val, desc]) => <option key={val} value={val}>{desc}</option>)
 
         return <select value={value} name={name} onChange={cbInputChanged}>
@@ -43,4 +44,4 @@ const InputDrinkDataBox_Categories = (props) => {
     </div>
 }
 
-export default InputDrinkDataBox_Categories;
+export default InputFoodDataBox_Categories;

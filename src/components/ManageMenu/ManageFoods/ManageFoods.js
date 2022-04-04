@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { foodRequests } from "store/http-requests.js";
-import { categories } from "store/defaults.js";
+import { ManageFood_Defaults as defaults } from "store/defaults.js";
 import { Button, Card, DropDownList } from "components/generic.js";
-import ModalManageFood from "components/ManageMenu/ManageFoods/ModalManageFood/ModalManageFood.js";
+import ManageFood_Modal from "components/ManageMenu/ManageFoods/ManageFood_Modal/ManageFood_Modal.js";
 import FoodList from "components/ManageMenu/ManageFoods/FoodList.js";
-import styles from "styles/ManageMenuItems.module.css";
+import styles from "styles/ManageMenu.module.css";
 
 /**
  * SUBCONTAINER of ManageMenu.js
@@ -91,24 +91,27 @@ const ManageFoods = () => {
 
     const selectedCategory = categoryFilter === "" ? "other" : categoryFilter;
 
-    return <div className={styles["items-container"]}>
-        <Card>
-            <Button className={styles["btn-menu"]} text="add food" onClick={() => cbModalOpen(null)} />
-            <DropDownList hasEmpty={true} label="Filter by Category" options={categories.foods} onChange={cbCategoryFilter} />
-        </Card>
+    return <Card >
+            <div className={styles["card-container"]}>
+                <h2>MANAGE FOOD ITEMS</h2>
+                <DropDownList hasEmpty={true} label="Filter by Category" className={styles["ddl--category"]}
+                    options={defaults.categories} onChange={cbCategoryFilter} 
+                />
+                <Button className={styles["btn--add-item"]} text="add food" onClick={() => cbModalOpen(null)} />
+            </div>
         <FoodList 
             foodsData={filteredFoods} 
             onFoodClick={cbModalOpen} 
             onFoodDelete={cbDeleteFood}
-        />
-        <ModalManageFood 
+            />
+        <ManageFood_Modal 
             visible={modalIsVisible} 
             closeButtonHandler={cbModalClose} 
             submitButtonHandler={cbModalSubmit} 
             selectedFoodId={selectedFoodId}
             selectedCategory={selectedCategory}
-        />
-    </div>
+            />
+    </Card>
 }
 
 export default ManageFoods;

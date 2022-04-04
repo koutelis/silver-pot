@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { ModalManageMenuItem_Defaults as defaults } from "store/defaults.js";
+import { ManageFood_Defaults as defaults } from "store/defaults.js";
 import { foodRequests } from "store/http-requests.js";
 import { cloneObject } from "store/utils.js";
 import { GrClose } from "react-icons/gr";
 import { Button } from "components/generic.js";
-import InputFoodData from "components/ManageMenu/ManageFoods/ModalManageFood/InputFoodData.js";
-import InputFoodAddons from "components/ManageMenu/ManageFoods/ModalManageFood/InputFoodAddons.js";
-import InputFoodRemovables from "components/ManageMenu/ManageFoods/ModalManageFood/InputFoodRemovables.js";
-import styles from "styles/ModalManageMenuItem.module.css";
+import InputFoodData from "components/ManageMenu/ManageFoods/ManageFood_Modal/InputFoodData.js";
+import InputFoodAddons from "components/ManageMenu/ManageFoods/ManageFood_Modal/InputFoodAddons.js";
+import InputFoodRemovables from "components/ManageMenu/ManageFoods/ManageFood_Modal/InputFoodRemovables.js";
+import styles from "styles/ManageMenu_Modal.module.css";
 
 
 /**
@@ -142,7 +142,7 @@ const ModalManageMenuItem = (props) => {
                     <InputFoodData foodData={foodData} onChange={cbDataChanged} />
                     <InputFoodAddons addonsData={addonsData} visible={displayAddons} onSelect={cbAddonsOnClick} onChange={cbDataChanged} />
                     <InputFoodRemovables removablesData={removablesData} visible={displayRemovables} onSelect={cbRemovablesOnClick} onChange={cbDataChanged} />
-                    <Button type="button" onClick={cbButtonSubmit} className={styles["btn"]} text={btnText} />                    
+                    <Button type="button" onClick={cbButtonSubmit} text={btnText} />                    
                 </form>
             </div>
         </>

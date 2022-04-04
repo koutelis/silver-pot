@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { FaBars } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
-import styles from "styles/Nav.module.css";
+import styles from "styles/NavBar.module.css";
 
 const NavMenu = (props) => {
-
+    // className={styles["nav-link__active"]} 
     return <>
         <div className={styles["nav-link"]} {...props}><NavLink to="/">HOME</NavLink></div>
         <div className={styles["nav-link"]} {...props}><NavLink to="/manageMenu">Manage Menu</NavLink></div>
@@ -25,18 +25,19 @@ const Navbar = () => {
     const hamMenuClass = `${styles["nav-menu__ham"]}${hamMenuVisible ? "" : " hidden"}`;
 
     return (
-        <nav>
-            <div className={styles["ham-bars"]}>
-                <FaBars onClick={toggleHamMenu} />
-                <div className={hamMenuClass}>
-                    <NavMenu onClick={cbCloseHamMenu}/>
+        <div className={styles["nav-container"]}>
+            <nav>
+                <div className={styles["ham-bars"]}>
+                    <FaBars onClick={toggleHamMenu} />
+                    <div className={hamMenuClass}>
+                        <NavMenu onClick={cbCloseHamMenu}/>
+                    </div>
                 </div>
-            </div>
-
-            <div className={styles["nav-menu"]}>
-                <NavMenu />
-            </div>
-        </nav>
+                <div className={styles["nav-menu"]}>
+                    <NavMenu />
+                </div>
+            </nav>
+        </div>
     );
 };
 

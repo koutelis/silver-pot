@@ -1,6 +1,6 @@
 import React from "react";
 import { GrClose } from "react-icons/gr";
-import styles from "styles/ManageMenuItems.module.css";
+import styles from "styles/ManageMenu.module.css";
 
 /**
  * Component of FoodList.js
@@ -11,7 +11,7 @@ const FoodItem = (props) => {
     const {_id, category, title, description} = props.foodData;
 
     return <div className={styles["menu-item"]} onClick={(e) => props.onClick(_id)} >
-        <div className={styles["btn--del-item"]} onClick={(e) => { e.stopPropagation(); props.onDelete(_id) }} >
+        <div title={`delete ${title}`} className={styles["btn--del-item"]} onClick={(e) => { e.stopPropagation(); props.onDelete(_id) }} >
             <GrClose />
         </div>
         <fieldset>

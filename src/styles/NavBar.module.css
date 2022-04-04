@@ -1,3 +1,20 @@
+.nav-container nav {
+    align-items: center;
+    background-color: var(--main-color__pale);
+    background: linear-gradient(
+        180deg, 
+        var(--main-body-color__dark) 5%, 
+        var(--main-color__pale) 30%,
+        var(--nav-bg-color) 50%, 
+        var(--main-color__pale) 70%,
+        var(--main-body-color__dark) 95%
+    );
+    display: flex;
+    height: 10vh;
+    margin-bottom: 10px;
+    position: relative;
+}
+
 .nav-menu {
     align-items: stretch;
     display: flex;
@@ -12,32 +29,36 @@
 }
 
 .nav-link > a {
-    color: black;
+    color: var(--main-txt-color__dark);
     text-decoration: none;
 }
 
+.nav-link > a[class="active"] {
+    color: var(--attentive-color) !important;
+}
+
 .nav-menu .nav-link {
-    background-color: white;
-    border: 1px solid black;
+    background-color: var(--main-bg-color__bright);
+    border: 1px solid var(--main-border-color__dark);
     font-size: 1.2rem;
     display: flex;
-    margin-right: 5px;
+    margin-left: 5px;
     padding: 4px;
     transition: transform .4s;
 }
 
 .nav-menu .nav-link:hover {
-    border-color: var(--main-color1);
+    border-color: var(--main-color);
     transform: scale(105%, 105%);
     transition: transform .3s;
 }
 
 .nav-menu .nav-link:hover a {
-    color: var(--main-color1);
+    color: var(--main-color);
 }
 
 .nav-menu__ham {
-    background-color: var(--main-color1);
+    background-color: var(--main-body-color__dark);
     border-radius: var(--border-radius-medium);
     box-sizing: border-box;
     display: none;
@@ -53,7 +74,7 @@
 }
 
 .nav-menu__ham .nav-link:hover a {
-    color: var(--main-color1);
+    color: var(--main-color);
 }
 
 .nav-menu__ham .nav-link:hover {
@@ -63,15 +84,19 @@
 }
 
 .ham-bars {
-    color: var(--main-color1);
+    color: var(--main-color);
     cursor: pointer;
     display: none;
-    font-size: var(--ham-bars-size);
+    font-size: 2rem;
     position: absolute;
-    right: 0;
-    top: 0;
-    transform: translate(-100%, 75%);
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
     z-index: 1000;
+}
+
+.ham-bars svg {
+    font-size: var(--ham-bars-size);
 }
 
 @media screen and (max-width: 768px) {

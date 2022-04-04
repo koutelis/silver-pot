@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { DropDownList } from "components/generic.js";
+import { DropDownList, Title } from "components/generic.js";
 import ManageFoods from "components/ManageMenu/ManageFoods/ManageFoods.js";
 import ManageDrinks from "components/ManageMenu/ManageDrinks/ManageDrinks.js";
+import styles from "styles/ManageMenu.module.css";
 
 /**
  * FR1: The system must include a section where administrators can store the menu options. 
@@ -15,18 +16,21 @@ const ManageMenu = () => {
     const [selectedSection, setSelectedSection] = useState("foods");
 
     const options = {
-        foods: "foods",
-        drinks: "drinks"
+        foods: "FOOD",
+        drinks: "DRINK"
     }
 
     const cbSectionSelected = (e) => {
         setSelectedSection(e.target.value);
     }
 
-    return <>
-        <DropDownList label="Select item type " options={options} onChange={cbSectionSelected} />
+    return <div className={styles["master-container"]}>
+        <div className={styles["top-panel"]} >
+            <Title text="Manage Menu" />
+            <DropDownList className={styles["ddl--menu-item-type"]} label="Select menu-item type" options={options} onChange={cbSectionSelected} />
+        </div>
         {selectedSection === "foods" ? <ManageFoods /> : <ManageDrinks /> }
-    </>
+    </div>
 }
 
 export default ManageMenu;
