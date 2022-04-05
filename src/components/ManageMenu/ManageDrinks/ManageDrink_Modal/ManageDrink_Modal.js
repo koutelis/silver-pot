@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ManageDrink_Defaults as defaults } from "store/defaults.js";
+import { DRINKS as defaults } from "store/defaults.js";
 import { drinkRequests } from "store/http-requests.js";
 import { cloneObject } from "store/utils.js";
 import { GrClose } from "react-icons/gr";

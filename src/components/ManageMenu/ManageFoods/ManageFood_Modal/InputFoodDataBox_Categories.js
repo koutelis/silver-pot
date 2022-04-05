@@ -1,5 +1,5 @@
 import React from "react";
-import { ManageFood_Defaults as defaults } from "store/defaults.js";
+import { FOODS as defaults } from "store/defaults.js";
 import styles from "styles/ManageMenu_Modal.module.css"
 
 /**

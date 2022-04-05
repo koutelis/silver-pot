@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ManageFood_Defaults as defaults } from "store/defaults.js";
+import { FOODS as defaults } from "store/defaults.js";
 import { foodRequests } from "store/http-requests.js";
 import { cloneObject } from "store/utils.js";
 import { GrClose } from "react-icons/gr";

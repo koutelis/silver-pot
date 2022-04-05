@@ -1,5 +1,5 @@
 import React from "react";
-import { ManageDrink_Defaults as defaults } from "store/defaults.js";
+import { DRINKS as defaults } from "store/defaults.js";
 import styles from "styles/ManageMenu_Modal.module.css"
 
 /**

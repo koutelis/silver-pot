@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { foodRequests } from "store/http-requests.js";
-import { ManageFood_Defaults as defaults } from "store/defaults.js";
+import { FOODS as defaults } from "store/defaults.js";
 import { Button, Card, DropDownList } from "components/generic.js";
 import ManageFood_Modal from "components/ManageMenu/ManageFoods/ManageFood_Modal/ManageFood_Modal.js";
 import FoodList from "components/ManageMenu/ManageFoods/FoodList.js";
@@ -106,7 +106,7 @@ const ManageFoods = () => {
             />
         <ManageFood_Modal 
             visible={modalIsVisible} 
-            closeButtonHandler={cbModalClose} 
+            closeButtonHandler={cbModalClose}
             submitButtonHandler={cbModalSubmit} 
             selectedFoodId={selectedFoodId}
             selectedCategory={selectedCategory}

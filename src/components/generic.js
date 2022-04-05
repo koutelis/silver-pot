@@ -1,5 +1,7 @@
 import React from "react";
+import { GrClose } from "react-icons/gr";
 import styles from "styles/generic.module.css";
+import styles2 from "styles/ManageMenu_Modal.module.css";
 
 /**
  * Generic button
@@ -52,6 +54,29 @@ const Card = (props) => {
     </div>
 }
 
+const Input = (props) => {
+    const { className, label, name, ...rest } = props;
+    const classList = [ styles["input"], (className ?? "") ].join(" ");
+
+    return <div className={classList}>
+        <label htmlFor={name}>{label}</label>
+        <input name={name} {...rest} />
+    </div>
+}
+
+const ModalWindow = (props) => {
+    const { onClose, visible } = props;
+    const mask = visible ? "" : " hidden"
+
+    return <>
+        <div className={`${styles["overlay"]}${mask}`} onClick={onClose}></div>
+        <div className={`${styles["modal-window"]}${mask}`}>
+            <div className={styles["btn--close-modal"]} onClick={onClose}><GrClose /></div>
+            {props.children}
+        </div>
+    </>
+}
+
 const Title = (props) => {
     const { className, text } = props;
     const classList = [ styles["title"], (className ?? "") ].join(" ");
@@ -61,4 +86,4 @@ const Title = (props) => {
     </div>
 }
 
-export { Button, Card, DropDownList, Title };
+export { Button, Card, DropDownList, Input, ModalWindow, Title };

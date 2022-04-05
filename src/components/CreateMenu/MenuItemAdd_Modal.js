@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { foodRequests } from "store/http-requests.js";
-import { DropDownList } from "components/generic.js";
-import { ManageFood_Defaults as defaults } from "store/defaults";
+import { Button, DropDownList } from "components/generic.js";
+import { FOODS as defaults } from "store/defaults";
 import styles from "styles/CreateMenu.module.css";
 
-const MenuList_Selection = (props) => {
+const MenuItemAdd_Modal = (props) => {
+    const [selectedItemId, setSelectedItemId] = useState("");
     const [options, setOptions] = useState([]);
     const [filteredOptions, setFilteredOptions] = useState({});
     const [filter, setFilter] = useState("");
-    const { onSelection } = props;
+    const { onSelection, selectedItems } = props;
 
     // runs only the first time to populate the items DDL options
     useEffect(() => {
@@ -18,19 +19,20 @@ const MenuList_Selection = (props) => {
             .then(fetchedItems => setOptions(fetchedItems));
     }, []);
 
-    // runs whenever the category filter is changed
+    // runs when the category filter is changed
     useEffect(() => {
+        const selectedItemsIds = selectedItems.map(item => item._id);
         let result = {};
         options
             .filter(option => filter === "" || option.category === filter)
+            .filter(option => !selectedItemsIds.includes(option._id))
             .forEach(option => result[option._id] = option.title);
         setFilteredOptions(result);
-    }, [options, filter]);
+    }, [options, filter, selectedItems]);
 
-    const cbFilterSelected = e => {
-        setFilter(e.target.value);
-
-    }
+    const cbItemSelected = e => setSelectedItemId(e.target.value);
+    const cbFilterSelected = e => setFilter(e.target.value);
+    const cbSubmit = () => onSelection(selectedItemId);
 
     let labelText = "Add an item";
     if (filter === "main") {
@@ -40,10 +42,11 @@ const MenuList_Selection = (props) => {
         labelText = `Add ${article} ${filter}`;
     }
 
-    return <>
-        <DropDownList className={styles["ddl--menu-item-add"]} hasEmpty={true} label={labelText} onChange={onSelection} options={filteredOptions} />
+    return <form className={styles["modal-form"]} >
+        <DropDownList className={styles["ddl--menu-item-add"]} hasEmpty={true} label={labelText} onChange={cbItemSelected} options={filteredOptions} />
         <DropDownList className={styles["ddl--category"]} hasEmpty={true} label="Filter by Category" onChange={cbFilterSelected} options={defaults.categories} />
-    </>
+        <Button type="button" onClick={cbSubmit} text="ADD TO MENU" />                    
+    </form>
 }
 
-export default MenuList_Selection;
+export default MenuItemAdd_Modal;

@@ -1,19 +1,19 @@
 // API endpoints
 
-const endpoints = {
+const ENDPOINTS = {
     drinks: "https://silver-pot-srv.herokuapp.com/api/drinks/",
     foods: "https://silver-pot-srv.herokuapp.com/api/foods/",
     menus: "https://silver-pot-srv.herokuapp.com/api/menus/"
 }
 
 // dev:
-// const endpoints = {
+// const ENDPOINTS = {
 //     drinks: "http://localhost:3001/api/drinks/",
 //     foods: "http://localhost:3001/api/foods/",
 //     menus: "http://localhost:3001/api/menus/"
 // }
 
-const ManageFood_Defaults = {
+const FOODS = {
     formModel: {
         main: {},
         addons: [],
@@ -53,7 +53,7 @@ const ManageFood_Defaults = {
     }
 }
 
-const ManageDrink_Defaults = {
+const DRINKS = {
     formModel: {
         main: {},
         sizes: {
@@ -82,4 +82,4 @@ const ManageDrink_Defaults = {
     }
 }
 
-export { endpoints, ManageFood_Defaults, ManageDrink_Defaults }
+export { ENDPOINTS, FOODS, DRINKS }

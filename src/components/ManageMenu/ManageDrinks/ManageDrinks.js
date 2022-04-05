@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { drinkRequests } from "store/http-requests.js";
-import { ManageDrink_Defaults as defaults } from "store/defaults.js";
+import { DRINKS as defaults } from "store/defaults.js";
 import { Button, Card, DropDownList } from "components/generic.js";
 import ManageDrink_Modal from "components/ManageMenu/ManageDrinks/ManageDrink_Modal/ManageDrink_Modal.js";
 import DrinkList from "components/ManageMenu/ManageDrinks/DrinkList.js";

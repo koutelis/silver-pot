@@ -1,8 +1,8 @@
-import { endpoints } from 'store/defaults.js';
+import { ENDPOINTS } from 'store/defaults.js';
 
-const apiDrinksUrl = endpoints.drinks;
-const apiFoodsUrl = endpoints.foods;
-const apiMenusUrl = endpoints.menus;
+const apiDrinksUrl = ENDPOINTS.drinks;
+const apiFoodsUrl = ENDPOINTS.foods;
+const apiMenusUrl = ENDPOINTS.menus;
 
 //#region "FOODS"
 
@@ -199,7 +199,7 @@ const drinkRequests = {
     try {
         const response = await fetch(apiMenusUrl);
         const result = await response.json();
-        return result.items;
+        return result;
     } catch (err) {
         console.error(err);
         return null;
