@@ -29,8 +29,10 @@ const CreateMenu = () => {
                 if (fetchedItems) setItems(fetchedItems);
             });
         
-        // STEF:TODO  find out window width to display accordingly
+        // find out window width to display the appropriate view
+        setIsPrintView(window.innerWidth > 768);
     }, []);
+
 
     const cbModalClose = () => setModalIsVisible(false);
     const cbModalOpen = () => setModalIsVisible(true);
