@@ -23,7 +23,7 @@
     width: 100%;
 }
 
-.btn--toggle-mode,
+.btn--toggle-view,
 .btn--open-modal,
 .btn--save-template,
 .btn--print-menu {
@@ -145,7 +145,7 @@
 }
 
 @media (max-width: 360px) {
-    .btn--toggle-mode {
+    .btn--toggle-view {
         font-size: 0.85rem;
     }
 

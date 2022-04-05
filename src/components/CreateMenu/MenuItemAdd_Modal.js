@@ -21,7 +21,13 @@ const MenuItemAdd_Modal = (props) => {
 
     // runs when the category filter is changed
     useEffect(() => {
-        const selectedItemsIds = selectedItems.map(item => item._id);
+        let selectedItemsIds;
+        if (filter !== "") {
+            selectedItemsIds = selectedItems[filter].map(item => item._id);
+        } else {
+            selectedItemsIds = Object.values(selectedItems).map(item => item._id);
+        }
+
         let result = {};
         options
             .filter(option => filter === "" || option.category === filter)
@@ -30,13 +36,14 @@ const MenuItemAdd_Modal = (props) => {
         setFilteredOptions(result);
     }, [options, filter, selectedItems]);
 
+
     const cbItemSelected = e => setSelectedItemId(e.target.value);
     const cbFilterSelected = e => setFilter(e.target.value);
     const cbSubmit = () => onSelection(selectedItemId);
 
-    let labelText = "Add an item";
+    let labelText = "Select item";
     if (filter === "main") {
-        labelText = `Add a main dish`
+        labelText = `Add a main dish`;
     } else if (filter.length) {
         const article = "aeiou".includes(filter[0]) ? "an" : "a";
         labelText = `Add ${article} ${filter}`;

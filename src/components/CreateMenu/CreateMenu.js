@@ -13,20 +13,23 @@ import styles from "styles/CreateMenu.module.css";
  * @returns {JSX}
  */
 const CreateMenu = () => {
-    const [items, setItems] = useState([]);
+    const [items, setItems] = useState({});
     const [modalIsVisible, setModalIsVisible] = useState(false);
-    const [previewMode, setPreviewMode] = useState(false);
+    const [isPrintView, setIsPrintView] = useState(false);
     const [fontSize, setFontSize] = useState(14);
 
-    // first time: load the template menu
+    // runs only first time
     useEffect(() => {
+        // load the template menu
         menuRequests
             .getTemplate()
             .then(response => {
-                const { items: fetchedItems, fontSize: fetchedFontSize } = response;
-                if (fetchedItems) setItems(fetchedItems);
+                const { fontSize: fetchedFontSize, items: fetchedItems } = response;
                 if (fetchedFontSize) setFontSize(fetchedFontSize);
+                if (fetchedItems) setItems(fetchedItems);
             });
+        
+        // STEF:TODO  find out window width to display accordingly
     }, []);
 
     const cbModalClose = () => setModalIsVisible(false);
@@ -34,25 +37,24 @@ const CreateMenu = () => {
 
     /**
      * DRAG & DROP event handler for the MenuList
+     * Item is removed if moved outside droppable container
      * @param {Object} movedItem
      */
     const cbHandleDragDrop = (movedItem) => {
-        // remove item if moved outside droppable container
-        if (!movedItem.destination) {
-            setItems(snapshot => snapshot.filter(item => item._id !== movedItem.draggableId));
-        } else {
-            setItems(snapshot => {
-                const [reorderedItem] = snapshot.splice(movedItem.source.index, 1); // remove dragged item
-                snapshot.splice(movedItem.destination.index, 0, reorderedItem); // add dropped item
-                return snapshot;
-            });
-        }
+        setItems(snapshot => {
+            const currentCategory = movedItem.source.droppableId;
+            const [reorderedItem] = snapshot[currentCategory].splice(movedItem.source.index, 1);  // remove dragged item
+            if (movedItem.destination) {
+                snapshot[currentCategory].splice(movedItem.destination.index, 0, reorderedItem);  // add dropped item
+            }
+            return { ...snapshot };
+        });
     };
 
     /**
-     * CLICK event handler for the PrintableMenu's mode button.
+     * CLICK event handler for the 'switch view' button.
      */
-    const toggleMode = () => setPreviewMode(!previewMode);
+    const toggleView = () => setIsPrintView(!isPrintView);
 
     /**
      * CHANGE event handler for the DropDownList of available menu items.
@@ -64,9 +66,18 @@ const CreateMenu = () => {
         foodRequests
             .get(itemId)
             .then(foodItem => {
-                const exists = items.some(item => item._id === foodItem._id);
+                const exists = items[foodItem.category].some(item => item._id === foodItem._id);
                 if (exists) alert("item already exists");
-                else setItems(snapshot => snapshot.concat([foodItem]));
+                else {
+                    setItems(snapshot => {
+                        const currentCategory = foodItem.category;
+                        const changedCategory = snapshot[currentCategory].concat(foodItem);
+                        return  {
+                            ...snapshot,
+                            [currentCategory]: changedCategory
+                        }
+                    });
+                }
             });
         
         setModalIsVisible(false);
@@ -85,16 +96,16 @@ const CreateMenu = () => {
     }
 
     // adjust dynamic buttons
-    const printMask = previewMode ? "" : "hidden";
-    const btnSwitchText = `Switch to ${previewMode ? "Drag & Drop" : "Print"} mode`;
+    const printMask = isPrintView ? "" : "hidden";
+    const btnSwitchText = `Switch to ${isPrintView ? "Block" : "Print"} view`;
     const btnPrintClassList = [styles["btn--print-menu"], printMask].join(" ");
 
     return <div className={styles["master-container"]}>
         <div className={styles["top-panel"]} >
             <Title className={styles["title"]} text="Create Menu" />
             <div className={styles["top-panel-btns"]}>
-                <Button className={styles["btn--toggle-mode"]} text={btnSwitchText} type="button" onClick={toggleMode} />
-                <Button className={styles["btn--open-modal"]} text="Modal" onClick={cbModalOpen} />
+                <Button className={styles["btn--toggle-view"]} text={btnSwitchText} type="button" onClick={toggleView} />
+                <Button className={styles["btn--open-modal"]} text="Add Item" onClick={cbModalOpen} />
                 <Button className={styles["btn--save-template"]} text="Save Template" onClick={cbSaveTemplate} />
                 <Button className={btnPrintClassList} text="Print Menu" onClick={handlePrint} />
             </div>
@@ -104,8 +115,8 @@ const CreateMenu = () => {
                 label="Font size" htmlFor="font-size" name="font-size" type="number" min="8" max="20" step="1"
                 className={printMask} onChange={(e) => setFontSize(e.target.value)} value={fontSize}
             />
-            <PrintableMenu visible={previewMode} itemList={items} fontSize={fontSize} ref={printableMenuRef} />
-            <MenuList_DnD visible={!previewMode} itemList={items} onDragDrop={cbHandleDragDrop} />
+            <PrintableMenu visible={isPrintView} itemList={items} onDragDrop={cbHandleDragDrop} fontSize={fontSize} ref={printableMenuRef} />
+            <MenuList_DnD visible={!isPrintView} itemList={items} onDragDrop={cbHandleDragDrop} />
         </Card>
         <ModalWindow onClose={cbModalClose} visible={modalIsVisible}>
             <MenuItemAdd_Modal onSelection={cbSelectItemAdd} selectedItems={items} />

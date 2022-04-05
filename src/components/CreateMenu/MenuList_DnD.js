@@ -1,19 +1,38 @@
 import React from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { FOODS as defaults } from "store/defaults.js";
 import MenuItem from "components/CreateMenu/MenuItem.js";
+import styles from "styles/CreateMenu.module.css";
 
 /**
  * Component of CreateMenu.js
  * DropDownList containing all available menu options as stored in the DB.
- * @param {Object} props - { itemList: Array, onDragDrop: function }
+ * @param {Object} props - { itemList: Object, onDragDrop: function }
  * @returns {JSX}
  */
-const MenuList_DnD = (props) => {
+ const MenuList_DnD = (props) => {
     const { itemList, onDragDrop, visible } = props;
-    
-    const setDroppables = provided => {
+
+    const categories = Object.keys(defaults.categories);
+    let result = [];
+
+    categories.forEach(category => {
+        const currentList = itemList[category];
+        if (currentList && currentList.length) {
+            result.push(<>
+                <div className={styles["menu-category-heading"]}>~ {defaults.categories[category]} ~</div>
+                <DragDropContext onDragEnd={onDragDrop}>
+                    <Droppable droppableId={category}>
+                        {provided => setDroppables(provided, currentList)}
+                    </Droppable>
+                </DragDropContext>
+            </>);
+        }
+    });
+
+    const setDroppables = (provided, currentList) => {
         return <div {...provided.droppableProps} ref={provided.innerRef}>
-            {itemList.map((item, index) => (
+            {currentList.map((item, index) => (
                 <Draggable key={item._id} draggableId={item._id} index={index}>
                     {provided => (
                         <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
@@ -26,17 +45,13 @@ const MenuList_DnD = (props) => {
         </div>
     }
 
+    if (result.length === 0) result = <h2>No menu options have been selected...</h2>;
+    
     const mask = visible ? "" : "hidden";
 
-    if (itemList.length === 0) return <h2>No menu options have been selected...</h2>
-
     return <div className={mask}>
-        <DragDropContext onDragEnd={onDragDrop}>
-            <Droppable droppableId="droppable">
-                {setDroppables}
-            </Droppable>
-        </DragDropContext>
+        {result}
     </div>
-}
+ }
 
 export default MenuList_DnD
