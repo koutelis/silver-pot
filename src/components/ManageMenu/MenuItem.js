@@ -3,12 +3,12 @@ import { GrClose } from "react-icons/gr";
 import styles from "styles/ManageMenu.module.css";
 
 /**
- * Component of DrinkList.js
- * @param {Object} props - {drinkData: Object, onClick: function, onDelete: function}
- * @returns {JSX}
+ * Component of FoodList.js
+ * @param {Object} props - {foodData: Object, onClick: function, onDelete: function}
+ * @returns 
  */
-const DrinkItem = (props) => {
-    const {_id, category, title, description} = props.drinkData;
+const MenuItem = (props) => {
+    const {_id, category, title, description} = props.itemData;
 
     return <div className={styles["menu-item"]} onClick={(e) => props.onClick(_id)} >
         <div title={`delete ${title}`} className={styles["btn--del-item"]} onClick={(e) => { e.stopPropagation(); props.onDelete(_id) }} >
@@ -26,4 +26,4 @@ const DrinkItem = (props) => {
     </div>
 }
 
-export default DrinkItem;
+export default MenuItem;

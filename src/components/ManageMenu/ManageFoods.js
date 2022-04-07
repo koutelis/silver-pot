@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { foodRequests } from "store/http-requests.js";
 import { FOODS as defaults } from "store/defaults.js";
 import { Button, Card, DropDownList } from "components/generic.js";
-import ManageFood_Modal from "components/ManageMenu/ManageFoods/ManageFood_Modal/ManageFood_Modal.js";
-import FoodList from "components/ManageMenu/ManageFoods/FoodList.js";
+import ManageFood_Modal from "components/ManageMenu/ManageFood_Modal.js";
+import MenuItemsList from "components/ManageMenu/MenuItemsList.js";
 import styles from "styles/ManageMenu.module.css";
 
 /**
@@ -23,7 +23,7 @@ const ManageFoods = () => {
     const loadFoods = () => {
         foodRequests
             .getAll()
-            .then(fetchedFoods => setFoods(fetchedFoods));
+            .then(fetchedFoods => setFoods( fetchedFoods ?? [] ));
     }
 
     // runs only the first time and loads all food options
@@ -35,6 +35,7 @@ const ManageFoods = () => {
     }
 
     const cbModalClose = () => {
+        setSelectedFoodId(null);
         setModalIsVisible(false);
     }
 
@@ -42,21 +43,11 @@ const ManageFoods = () => {
      * CLICK event handler for the modal's submit button.
      * Prepare data and filter of unnessessary values, then send to DB.
      */
-    const cbModalSubmit = (data) => {
-        // filter optional data
-        const addons = Object
-            .values(data.addons)
-            .filter((addon) => Boolean(addon) && Boolean(addon["title"]));
-        const removables = Object
-            .values(data.removables)
-            .filter((rmv) => Boolean(rmv) && Boolean(rmv["title"]));
-        
-        // check modal mode (Add/Edit)
-        const id = data.id;
-        const food = { ...data.main, addons, removables };
-        const callback = id ? foodRequests.put(id, food) : foodRequests.post(food);
+    const cbModalSubmit = (foodId, foodData) => {
+        // check modal mode (Add/Edit) and dispatch accordingly
+        const callback = foodId ? foodRequests.put(foodId, foodData) : foodRequests.post(foodData);
         callback.then(loadFoods);
-        setModalIsVisible(false);
+        cbModalClose();
     };
     
     /**
@@ -99,18 +90,18 @@ const ManageFoods = () => {
                 />
                 <Button className={styles["btn--add-item"]} text="add food" onClick={() => cbModalOpen(null)} />
             </div>
-        <FoodList 
-            foodsData={filteredFoods} 
-            onFoodClick={cbModalOpen} 
-            onFoodDelete={cbDeleteFood}
-            />
+        <MenuItemsList 
+            itemsData={filteredFoods} 
+            onItemClick={cbModalOpen} 
+            onDeleteItem={cbDeleteFood}
+        />
         <ManageFood_Modal 
             visible={modalIsVisible} 
             closeButtonHandler={cbModalClose}
             submitButtonHandler={cbModalSubmit} 
             selectedFoodId={selectedFoodId}
             selectedCategory={selectedCategory}
-            />
+        />
     </Card>
 }
 

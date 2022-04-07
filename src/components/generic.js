@@ -1,7 +1,6 @@
 import React from "react";
 import { GrClose } from "react-icons/gr";
 import styles from "styles/generic.module.css";
-import styles2 from "styles/ManageMenu_Modal.module.css";
 
 /**
  * Generic button
@@ -54,6 +53,11 @@ const Card = (props) => {
     </div>
 }
 
+/**
+ * Generic label & input text box.
+ * @param {Object} props 
+ * @returns {JSX}
+ */
 const Input = (props) => {
     const { className, label, name, ...rest } = props;
     const classList = [ styles["input"], (className ?? "") ].join(" ");
@@ -64,6 +68,11 @@ const Input = (props) => {
     </div>
 }
 
+/**
+ * Generic modal window with overlay and close button.
+ * @param {Object} props 
+ * @returns {JSX}
+ */
 const ModalWindow = (props) => {
     const { onClose, visible } = props;
     const mask = visible ? "" : " hidden"
@@ -77,6 +86,11 @@ const ModalWindow = (props) => {
     </>
 }
 
+/**
+ * Generic heading.
+ * @param {Object} props 
+ * @returns {JSX}
+ */
 const Title = (props) => {
     const { className, text } = props;
     const classList = [ styles["title"], (className ?? "") ].join(" ");

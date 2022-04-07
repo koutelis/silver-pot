@@ -4,6 +4,12 @@ import { Button, DropDownList } from "components/generic.js";
 import { FOODS as defaults } from "store/defaults";
 import styles from "styles/CreateMenu.module.css";
 
+/**
+ * COMPONENT of CreateMenu.js
+ * A modal window to add an item to the daily menu.
+ * @param {Object} props - { onSelection: function, selectedItems: {} }
+ * @returns {JSX}
+ */
 const MenuItemAdd_Modal = (props) => {
     const [selectedItemId, setSelectedItemId] = useState("");
     const [options, setOptions] = useState([]);
@@ -36,11 +42,6 @@ const MenuItemAdd_Modal = (props) => {
         setFilteredOptions(result);
     }, [options, filter, selectedItems]);
 
-
-    const cbItemSelected = e => setSelectedItemId(e.target.value);
-    const cbFilterSelected = e => setFilter(e.target.value);
-    const cbSubmit = () => onSelection(selectedItemId);
-
     let labelText = "Select item";
     if (filter === "main") {
         labelText = `Add a main dish`;
@@ -50,9 +51,25 @@ const MenuItemAdd_Modal = (props) => {
     }
 
     return <form className={styles["modal-form"]} >
-        <DropDownList className={styles["ddl--menu-item-add"]} hasEmpty={true} label={labelText} onChange={cbItemSelected} options={filteredOptions} />
-        <DropDownList className={styles["ddl--category"]} hasEmpty={true} label="Filter by Category" onChange={cbFilterSelected} options={defaults.categories} />
-        <Button type="button" onClick={cbSubmit} text="ADD TO MENU" />                    
+        <DropDownList 
+            className={styles["ddl--menu-item-add"]} 
+            hasEmpty={true} 
+            label={labelText} 
+            onChange={e => setSelectedItemId(e.target.value)} 
+            options={filteredOptions} 
+        />
+        <DropDownList 
+            className={styles["ddl--category"]} 
+            hasEmpty={true} 
+            label="Filter by Category"
+            onChange={e => setFilter(e.target.value)} 
+            options={defaults.categories} 
+        />
+        <Button 
+            type="button" 
+            onClick={() => onSelection(selectedItemId)} 
+            text="ADD TO MENU" 
+        />                    
     </form>
 }
 

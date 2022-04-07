@@ -4,7 +4,6 @@ import { NavLink } from "react-router-dom";
 import styles from "styles/NavBar.module.css";
 
 const NavMenu = (props) => {
-    // className={styles["nav-link__active"]} 
     return <>
         <div className={styles["nav-link"]} {...props}><NavLink to="/">HOME</NavLink></div>
         <div className={styles["nav-link"]} {...props}><NavLink to="/manageMenu">Manage Menu</NavLink></div>

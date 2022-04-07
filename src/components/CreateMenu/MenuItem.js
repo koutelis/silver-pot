@@ -4,7 +4,7 @@ import styles from "styles/ManageMenu.module.css";
 /**
  * Component of MenuList_DnD.js
  * @param {Object} props - { itemData: Object }
- * @returns 
+ * @returns {JSX}
  */
 const MenuItem = (props) => {
     const {_id, basePrice, title, description} = props.itemData;

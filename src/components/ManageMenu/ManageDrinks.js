@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { drinkRequests } from "store/http-requests.js";
 import { DRINKS as defaults } from "store/defaults.js";
 import { Button, Card, DropDownList } from "components/generic.js";
-import ManageDrink_Modal from "components/ManageMenu/ManageDrinks/ManageDrink_Modal/ManageDrink_Modal.js";
-import DrinkList from "components/ManageMenu/ManageDrinks/DrinkList.js";
+import ManageDrink_Modal from "components/ManageMenu/ManageDrink_Modal.js";
+import MenuItemsList from "components/ManageMenu/MenuItemsList.js";
 import styles from "styles/ManageMenu.module.css";
 
 /**
@@ -24,7 +24,7 @@ const ManageDrinks = () => {
     const loadDrinks = () => {
         drinkRequests
             .getAll()
-            .then(fetchedDrinks => setDrinks(fetchedDrinks));
+            .then(fetchedDrinks => setDrinks( fetchedDrinks ?? [] ));
     }
 
     // runs only the first time and loads all 'drink' options
@@ -36,6 +36,7 @@ const ManageDrinks = () => {
     }
 
     const cbModalClose = () => {
+        setSelectedDrinkId(null);
         setModalIsVisible(false);
     }
 
@@ -43,21 +44,11 @@ const ManageDrinks = () => {
      * CLICK event handler for the modal's submit button.
      * Prepare data and filter of unnessessary values, then send to DB.
      */
-    const cbModalSubmit = (data) => {
-        // handle sizes/prices
-        const sizes = Object.fromEntries(
-            Object.entries(data.sizes).filter(([k, v]) => Boolean(v) && v > 0)
-        );
-
-        if (sizes.regular) data.main.basePrice = sizes.regular;
-
+    const cbModalSubmit = (drinkId, drinkData) => {
         // check modal mode (Add/Edit)
-        const id = data.id;
-        const drink = { ...data.main, sizes };
-
-        const callback = id ? drinkRequests.put(id, drink) : drinkRequests.post(drink);
+        const callback = drinkId ? drinkRequests.put(drinkId, drinkData) : drinkRequests.post(drinkData);
         callback.then(loadDrinks);
-        setModalIsVisible(false);
+        cbModalClose();
     };
     
     /**
@@ -100,10 +91,10 @@ const ManageDrinks = () => {
                     options={defaults.categories} onChange={cbCategoryFilter} 
                 />
             </div>
-        <DrinkList 
-            drinksData={filteredDrinks} 
-            onDrinkClick={cbModalOpen} 
-            onDrinkDelete={cbDeleteDrink}
+        <MenuItemsList 
+            itemsData={filteredDrinks} 
+            onItemClick={cbModalOpen} 
+            onDeleteItem={cbDeleteDrink}
         />
         <ManageDrink_Modal 
             visible={modalIsVisible} 

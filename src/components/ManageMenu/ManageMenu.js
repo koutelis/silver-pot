@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { DropDownList, Title } from "components/generic.js";
-import ManageFoods from "components/ManageMenu/ManageFoods/ManageFoods.js";
-import ManageDrinks from "components/ManageMenu/ManageDrinks/ManageDrinks.js";
+import ManageFoods from "components/ManageMenu/ManageFoods.js";
+import ManageDrinks from "components/ManageMenu/ManageDrinks.js";
 import styles from "styles/ManageMenu.module.css";
 
 /**

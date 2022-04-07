@@ -23,7 +23,11 @@ const PrintableMenu = React.forwardRef((props, ref) => {
     return <div className={classList} ref={ref}>
         <div className={styles["printableInside"]} >
             <h2>Lunch menu, {month} {day}</h2>
-            <PrintableMenuList fontSize={fontSize} itemList={itemList} onDragDrop={onDragDrop} />
+            <PrintableMenuList 
+                fontSize={fontSize} 
+                itemList={itemList} 
+                onDragDrop={onDragDrop} 
+            />
         </div>
     </div>
 });
