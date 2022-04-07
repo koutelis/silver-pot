@@ -1,17 +1,17 @@
 // API endpoints
 
-// const ENDPOINTS = {
-//     drinks: "https://silver-pot-srv.herokuapp.com/api/drinks/",
-//     foods: "https://silver-pot-srv.herokuapp.com/api/foods/",
-//     menus: "https://silver-pot-srv.herokuapp.com/api/menus/"
-// }
+const ENDPOINTS = {
+    drinks: "https://silver-pot-srv.herokuapp.com/api/drinks/",
+    foods: "https://silver-pot-srv.herokuapp.com/api/foods/",
+    menus: "https://silver-pot-srv.herokuapp.com/api/menus/"
+}
 
 // dev:
-const ENDPOINTS = {
-    drinks: "http://localhost:3001/api/drinks/",
-    foods: "http://localhost:3001/api/foods/",
-    menus: "http://localhost:3001/api/menus/"
-}
+// const ENDPOINTS = {
+//     drinks: "http://localhost:3001/api/drinks/",
+//     foods: "http://localhost:3001/api/foods/",
+//     menus: "http://localhost:3001/api/menus/"
+// }
 
 const FOODS = {
     foodData: {
