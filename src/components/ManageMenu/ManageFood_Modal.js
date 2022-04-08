@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FOODS as defaults } from "store/defaults.js";
 import { foodRequests } from "store/http-requests.js";
 import { cloneObject } from "store/utils.js";
-import { GrClose } from "react-icons/gr";
-import { Button } from "components/generic.js";
+import { Button, ModalWindow } from "components/generic.js";
 import InputMenuItemData from "components/ManageMenu/InputMenuItemData.js";
 import InputMenuItemOptions from "components/ManageMenu/InputMenuItemOptions.js";
 import styles from "styles/ManageMenu_Modal.module.css";
@@ -127,48 +126,43 @@ const ModalManageMenuItem = (props) => {
         resetFormData();
     }
 
-    const mask = visible ? "" : " hidden"
     const btnText = selectedFoodId ? "Save" : "Add"
 
-    return <>
-        <div className={`${styles["overlay"]}${mask}`} onClick={cbCloseModal}></div>
-        <div className={`${styles["add-item-window"]}${mask}`}>
-            <div className={styles["btn--close-modal"]} onClick={cbCloseModal}><GrClose /></div>
-            <form className={styles["add-item-form"]} >
-                <InputMenuItemData 
-                    itemData={foodData}
-                    heading="Food data"
-                    categories={defaults.categories}
-                    onChange={cbFoodDataChanged} 
-                />
-                <InputMenuItemOptions
-                    visible={optionsVisibility.addons}
-                    optionsList={foodData.addons}
-                    optionsProperty="addons"
-                    optionName="addon"
-                    priceLabel="added cost (&euro;)"
-                    btnLabel="+1 addon"
-                    onSelect={cbToggleVisibility}
-                    onChange={cbOptionDataChanged}
-                    onAdd={cbAddOption}
-                    onRemove={cbRemoveOption}
-                />
-                <InputMenuItemOptions 
-                    visible={optionsVisibility.removables}
-                    optionsList={foodData.removables}
-                    optionsProperty="removables"
-                    optionName="removable"
-                    priceLabel="discount (&euro;)"
-                    btnLabel="+1 removable"
-                    onSelect={cbToggleVisibility}
-                    onChange={cbOptionDataChanged}
-                    onAdd={cbAddOption}
-                    onRemove={cbRemoveOption}
-                />
-                <Button onClick={cbButtonSubmit} text={btnText} />                    
-            </form>
-        </div>
-    </>
+    return <ModalWindow onClose={cbCloseModal} visible={visible} >
+        <form className={styles["add-item-form"]} >
+            <InputMenuItemData 
+                itemData={foodData}
+                heading="Food data"
+                categories={defaults.categories}
+                onChange={cbFoodDataChanged} 
+            />
+            <InputMenuItemOptions
+                visible={optionsVisibility.addons}
+                optionsList={foodData.addons}
+                optionsProperty="addons"
+                optionName="addon"
+                priceLabel="added cost (&euro;)"
+                btnLabel="+1 addon"
+                onSelect={cbToggleVisibility}
+                onChange={cbOptionDataChanged}
+                onAdd={cbAddOption}
+                onRemove={cbRemoveOption}
+            />
+            <InputMenuItemOptions 
+                visible={optionsVisibility.removables}
+                optionsList={foodData.removables}
+                optionsProperty="removables"
+                optionName="removable"
+                priceLabel="discount (&euro;)"
+                btnLabel="+1 removable"
+                onSelect={cbToggleVisibility}
+                onChange={cbOptionDataChanged}
+                onAdd={cbAddOption}
+                onRemove={cbRemoveOption}
+            />
+            <Button onClick={cbButtonSubmit} text={btnText} />                    
+        </form>
+    </ModalWindow>
 }
 
 export default ModalManageMenuItem

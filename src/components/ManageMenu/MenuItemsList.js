@@ -10,9 +10,11 @@ import styles from "styles/ManageMenu.module.css";
 const MenuItemsList = (props) => {
     const { itemsData, onItemClick, onDeleteItem } = props;
 
-    if (itemsData.length === 0) return <div className={styles["item-list-container2"]} >
-        <h3>No options found...</h3>
-    </div>
+    if (itemsData.length === 0) return (
+        <div className={`${styles["item-list-container"]} ${styles["item-list-container__empty"]}`} >
+            <h3>No options found...</h3>
+        </div>
+    )
 
     return <div className={styles["item-list-container"]} >
         <h3>Available Options:</h3>

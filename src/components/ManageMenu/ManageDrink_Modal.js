@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { DRINKS as defaults } from "store/defaults.js";
 import { drinkRequests } from "store/http-requests.js";
 import { cloneObject } from "store/utils.js";
-import { GrClose } from "react-icons/gr";
-import { Button } from "components/generic.js";
+import { Button, ModalWindow } from "components/generic.js";
 import InputMenuItemData from "components/ManageMenu/InputMenuItemData.js";
 import InputMenuItemOptions from "components/ManageMenu/InputMenuItemOptions.js";
 import styles from "styles/ManageMenu_Modal.module.css"
@@ -17,7 +16,7 @@ import styles from "styles/ManageMenu_Modal.module.css"
 const ManageDrink_Modal = (props) => {
     const { visible, closeButtonHandler, submitButtonHandler, selectedDrinkId, selectedCategory } = props;
     const [drinkData, setDrinkData] = useState( cloneObject(defaults.drinkData) );
-    const [optionsVisibility, setOptionsVisibility] = useState({ sizes: true })
+    const [optionsVisibility, setOptionsVisibility] = useState({ sizes: false })
 
     // reset form inputs and preselect category according to category filter (from ManageDrinks.js)
     useEffect(() => {
@@ -32,8 +31,7 @@ const ManageDrink_Modal = (props) => {
      */
     const fillFormData = (data) => {
         const {category, title, description, basePrice, sizes} = data;
-
-        // set drink data
+        setOptionsVisibility({ sizes: sizes.length > 0 });
         setDrinkData({category, title, description, basePrice, sizes});
     }
 
@@ -41,6 +39,7 @@ const ManageDrink_Modal = (props) => {
      * Reset all inputs.
      */
     const resetFormData = () => {
+        setOptionsVisibility({ sizes: false })
         setDrinkData({
             ...cloneObject(defaults.drinkData),
             category: selectedCategory
@@ -103,12 +102,8 @@ const ManageDrink_Modal = (props) => {
             return;
         }
 
-        // handle sizes/prices
-        // const sizes = Object.fromEntries(
-        //     Object.entries(drinkData.sizes).filter(([k, v]) => Boolean(v) && v > 0)
-        // );
-
-        // if (sizes.regular) drinkData.main.basePrice = sizes.regular;
+        // override base price if sizes exist
+        if (drinkData.sizes.length) drinkData.basePrice = 0;
 
         submitButtonHandler(selectedDrinkId, drinkData);
         resetFormData();
@@ -119,38 +114,31 @@ const ManageDrink_Modal = (props) => {
         closeButtonHandler();
     }
 
-    const mask = visible ? "" : " hidden"
     const btnText = selectedDrinkId ? "Save" : "Add"
 
-    return (
-        <>
-            <div className={`${styles["overlay"]}${mask}`} onClick={cbCloseModal}></div>
-            <div className={`${styles["add-item-window"]}${mask}`}>
-                <div className={styles["btn--close-modal"]} onClick={cbCloseModal}><GrClose /></div>
-                <form className={styles["add-item-form"]} >
-                    <InputMenuItemData 
-                        itemData={drinkData}
-                        heading="Drink data"
-                        categories={defaults.categories}
-                        onChange={cbDrinkDataChanged} 
-                    />
-                    <InputMenuItemOptions 
-                        visible={optionsVisibility.sizes}
-                        optionsList={drinkData.sizes} 
-                        optionsProperty="sizes"
-                        optionName="size"
-                        priceLabel="Price (&euro;)"
-                        btnLabel="+1 size"
-                        onSelect={cbToggleVisibility} 
-                        onChange={cbOptionDataChanged} 
-                        onAdd={cbAddOption} 
-                        onRemove={cbRemoveOption}
-                    />
-                    <Button onClick={cbButtonSubmit} type="button" text={btnText} />
-                </form>
-            </div>
-        </>
-    )
+    return <ModalWindow onClose={cbCloseModal} visible={visible} >
+        <form className={styles["add-item-form"]} >
+            <InputMenuItemData 
+                itemData={drinkData}
+                heading="Drink data"
+                categories={defaults.categories}
+                onChange={cbDrinkDataChanged} 
+            />
+            <InputMenuItemOptions 
+                visible={optionsVisibility.sizes}
+                optionsList={drinkData.sizes} 
+                optionsProperty="sizes"
+                optionName="size"
+                priceLabel="Price (&euro;)"
+                btnLabel="+1 size"
+                onSelect={cbToggleVisibility} 
+                onChange={cbOptionDataChanged} 
+                onAdd={cbAddOption} 
+                onRemove={cbRemoveOption}
+            />
+            <Button onClick={cbButtonSubmit} type="button" text={btnText} />
+        </form>
+    </ModalWindow>
 }
 
 export default ManageDrink_Modal

@@ -1,10 +1,8 @@
 import React from "react";
+import { Unimplemented } from "components/generic.js";
 
 const CashierSection = () => {
-    return <div>
-        <h2>Cashier section</h2>
-        <h3>Not implemented...</h3>
-    </div>
+    return <Unimplemented title="Cashier section" />
 }
 
 export default CashierSection;

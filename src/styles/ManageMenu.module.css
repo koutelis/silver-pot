@@ -1,6 +1,14 @@
+/*****************/
+/* ManageMenu.js */
+/*****************/
+
 .master-container {
     background-color: var(--main-color);
     border-radius: var(--border-radius-medium);
+}
+
+.top-panel h1 {
+    color: var(--main-txt-color__bright);
 }
 
 .ddl--menu-item-type {
@@ -26,9 +34,10 @@
     font-size: 1.2rem;
 }
 
-.top-panel h1 {
-    color: var(--main-txt-color__bright);
-}
+/*******************/
+/* ManageFoods.js  */
+/* ManageDrinks.js */
+/*******************/
 
 .card-container {
     align-items: center;
@@ -56,14 +65,18 @@
     justify-self: flex-end;
 }
 
-.item-list-container,
-.item-list-container2 {
+/********************/
+/* MenuItemsList.js */
+/********************/
+
+.item-list-container {
+    border: 1px solid black;
+    border-radius: var(--border-radius-small);
     margin-top: 7px;
     padding: 6px;
 }
 
-.item-list-container > h3,
-.item-list-container2 > h3 {
+.item-list-container > h3 {
     justify-self: center;
     color: var(--main-txt-color__dark);
     padding: 6px 0;
@@ -71,9 +84,9 @@
     text-transform: uppercase;
 }
 
-.item-list-container {
-    border: 1px solid black;
-    border-radius: var(--border-radius-small);
+.item-list-container__empty {
+    border: none;
+    border-radius: none;
 }
 
 .item-list {
@@ -81,10 +94,15 @@
     overflow-y: auto;
 }
 
+/**************************/
+/* ManageMenu/MenuItem.js */
+/* CreateMenu/MenuItem.js */
+/**************************/
+
 .menu-item {
     background-color: var(--main-bg-color__bright);
     border-radius: 4px;
-    box-shadow: 0 2px 8px var(--box-shadow-color);
+    box-shadow: 0 2px 8px var(--box-shadow-color__dark);
     margin: 0.2rem 0;
     padding: 0.2rem;
     position: relative;
@@ -139,6 +157,9 @@
     fill: var(--attentive-color__focus);
     stroke: var(--attentive-color__focus);
 }
+
+/* RESPONSIVENESS */
+/******************/
 
 @media (max-width: 768px) {
     .menu-item {

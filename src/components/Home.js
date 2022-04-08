@@ -1,11 +1,8 @@
 import React from "react";
-
+import { Unimplemented } from "components/generic.js";
 
 const Home = () => {
-    return <div>
-        <h2>SILVER POT HOME</h2>
-        <h3>Not implemented...</h3>
-    </div>
+    return <Unimplemented title="SILVER POT HOME" />
 }
 
 export default Home;

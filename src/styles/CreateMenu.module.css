@@ -1,3 +1,7 @@
+/*****************/
+/* CreateMenu.js */
+/*****************/
+
 .master-container {
     background-color: var(--main-color);
     border-radius: var(--border-radius-medium);
@@ -38,6 +42,67 @@
     color: var(--attentive-color);
 }
 
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/************************/
+/* PrintableMenu_DnD.js */
+/************************/
+
+.printable {
+    background-color: var(--main-bg-color__bright);
+    background-image: url(assets/printable-bg.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    border: 1px solid var(--main-border-color__bright);
+    box-shadow: var(--box-shadow-size1) var(--box-shadow-color__dark);
+    margin: auto;
+    padding: 8mm;
+    height: 29.7cm;
+    width: 21cm;
+    /* size: A4; */
+}
+
+.printableInside {
+    font-family: 'Handlee', sans-serif;
+    height: 100%;
+    padding-top: 12%;
+    width: 100%;
+}
+
+.printableInside h2 {
+    color: var(--printable-menu__headings);
+    margin: 13px 0;
+    text-align: center;
+}
+
+.printableInside > div {
+    padding: 5px 0;
+}
+
+/************************/
+/* Menu_DnD.js          */
+/* PrintableMenuList.js */
+/************************/
+
+.menu-category-heading {
+    color: var(--printable-menu__headings);
+    text-align: center;
+}
+
+@media print {
+    .printable {
+        border: none;
+        page-break-before: always;
+    }
+}
+
+/************************/
+/* MenuItemAdd_Modal.js */
+/************************/
 
 .modal-form {
     align-items: flex-start;
@@ -70,62 +135,8 @@
     font-size: 1.2rem;
 }
 
-.card {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.printable__controls {
-    align-self: flex-start;
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    justify-content: space-around;
-}
-
-.printable {
-    background-color: var(--main-bg-color__bright);
-    background-image: url(assets/printable-bg.png);
-    background-repeat: no-repeat;
-    background-size: cover;
-    border: 1px solid var(--main-border-color__bright);
-    box-shadow: 5px 5px 5px var(--box-shadow-color);
-    margin: auto;
-    padding: 8mm;
-    height: 29.7cm;
-    width: 21cm;
-    /* size: A4; */
-}
-
-.printableInside {
-    font-family: 'Handlee', sans-serif;
-    height: 100%;
-    padding-top: 12%;
-    width: 100%;
-}
-
-.printableInside h2 {
-    color: var(--printable-menu__headings);
-    margin: 13px 0;
-    text-align: center;
-}
-
-.printableInside > div {
-    padding: 5px 0;
-}
-
-.menu-category-heading {
-    color: var(--printable-menu__headings);
-    text-align: center;
-}
-
-@media print {
-    .printable {
-        border: none;
-        page-break-before: always;
-    }
-}
+/* RESPONSIVENESS */
+/******************/
 
 @media (max-width: 768px) {
     .top-panel {
@@ -147,9 +158,5 @@
 @media (max-width: 360px) {
     .btn--toggle-view {
         font-size: 0.85rem;
-    }
-
-    .printable__controls input {
-        padding: 0.3rem 1rem;
     }
 }

@@ -1,3 +1,7 @@
+/**********/
+/* Button */
+/**********/
+
 .btn {
     background-color: var(--main-color);
     border: none;
@@ -23,18 +27,25 @@
     margin-right: 1rem;
 }
 
+/********/
+/* Card */
+/********/
+
 .card {
     background-color: var(--main-bg-color__bright);
     border-radius: 14px;
-    box-shadow: 5px 5px 8px var(--box-shadow-color);
+    box-shadow: var(--box-shadow-size2) var(--box-shadow-color__dark);
     padding: 1rem;
 }
 
-.card h2,
-.title h1 {
+.card h2 {
     text-align: center;
     text-transform: uppercase;
 }
+
+/****************/
+/* DropDownList */
+/****************/
 
 .dropdownlist select {
     border: 1px solid var(--main-border-color__bright);
@@ -43,6 +54,10 @@
     padding: 0.3rem 1rem;
     transition: all 0.2s;
 }
+
+/*********/
+/* Input */
+/*********/
 
 .input input {
     border: 1px solid var(--main-border-color__bright);
@@ -63,10 +78,26 @@
     outline: none;
 }
 
+/***************/
+/* ModalWindow */
+/***************/
+
+.overlay {
+    backdrop-filter: blur(4px);
+    background-color: var(--overlay-bg-color);
+    left: 0;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    transition: all 0.5s;
+    width: 100%;
+    z-index: 10;
+}
+
 .modal-window {
     background-color: var(--main-bg-color__bright);
     border-radius: 9px;
-    box-shadow: 0 4rem 6rem var(--box-shadow-color);
+    box-shadow: var(--box-shadow-size1) var(--box-shadow-color__bright);
     left: 50%;
     max-height: 70%;
     overflow-y: auto;
@@ -111,14 +142,11 @@
     stroke: var(--attentive-color__focus);
 }
 
-.overlay {
-    backdrop-filter: blur(4px);
-    background-color: var(--overlay-bg-color);
-    left: 0;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    transition: all 0.5s;
-    width: 100%;
-    z-index: 10;
+/*********/
+/* Title */
+/*********/
+
+.title h1 {
+    text-align: center;
+    text-transform: uppercase;
 }

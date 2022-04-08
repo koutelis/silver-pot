@@ -26,7 +26,7 @@ const InputMenuItemData = (props) => {
             <h3 className={styles["inputs__heading"]} onClick={(e) => setDisplayData(!displayData)}>{heading}</h3>
             <div className={`${styles["inputs__grid-container"]} ${mask}`}>
 
-                <div className={`${styles["menu-item"]} ${styles["box-a"]}`}>
+                <div className={styles["input-field"]}>
                     <label htmlFor="category">Category</label>
                     <select value={itemData.category} name="category" onChange={cbInputChanged}>
                         {Object
@@ -35,17 +35,17 @@ const InputMenuItemData = (props) => {
                     </select>
                 </div>
 
-                <div className={`${styles["menu-item"]} ${styles["box-b"]}`}>
+                <div className={styles["input-field"]}>
                     <label htmlFor="title">Title</label>
                     <input required value={itemData.title} name="title" type="text" placeholder="menu item's title" onChange={cbInputChanged} />
                 </div>
 
-                <div className={`${styles["menu-item"]} ${styles["box-c"]}`}>
+                <div className={styles["input-field"]}>
                     <label htmlFor="description">Description</label>
                     <textarea value={itemData.description} name="description" type="text" placeholder="extra information" onChange={cbInputChanged} />
                 </div>
 
-                <div className={`${styles["menu-item"]} ${styles["box-d"]}`}>
+                <div className={styles["input-field"]}>
                     <label htmlFor="basePrice">Price</label>
                     <input required value={itemData.basePrice} name="basePrice" type="number" min="1" max="20" step="0.5" onChange={cbInputChanged} />
                 </div>

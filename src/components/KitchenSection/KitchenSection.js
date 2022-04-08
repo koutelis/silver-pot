@@ -1,10 +1,8 @@
 import React from "react";
+import { Unimplemented } from "components/generic.js";
 
 const KitchenSection = () => {
-    return <div>
-        <h2>Kitchen staff section</h2>
-        <h3>Not implemented...</h3>
-    </div>
+    return <Unimplemented title="Kitchen staff section" />
 }
 
 export default KitchenSection;

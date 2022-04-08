@@ -32,7 +32,7 @@ const InputMenuItemOptionsBox = (props) => {
         });
     }
 
-    return <div className={styles["menu-item"]}>
+    return <div className={styles["input-field"]}>
         <fieldset>
             <legend>{label}</legend>
             <div>

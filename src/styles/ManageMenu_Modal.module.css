@@ -1,91 +1,7 @@
-.add-item-window {
-    background-color: var(--main-bg-color__bright);
-    border-radius: 9px;
-    box-shadow: 0 4rem 6rem var(--box-shadow-color);
-    left: 50%;
-    max-height: 70%;
-    overflow-y: auto;
-    padding: 1rem 1rem;
-    position: fixed;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    transition: all 0.5s;
-    width: 50%;
-    z-index: 100;
-}
-
-.add-item-window:hover .btn--close-modal,
-.menu-item:hover .btn--del-option {
-    visibility: visible;
-}
-
-.btn--close-modal,
-.btn--del-option {
-    background: none;
-    border: none;
-    color: var(--attentive-color);
-    cursor: pointer;
-    font-family: inherit;
-    font-size: 2.5rem;
-    position: absolute;
-    right: 4px;
-    top: 0;
-    visibility: hidden;
-}
-
-.btn--close-modal:hover,
-.btn--del-option:hover {
-    color: var(--attentive-color__focus);
-    font-weight: 600;
-}
-
-.btn--close-modal path,
-.btn--del-option path {
-    fill: var(--attentive-color);
-    stroke: var(--attentive-color);
-}
-
-.btn--close-modal:hover path,
-.btn--del-option:hover path {
-    fill: var(--attentive-color__focus);
-    stroke: var(--attentive-color__focus);
-}
-
-.btn--add-option {
-    background-color: var(--main-bg-color__bright);
-    border: 1px solid var(--main-border-color__dark);
-    border-radius: 0;
-    color: var(--main-txt-color__dark);
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: 2rem;
-    padding: 0.6rem 0;
-    text-transform: uppercase;
-    transition: all 0.2s;
-    width: 100%;
-}
-
-.btn--add-option:hover {
-    border-color: var(--main-color);
-    color: var(--main-color);
-    transform: none;
-    transition: transform .3s;
-}
-
-.overlay {
-    backdrop-filter: blur(4px);
-    background-color: var(--overlay-bg-color);
-    left: 0;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    transition: all 0.5s;
-    width: 100%;
-    z-index: 10;
-}
-
-
+/************************/
+/* ManageFood_Modal.js  */
+/* ManageDrink_Modal.js */
+/************************/
 
 .add-item-form {
     align-items: center;
@@ -93,31 +9,10 @@
     flex-direction: column;
 }
 
-.inputs__grid-container {
-    align-content: center;
-    display: grid;
-    grid-template-columns: repeat(4, [col] 1fr);
-    grid-gap: 10px;
-    justify-content: center;
-}
-
-.box-a {
-    grid-column: 1 / span 2;
-}
-
-.box-b {
-    grid-column: 3 / span 2;
-}
-
-.box-c {
-    grid-column: 1 / span 3;
-}
-
-.box-d {
-    grid-column: 4 / span 1;
-}
-
-
+/***************************/
+/* InputMenuItemData.js    */
+/* InputMenuItemOptions.js */
+/***************************/
 
 .inputs__column {
     align-items: center;
@@ -142,19 +37,47 @@ h3.inputs__heading {
     text-transform: uppercase;
 }
 
-.menu-item {
+.inputs__grid-container {
+    align-content: center;
+    display: grid;
+    grid-template-columns: repeat(4, [col] 1fr);
+    grid-gap: 10px;
+    justify-content: center;
+}
+
+/************************/
+/* InputMenuItemData.js */
+/************************/
+
+.inputs__grid-container > div:first-child {
+    grid-column: 1 / span 2;
+}
+
+.inputs__grid-container > div:nth-child(2) {
+    grid-column: 3 / span 2;
+}
+
+.inputs__grid-container > div:nth-child(3) {
+    grid-column: 1 / span 3;
+}
+
+.inputs__grid-container > div:last-child {
+    grid-column: 4 / span 1;
+}
+
+.input-field {
     display: flex;
     flex-direction: column;
     padding: 10px;
     position: relative;
 }
 
-.menu-item fieldset {
+.input-field fieldset {
     border: 1px solid var(--main-border-color__dark);
     padding: 1.5rem 2rem;
 }
 
-.menu-item legend {
+.input-field legend {
     background-color: var(--main-bg-color__bright);
     font-size: 1.2rem;
     font-weight: 700;
@@ -166,15 +89,15 @@ h3.inputs__heading {
     transform: rotate(0deg);
 }
 
-.menu-item label {
+.input-field label {
     color: inherit;
     font-size: 1rem;
     font-weight: 600;
 }
 
-.menu-item input,
-.menu-item textarea,
-.menu-item select {
+.input-field input,
+.input-field textarea,
+.input-field select {
     border: 1px solid var(--main-border-color__bright);
     border-radius: 0.5rem;
     font-size: 1rem;
@@ -182,21 +105,86 @@ h3.inputs__heading {
     transition: all 0.2s;
 }
 
-.menu-item textarea {
+.input-field textarea {
     border-radius: 0;
 }
 
-.menu-item input::placeholder,
-.menu-item textarea::placeholder {
+.input-field input::placeholder,
+.input-field textarea::placeholder {
     color: var(--main-txt-color__pale);
 }
 
-.menu-item input:focus,
-.menu-item textarea:focus {
+.input-field input:focus,
+.input-field textarea:focus {
     background-color: var(--main-bg-color__focus);
     border: 1px solid var(--main-color);
     outline: none;
 }
+
+/***************************/
+/* InputMenuItemOptions.js */
+/***************************/
+
+.btn--add-option {
+    background-color: var(--main-bg-color__bright);
+    border: 1px solid var(--main-border-color__dark);
+    border-radius: 0;
+    color: var(--main-txt-color__dark);
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    padding: 0.6rem 0;
+    text-transform: uppercase;
+    transition: all 0.2s;
+    width: 100%;
+}
+
+.btn--add-option:hover {
+    border-color: var(--main-color);
+    color: var(--main-color);
+    transform: none;
+    transition: transform .3s;
+}
+
+/******************************/
+/* InputMenuItemOptionsBox.js */
+/******************************/
+
+.input-field:hover .btn--del-option {
+    visibility: visible;
+}
+
+.btn--del-option {
+    background: none;
+    border: none;
+    color: var(--attentive-color);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 2.5rem;
+    position: absolute;
+    right: 4px;
+    top: 0;
+    visibility: hidden;
+}
+
+.btn--del-option:hover {
+    color: var(--attentive-color__focus);
+    font-weight: 600;
+}
+
+.btn--del-option path {
+    fill: var(--attentive-color);
+    stroke: var(--attentive-color);
+}
+
+.btn--del-option:hover path {
+    fill: var(--attentive-color__focus);
+    stroke: var(--attentive-color__focus);
+}
+
+/* RESPONSIVENESS */
+/******************/
 
 @media (max-width: 360px) {
     .inputs__grid-container {
@@ -212,12 +200,12 @@ h3.inputs__heading {
 }
 
 @media (min-width: 1024px) {
-    .menu-item fieldset {
+    .input-field fieldset {
         display: flex;
         flex-direction: row;
     }
     
-    .menu-item div {
+    .input-field div {
         align-items: center;
         display: flex;
         flex-direction: row;

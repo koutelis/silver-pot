@@ -100,4 +100,16 @@ const Title = (props) => {
     </div>
 }
 
-export { Button, Card, DropDownList, Input, ModalWindow, Title };
+/**
+ * Temporary component designating a pending implementation.
+ * @param {Object} props 
+ * @returns {JSX}
+ */
+const Unimplemented = (props) => {
+    return <div style={{color: "white", textAlign: "center"}}>
+        <h2 style={{color: "var(--attentive-color__pale)"}}>{props.title}</h2>
+        <h3>Not implemented yet...</h3>
+    </div>
+}
+
+export { Button, Card, DropDownList, Input, ModalWindow, Title, Unimplemented };

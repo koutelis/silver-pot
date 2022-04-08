@@ -4,23 +4,28 @@
 :root {
     --attentive-color: rgb(255, 72, 0);
     --attentive-color__focus: rgb(231, 35, 0);
+    --attentive-color__pale: rgb(151, 79, 50);
     --border-radius-small: 8px;
     --border-radius-medium: 20px;
-    --box-shadow-color: rgba(0, 0, 0, 0.25);
+    --box-shadow-size1: 5px 5px 5px;
+    --box-shadow-size1: 5px 5px 8px;
+    --box-shadow-color__dark: rgba(0, 0, 0, 0.25);
+    --box-shadow-color__bright: rgba(255, 72, 0, 0.5);
     --ham-bars-size: 2.6rem;
     --main-bg-color__bright: white;
     --main-bg-color__dark: black;
     --main-bg-color__focus: #f9f5f3;
-    --main-body-color__dark: #3f3f3f;
+    --main-body-color__dark: black;
     --main-border-color__bright: #ddd;
     --main-border-color__pale: #d3c7c3;
     --main-border-color__dark: black;
-    --main-color: rgb(40, 112, 88);
+    --main-color: rgb(34, 82, 66);
     --main-color__pale: rgb(204, 241, 225);
     --main-txt-color__bright: white;
     --main-txt-color__dark: black;
     --main-txt-color__pale: #d3c7c3;
-    --nav-bg-color: #ddd;
+    --nav-bg-color: rgb(27, 63, 51);
+    --nav-bg-color-portrait: rgb(44, 44, 44);
     --overlay-bg-color: rgba(0, 0, 0, 0.8);
     --printable-menu__headings: rgb(0, 32, 0);
 }
@@ -36,18 +41,50 @@ html {
 }
 
 body {
+    background-color: transparent;
+    background-image: url(../assets/bg1.jpg);
+    background-repeat: no-repeat;
+    background-size:auto;
     margin: auto;
-    background-color: var(--main-body-color__dark);
     width: 60%;
 }
 
-main {
+#root {
     background-color: var(--main-body-color__dark);
+    border-radius: var(--border-radius-small);
+}
+
+main {
+    background-color: transparent;
+    margin: auto;
+    width: 99%;
+}
+
+footer {
+    align-items: center;
+    align-content: center;
+    background-color: var(--nav-bg-color);
+    background: linear-gradient(
+        180deg, 
+        var(--main-body-color__dark) 10%,
+        var(--nav-bg-color) 100%
+    );
+    border-radius: 0 0 var(--border-radius-small) var(--border-radius-small);
+    color: var(--main-txt-color__pale);
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    min-height: 4vh;
+    justify-content: center;
+    margin-top: 10px;
 }
 
 .hidden {
     display: none !important;
 }
+
+/* RESPONSIVENESS */
+/******************/
 
 @media screen and (max-width: 1200px) {
     body {
