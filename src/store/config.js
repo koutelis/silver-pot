@@ -1,16 +1,14 @@
-// API endpoints
-
 const ENDPOINTS_PROD = {
     drinks: "https://silver-pot-srv.herokuapp.com/api/drinks/",
     foods: "https://silver-pot-srv.herokuapp.com/api/foods/",
     menus: "https://silver-pot-srv.herokuapp.com/api/restaurantmenus/"
-}
+};
 
 const ENDPOINTS_DEV = {
     drinks: "http://localhost:3001/api/drinks/",
     foods: "http://localhost:3001/api/foods/",
     menus: "http://localhost:3001/api/restaurantmenus/"
-}
+};
 
 const ENDPOINTS = process.env.REACT_APP_IS_DEV_MODE === "true" ? ENDPOINTS_DEV : ENDPOINTS_PROD;
 
@@ -35,7 +33,7 @@ const FOODS = {
         soup: "SOUPS",
         dessert: "DESSERTS"
     }
-}
+};
 
 const DRINKS = {
     drinkData: {
@@ -53,6 +51,17 @@ const DRINKS = {
         juice: "JUICE",
         smoothie: "SMOOTHIE"
     }
-}
+};
 
-export { ENDPOINTS, FOODS, DRINKS }
+const TABLES = {
+    1: "TABLE 01",
+    2: "TABLE 02",
+    3: "TABLE 03",
+    4: "TABLE 04",
+    5: "TABLE 05",
+    6: "TABLE 06",
+    7: "TABLE 07",
+    8: "TABLE 08"
+};
+
+export { ENDPOINTS, FOODS, DRINKS, TABLES };

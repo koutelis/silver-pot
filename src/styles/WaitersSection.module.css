@@ -1,0 +1,48 @@
+/*********************/
+/* WaitersSection.js */
+/*********************/
+
+.master-container {
+    background-color: var(--main-color);
+    border-radius: var(--border-radius-medium);
+}
+
+.top-panel {
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin: 10px;
+}
+
+.title h1 {
+    color: var(--main-txt-color__bright);
+    margin-bottom: 10px;
+}
+
+.tables {
+    align-self: center;
+    color: var(--main-txt-color__bright);
+}
+
+.top-panel-btns {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.btn--open-modal {
+    background-color: var(--main-txt-color__bright);
+    border-radius: var(--border-radius-small);
+    color: var(--attentive-color);
+    font-size: 1rem;
+    padding: 0.3rem 1.2rem;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}

@@ -111,13 +111,6 @@
     text-align: center;
 }
 
-@media print {
-    .printable {
-        border: none;
-        page-break-before: always;
-    }
-}
-
 /************************/
 /* MenuItemAdd_Modal.js */
 /************************/
@@ -180,5 +173,12 @@
 
     .printable-ctrls {
         flex-direction: column-reverse;
+    }
+}
+
+@media print {
+    .printable {
+        border: none;
+        page-break-before: always;
     }
 }

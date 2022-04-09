@@ -114,13 +114,21 @@ const ModalManageMenuItem = (props) => {
             return;
         }
 
-        // filter optional data
+        // filter optional data and set empty prices to zero
         foodData.addons = Object
             .values(foodData.addons)
-            .filter(adn => Boolean(adn) && Boolean(adn.name));
+            .filter(adn => Boolean(adn) && Boolean(adn.name))
+            .map(adn => {
+                if (!adn.price) adn.price = "0";
+                return adn;
+            });
         foodData.removables = Object
             .values(foodData.removables)
-            .filter((rmv) => Boolean(rmv) && Boolean(rmv.name));
+            .filter(rmv => Boolean(rmv) && Boolean(rmv.name))
+            .map(rmv => {
+                if (!rmv.price) rmv.price = "0";
+                return rmv;
+            });
 
         submitButtonHandler(selectedFoodId, foodData);
         resetFormData();

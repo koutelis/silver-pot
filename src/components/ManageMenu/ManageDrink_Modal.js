@@ -96,14 +96,23 @@ const ManageDrink_Modal = (props) => {
      */
     const cbButtonSubmit = (e) => {
         e.preventDefault();
-        const isValid = Boolean(drinkData.title) && Boolean(drinkData.basePrice);
+        const isValid = Boolean(drinkData.title);
         if (!isValid) {
             alert("missing content");
             return;
         }
+        
+        // filter optional data and set empty prices to zero
+        drinkData.sizes = Object
+            .values(drinkData.sizes)
+            .filter(size => Boolean(size) && Boolean(size.name))
+            .map(size => {
+                if (!size.price) size.price = "0";
+                return size;
+            });
 
         // override base price if sizes exist
-        if (drinkData.sizes.length) drinkData.basePrice = 0;
+        if (drinkData.sizes.length || !drinkData.basePrice) drinkData.basePrice = "0";
 
         submitButtonHandler(selectedDrinkId, drinkData);
         resetFormData();

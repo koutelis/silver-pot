@@ -4,7 +4,7 @@ import InputMenuOptionsBox from "components/ManageMenu/InputMenuItemOptionsBox.j
 import styles from "styles/ManageMenu_Modal.module.css"
 
 /**
- * SUBCONTAINER component for ModalAddFood CONTAINER form
+ * SUBCONTAINER component for ModalAddFood and ModalAddDrink forms
  * @param {Object} props - {visible: Boolean, optionsList: Array, optionsProperty: String, optionName: String, priceLabel: String, btnLabel: String, onSelect: function, onChange: function, onAdd: function, onRemove: function}
  * @returns {JSX}
  */
