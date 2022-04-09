@@ -1,7 +1,7 @@
 import React from "react";
 
 /**
- * Component of PrintableMenu.js
+ * COMPONENT of PrintableMenu.js
  * Restaurant menu item for the printable menu.
  * @param {Object} props - { itemData: {_id: String, basePrice: Number, title: String, description: String} }
  * @returns {JSX}

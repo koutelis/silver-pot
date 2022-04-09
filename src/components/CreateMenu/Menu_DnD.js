@@ -1,11 +1,11 @@
 import React from "react";
+import { FOODS as defaults } from "store/config.js";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { FOODS as defaults } from "store/defaults.js";
 import MenuItem from "components/CreateMenu/MenuItem.js";
 import styles from "styles/CreateMenu.module.css";
 
 /**
- * Component of CreateMenu.js
+ * COMPONENT of CreateMenu.js
  * DropDownList containing all available menu options as stored in the DB.
  * @param {Object} props - { itemList: Object, onDragDrop: function }
  * @returns {JSX}

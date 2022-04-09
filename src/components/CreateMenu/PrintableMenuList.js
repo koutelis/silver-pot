@@ -1,5 +1,5 @@
 import React from "react";
-import { FOODS as defaults } from "store/defaults.js";
+import { FOODS as defaults } from "store/config.js";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import PrintableMenuItem from "components/CreateMenu/PrintableMenuItem.js"
 import styles from "styles/CreateMenu.module.css";

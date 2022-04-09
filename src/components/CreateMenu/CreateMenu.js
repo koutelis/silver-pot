@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
-import { foodRequests, menuRequests } from "store/http-requests.js";
+import { foodsRequests, restaurantmenusRequests } from "store/http-requests.js";
 import { Button, Card, Input, ModalWindow, Title } from "components/generic.js";
+import { tomorrowAsString } from "store/utils.js";
 import { useReactToPrint } from "react-to-print";
 import MenuItemAdd_Modal from "components/CreateMenu/MenuItemAdd_Modal.js";
 import PrintableMenu_DnD from "components/CreateMenu/PrintableMenu_DnD.js"
@@ -14,24 +15,28 @@ import styles from "styles/CreateMenu.module.css";
  */
 const CreateMenu = () => {
     const [items, setItems] = useState({});
+    const [selectedDate, setSelectedDate] = useState(tomorrowAsString());
     const [modalIsVisible, setModalIsVisible] = useState(false);
     const [isPrintView, setIsPrintView] = useState(false);
     const [fontSize, setFontSize] = useState(14);
 
     // runs only first time
-    useEffect(() => {
+    useEffect(async () => {
         // load the template menu
-        menuRequests
-            .getTemplate()
-            .then(response => {
-                const { fontSize: fetchedFontSize, items: fetchedItems } = response;
-                if (fetchedFontSize) setFontSize(fetchedFontSize);
-                if (fetchedItems) setItems(fetchedItems);
-            });
+        const response = await restaurantmenusRequests.get("template");
+        const { fontSize: fetchedFontSize, items: fetchedItems } = response;
+        if (fetchedFontSize) setFontSize(fetchedFontSize);
+        if (fetchedItems) setItems(fetchedItems);
         
         // find out window width to display the appropriate view
         setIsPrintView(window.innerWidth > 768);
     }, []);
+
+    /**
+     * CHANGE handler for the selected date.
+     * @param {Event} e 
+     */
+    const cbDateChange = (e) => setSelectedDate(e.target.value);
 
     /**
      * DRAG & DROP event handler for the MenuList
@@ -53,25 +58,24 @@ const CreateMenu = () => {
      * CHANGE event handler for the DropDownList of available menu items.
      * @param {Event} e 
      */
-    const cbSelectItemAdd = (itemId) => {
+    const cbSelectItemAdd = async (itemId) => {
         if (!itemId) return;
 
-        foodRequests
-            .get(itemId)
-            .then(foodItem => {
-                const exists = items[foodItem.category].some(item => item._id === foodItem._id);
-                if (exists) alert("item already exists");
-                else {
-                    setItems(snapshot => {
-                        const currentCategory = foodItem.category;
-                        const changedCategory = snapshot[currentCategory].concat(foodItem);
-                        return  {
-                            ...snapshot,
-                            [currentCategory]: changedCategory
-                        }
-                    });
-                }
-            });
+        const foodItem = await foodsRequests.get(itemId);
+        const exists = items[foodItem.category].some(item => item._id === foodItem._id);
+        if (exists) {
+            alert("item already exists");
+            return;
+        }
+
+        setItems(snapshot => {
+            const currentCategory = foodItem.category;
+            const changedCategory = snapshot[currentCategory].concat(foodItem);
+            return  {
+                ...snapshot,
+                [currentCategory]: changedCategory
+            }
+        });
         
         setModalIsVisible(false);
     }
@@ -79,43 +83,65 @@ const CreateMenu = () => {
     /**
      * CLICK event handler for the 'Save Template' button.
      */
-    const cbSaveTemplate = () => {
-        menuRequests.saveTemplate({ items, fontSize });
-        alert("menu saved");
+    const cbSaveMenu = async () => {
+        const _id = selectedDate;
+        const data = { date: selectedDate, fontSize, items };
+        await restaurantmenusRequests.put(_id, data);
+        alert("daily menu saved");
+    }
+
+    const cbSaveTemplate = async () => {
+        const _id = "template";
+        const data = { date: null, fontSize, items };
+        await restaurantmenusRequests.put(_id, data);
+        alert("menu saved as template");
     }
 
     // reference to printable component and its print handler
     const printableMenuRef = useRef(null);
     const handlePrint = useReactToPrint({ content: () => printableMenuRef.current });
 
-
     // adjust dynamic buttons
     const printMask = isPrintView ? "" : "hidden";
     const btnSwitchText = `Switch to ${isPrintView ? "Block" : "Print"} view`;
-    const btnPrintClassList = [styles["btn--print-menu"], printMask].join(" ");
+    const btnPrint_ClassList = [styles["btn--print-menu"], printMask].join(" ");
+    const printableCtrls_ClassList = [styles["printable-ctrls"], printMask].join(" ");
 
     return <div className={styles["master-container"]}>
         <div className={styles["top-panel"]} >
-            <Title className={styles["title"]} text="Create Menu" />
+            <Title className={styles["title"]} text="Set Menu of the Day" />
+            <Input 
+                className={styles["date"]} label="Select date" htmlFor="font-size" name="font-size" type="date" 
+                onChange={cbDateChange} value={selectedDate} 
+            />
             <div className={styles["top-panel-btns"]}>
                 <Button className={styles["btn--toggle-view"]} text={btnSwitchText} type="button" onClick={() => setIsPrintView(!isPrintView)} />
                 <Button className={styles["btn--open-modal"]} text="Add Item" onClick={() => setModalIsVisible(true)} />
-                <Button className={styles["btn--save-template"]} text="Save Template" onClick={cbSaveTemplate} />
-                <Button className={btnPrintClassList} text="Print Menu" onClick={handlePrint} />
+                <Button className={styles["btn--save-menu"]} text="Save Menu" onClick={cbSaveMenu} />
+                <Button className={btnPrint_ClassList} text="Print Menu" onClick={handlePrint} />
             </div>
         </div>
         <Card className={styles["card"]}>
-            <Input
-                label="Font size" htmlFor="font-size" name="font-size" type="number" min="8" max="20" step="1"
-                className={printMask} onChange={(e) => setFontSize(e.target.value)} value={fontSize}
-            />
-            <PrintableMenu_DnD visible={isPrintView} itemList={items} onDragDrop={cbHandleDragDrop} fontSize={fontSize} ref={printableMenuRef} />
+            <div className={printableCtrls_ClassList}>
+                <Input
+                    label="Font size" htmlFor="font-size" name="font-size" type="number" min="8" max="20" step="1"
+                    onChange={(e) => setFontSize(e.target.value)} value={fontSize}
+                />
+                <Button className={styles["btn--save-template"]} text="Save Template" onClick={cbSaveTemplate} />
+            </div>
+            <PrintableMenu_DnD 
+                visible={isPrintView}
+                menuDate={selectedDate}
+                itemList={items} 
+                onDragDrop={cbHandleDragDrop} 
+                fontSize={fontSize} 
+                ref={printableMenuRef} />
             <Menu_DnD visible={!isPrintView} itemList={items} onDragDrop={cbHandleDragDrop} />
         </Card>
         <ModalWindow onClose={() => setModalIsVisible(false)} visible={modalIsVisible}>
             <MenuItemAdd_Modal onSelection={cbSelectItemAdd} selectedItems={items} />
         </ModalWindow>
     </div>
-};
+}
 
 export default CreateMenu;

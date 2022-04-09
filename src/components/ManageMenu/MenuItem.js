@@ -3,7 +3,7 @@ import { GrClose } from "react-icons/gr";
 import styles from "styles/ManageMenu.module.css";
 
 /**
- * Component of FoodList.js
+ * COMPONENT of FoodList.js
  * @param {Object} props - {foodData: Object, onClick: function, onDelete: function}
  * @returns 
  */

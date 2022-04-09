@@ -8,10 +8,16 @@
 }
 
 .top-panel {
+    justify-content: center;
     display: flex;
     flex-direction: column;
     gap: 20px;
     margin: 10px;
+}
+
+.date {
+    align-self: center;
+    color: var(--main-txt-color__bright);
 }
 
 .title h1 {
@@ -29,7 +35,7 @@
 
 .btn--toggle-view,
 .btn--open-modal,
-.btn--save-template,
+.btn--save-menu,
 .btn--print-menu {
     background-color: var(--main-txt-color__bright);
     border-radius: var(--border-radius-small);
@@ -46,6 +52,17 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+
+.printable-ctrls {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.btn--save-template {
+    border-radius: var(--border-radius-small);
+    font-size: 0.8rem;
 }
 
 /************************/
@@ -77,6 +94,7 @@
     color: var(--printable-menu__headings);
     margin: 13px 0;
     text-align: center;
+    text-transform: none;
 }
 
 .printableInside > div {
@@ -158,5 +176,9 @@
 @media (max-width: 360px) {
     .btn--toggle-view {
         font-size: 0.85rem;
+    }
+
+    .printable-ctrls {
+        flex-direction: column-reverse;
     }
 }

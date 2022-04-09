@@ -1,4 +1,4 @@
-import { ENDPOINTS } from 'store/defaults.js';
+import { ENDPOINTS } from 'store/config.js';
 
 const apiDrinksUrl = ENDPOINTS.drinks;
 const apiFoodsUrl = ENDPOINTS.foods;
@@ -9,13 +9,12 @@ const apiMenusUrl = ENDPOINTS.menus;
 /**
  * Generic GET request for all items provided from the specified endpoint.
  * @param {String} apiUrl - API endpoint
- * @returns {Array[Object]} - Array of drink objects
+ * @returns {Promise} - Array of drink objects
  */
  async function getItems(apiUrl) {
     try {
         const response = await fetch(apiUrl);
-        const result = await response.json();
-        return result;
+        return response.json();
     } catch (err) {
         console.error(err);
         return null;
@@ -26,16 +25,16 @@ const apiMenusUrl = ENDPOINTS.menus;
  * Generic GET request for single item as found by ID in the specified endpoint.
  * @param {String} apiUrl - API endpoint
  * @param {String} _id - mongoDB ObjectID
- * @returns {Object} - menu item object
+ * @returns {Promise} - menu item object
  */
 async function getItem(apiUrl, _id) {
     try {
-        const response = await fetch(`${apiUrl}${_id}`);
-        const result = await response.json();
-        if (!result) throw Error("A single item should have been returned, given a valid _id");
-        return result;
+        const response = await fetch(apiUrl + _id);
+        if (!response) throw Error("A single item should have been returned, given a valid _id");
+        return response.json();
     } catch (err) {
         console.error(err);
+        return null;
     }
 }
 
@@ -43,9 +42,9 @@ async function getItem(apiUrl, _id) {
  * Generic POST request for single item to the specified endpoint.
  * @param {String} apiUrl - API endpoint
  * @param {Object} data - item
- * @returns {Object} - response Object
+ * @returns {Promise} - response Object
  */
- async function postItem(apiUrl, data) {
+ function postItem(apiUrl, data) {
     const settings = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -53,24 +52,7 @@ async function getItem(apiUrl, _id) {
     };
 
     try {
-        const response = await fetch(apiUrl, settings);
-        const result = await response.json();
-        return result;
-    } catch (err) {
-        console.error(err);
-    }
-}
-
-/**
- * Generic DELETE request for single item as found by ID in the specified endpoint.
- * @param {String} _id - mongoDB ObjectID
- * @param {String} apiUrl - API endpoint
- * @returns {Object} - response Object
- */
- async function deleteItem(apiUrl, _id) {
-    try {
-        const response = await fetch(`${apiUrl}${_id}`, { method: "DELETE" });
-        return response;
+        return fetch(apiUrl, settings);
     } catch (err) {
         console.error(err);
     }
@@ -81,9 +63,9 @@ async function getItem(apiUrl, _id) {
  * @param {String} apiUrl - API endpoint
  * @param {String} _id - mongoDB ObjectID
  * @param {Object} data - food Object
- * @returns {Boolean} - whether successfully edited or not
+ * @returns {Promise} - response Object
  */
- async function putItem(apiUrl, _id, data) {
+ function putItem(apiUrl, _id, data) {
     const settings = {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -91,9 +73,21 @@ async function getItem(apiUrl, _id) {
     };
 
     try {
-        const response = await fetch(`${apiUrl}${_id}`, settings);
-        const result = await response.json();
-        return result;
+        return fetch(apiUrl + _id, settings);
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+/**
+ * Generic DELETE request for single item as found by ID in the specified endpoint.
+ * @param {String} _id - mongoDB ObjectID
+ * @param {String} apiUrl - API endpoint
+ * @returns {Promise} - response Object
+ */
+ function deleteItem(apiUrl, _id) {
+    try {
+        return fetch(apiUrl + _id, { method: "DELETE" });
     } catch (err) {
         console.error(err);
     }
@@ -101,25 +95,25 @@ async function getItem(apiUrl, _id) {
 
 //#endregion
 
-const foodRequests = {
+const foodsRequests = {
     getAll: () => getItems(apiFoodsUrl),
     get: (_id) => getItem(apiFoodsUrl, _id),
     post: (data) => postItem(apiFoodsUrl, data),
-    delete: (_id) => deleteItem(apiFoodsUrl, _id),
-    put: (_id, data) => putItem(apiFoodsUrl, _id, data)
+    put: (_id, data) => putItem(apiFoodsUrl, _id, data),
+    delete: (_id) => deleteItem(apiFoodsUrl, _id)
 }
 
-const drinkRequests = {
+const drinksRequests = {
     getAll: () => getItems(apiDrinksUrl),
     get: (_id) => getItem(apiDrinksUrl, _id),
     post: (data) => postItem(apiDrinksUrl, data),
-    delete: (_id) => deleteItem(apiDrinksUrl, _id),
-    put: (_id, data) => putItem(apiDrinksUrl, _id, data)
+    put: (_id, data) => putItem(apiDrinksUrl, _id, data),
+    delete: (_id) => deleteItem(apiDrinksUrl, _id)
 }
 
-const menuRequests = {
-    getTemplate: () => getItem(apiMenusUrl, "template"),
-    saveTemplate: (data) => postItem(apiMenusUrl, data)
+const restaurantmenusRequests = {
+    get: (_id) => getItem(apiMenusUrl, _id),
+    put: (_id, data) => putItem(apiMenusUrl, _id, data)
 }
 
-export { foodRequests, drinkRequests, menuRequests };
+export { foodsRequests, drinksRequests, restaurantmenusRequests };

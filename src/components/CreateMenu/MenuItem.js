@@ -2,7 +2,7 @@ import React from "react";
 import styles from "styles/ManageMenu.module.css";
 
 /**
- * Component of MenuList_DnD.js
+ * COMPONENT of MenuList_DnD.js
  * @param {Object} props - { itemData: Object }
  * @returns {JSX}
  */

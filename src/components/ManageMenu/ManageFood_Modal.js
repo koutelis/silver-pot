@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { FOODS as defaults } from "store/defaults.js";
-import { foodRequests } from "store/http-requests.js";
+import { FOODS as defaults } from "store/config.js";
+import { foodsRequests } from "store/http-requests.js";
 import { cloneObject } from "store/utils.js";
 import { Button, ModalWindow } from "components/generic.js";
 import InputMenuItemData from "components/ManageMenu/InputMenuItemData.js";
@@ -20,7 +20,7 @@ const ModalManageMenuItem = (props) => {
 
     // reset form inputs and preselect category according to category filter (from ManageFoods.js)
     useEffect(() => {
-        if (selectedFoodId) foodRequests.get(selectedFoodId).then(data => fillFormData(data));
+        if (selectedFoodId) foodsRequests.get(selectedFoodId).then(data => fillFormData(data));
         else resetFormData();
     }, [selectedFoodId, selectedCategory])
 

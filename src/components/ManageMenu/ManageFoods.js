@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { foodRequests } from "store/http-requests.js";
-import { FOODS as defaults } from "store/defaults.js";
+import { foodsRequests } from "store/http-requests.js";
+import { FOODS as defaults } from "store/config.js";
 import { Button, Card, DropDownList } from "components/generic.js";
 import ManageFood_Modal from "components/ManageMenu/ManageFood_Modal.js";
 import MenuItemsList from "components/ManageMenu/MenuItemsList.js";
@@ -20,10 +20,9 @@ const ManageFoods = () => {
     /**
      * Fetch available food options from DB.
      */
-    const loadFoods = () => {
-        foodRequests
-            .getAll()
-            .then(fetchedFoods => setFoods( fetchedFoods ?? [] ));
+    const loadFoods = async () => {
+        const fetchedFoods = await foodsRequests.getAll();
+        setFoods( fetchedFoods ?? [] );
     }
 
     // runs only the first time and loads all food options
@@ -45,7 +44,7 @@ const ManageFoods = () => {
      */
     const cbModalSubmit = (foodId, foodData) => {
         // check modal mode (Add/Edit) and dispatch accordingly
-        const callback = foodId ? foodRequests.put(foodId, foodData) : foodRequests.post(foodData);
+        const callback = foodId ? foodsRequests.put(foodId, foodData) : foodsRequests.post(foodData);
         callback.then(loadFoods);
         cbModalClose();
     };
@@ -57,10 +56,10 @@ const ManageFoods = () => {
      */
     const cbDeleteFood = async (id) => {
         setModalIsVisible(false);
-        const selectedFood = await foodRequests.get(id);
+        const selectedFood = await foodsRequests.get(id);
         const proceed = window.confirm(`Are you sure you want to delete "${selectedFood.title}"?`);
         if (proceed) {
-            const response = await foodRequests.delete(id);
+            const response = await foodsRequests.delete(id);
             if (response.status === 204) loadFoods();
         }
     }

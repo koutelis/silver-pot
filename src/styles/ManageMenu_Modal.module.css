@@ -192,13 +192,6 @@ h3.inputs__heading {
     }
 }
 
-@media (max-width: 768px) {
-    .add-item-window {
-        max-height: 80%;
-        width: 100%;
-    }
-}
-
 @media (min-width: 1024px) {
     .input-field fieldset {
         display: flex;

@@ -41,6 +41,7 @@ html {
 }
 
 body {
+    background-attachment: fixed;
     background-color: transparent;
     background-image: url(../assets/bg1.jpg);
     background-repeat: no-repeat;

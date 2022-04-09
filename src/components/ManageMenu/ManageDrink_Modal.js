@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { DRINKS as defaults } from "store/defaults.js";
-import { drinkRequests } from "store/http-requests.js";
+import { DRINKS as defaults } from "store/config.js";
+import { drinksRequests } from "store/http-requests.js";
 import { cloneObject } from "store/utils.js";
 import { Button, ModalWindow } from "components/generic.js";
 import InputMenuItemData from "components/ManageMenu/InputMenuItemData.js";
@@ -20,7 +20,7 @@ const ManageDrink_Modal = (props) => {
 
     // reset form inputs and preselect category according to category filter (from ManageDrinks.js)
     useEffect(() => {
-        if (selectedDrinkId) drinkRequests.get(selectedDrinkId).then(data => fillFormData(data));
+        if (selectedDrinkId) drinksRequests.get(selectedDrinkId).then(data => fillFormData(data));
         else resetFormData();
     }, [selectedDrinkId, selectedCategory])
 

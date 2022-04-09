@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { foodRequests } from "store/http-requests.js";
+import { foodsRequests } from "store/http-requests.js";
 import { Button, DropDownList } from "components/generic.js";
-import { FOODS as defaults } from "store/defaults";
+import { FOODS as defaults } from "store/config";
 import styles from "styles/CreateMenu.module.css";
 
 /**
@@ -18,11 +18,10 @@ const MenuItemAdd_Modal = (props) => {
     const { onSelection, selectedItems } = props;
 
     // runs only the first time to populate the items DDL options
-    useEffect(() => {
+    useEffect(async () => {
         // fetch items from DB
-        foodRequests
-            .getAll()
-            .then(fetchedItems => setOptions(fetchedItems));
+        const fetchedItems = await foodsRequests.getAll();
+        setOptions(fetchedItems);
     }, []);
 
     // runs when the category filter is changed

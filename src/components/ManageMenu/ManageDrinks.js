@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { drinkRequests } from "store/http-requests.js";
-import { DRINKS as defaults } from "store/defaults.js";
+import { drinksRequests } from "store/http-requests.js";
+import { DRINKS as defaults } from "store/config.js";
 import { Button, Card, DropDownList } from "components/generic.js";
 import ManageDrink_Modal from "components/ManageMenu/ManageDrink_Modal.js";
 import MenuItemsList from "components/ManageMenu/MenuItemsList.js";
@@ -21,10 +21,9 @@ const ManageDrinks = () => {
     /**
      * Fetch available 'drink' options from DB.
      */
-    const loadDrinks = () => {
-        drinkRequests
-            .getAll()
-            .then(fetchedDrinks => setDrinks( fetchedDrinks ?? [] ));
+    const loadDrinks = async () => {
+        const fetchedDrinks = await drinksRequests.getAll();
+        setDrinks( fetchedDrinks ?? [] );
     }
 
     // runs only the first time and loads all 'drink' options
@@ -44,10 +43,11 @@ const ManageDrinks = () => {
      * CLICK event handler for the modal's submit button.
      * Prepare data and filter of unnessessary values, then send to DB.
      */
-    const cbModalSubmit = (drinkId, drinkData) => {
+    const cbModalSubmit = async (drinkId, drinkData) => {
         // check modal mode (Add/Edit)
-        const callback = drinkId ? drinkRequests.put(drinkId, drinkData) : drinkRequests.post(drinkData);
-        callback.then(loadDrinks);
+        const callback = drinkId ? drinksRequests.put(drinkId, drinkData) : drinksRequests.post(drinkData);
+        await callback;
+        loadDrinks();
         cbModalClose();
     };
     
@@ -58,10 +58,10 @@ const ManageDrinks = () => {
      */
     const cbDeleteDrink = async (id) => {
         setModalIsVisible(false);
-        const selectedDrink = await drinkRequests.get(id);
+        const selectedDrink = await drinksRequests.get(id);
         const proceed = window.confirm(`Are you sure you want to delete "${selectedDrink.title}"?`);
         if (proceed) {
-            const response = await drinkRequests.delete(id);
+            const response = await drinksRequests.delete(id);
             if (response.status === 204) loadDrinks();
         }
     }
