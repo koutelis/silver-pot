@@ -42,10 +42,12 @@ const ManageFoods = () => {
      * CLICK event handler for the modal's submit button.
      * Prepare data and filter of unnessessary values, then send to DB.
      */
-    const cbModalSubmit = (foodId, foodData) => {
+    const cbModalSubmit = async (foodId, foodData) => {
         // check modal mode (Add/Edit) and dispatch accordingly
-        const callback = foodId ? foodsRequests.put(foodId, foodData) : foodsRequests.post(foodData);
-        callback.then(loadFoods);
+        if (foodId) await foodsRequests.put(foodId, foodData);
+        else await foodsRequests.post(foodData);
+        
+        await loadFoods();
         cbModalClose();
     };
     
@@ -57,7 +59,7 @@ const ManageFoods = () => {
     const cbDeleteFood = async (id) => {
         setModalIsVisible(false);
         const selectedFood = await foodsRequests.get(id);
-        const proceed = window.confirm(`Are you sure you want to delete "${selectedFood.title}"?`);
+        const proceed = window.confirm(`Are you sure you want to delete "${selectedFood.name}"?`);
         if (proceed) {
             const response = await foodsRequests.delete(id);
             if (response.status === 204) loadFoods();

@@ -19,21 +19,14 @@ const ManageDrink_Modal = (props) => {
     const [optionsVisibility, setOptionsVisibility] = useState({ sizes: false })
 
     // reset form inputs and preselect category according to category filter (from ManageDrinks.js)
-    useEffect(() => {
-        if (selectedDrinkId) drinksRequests.get(selectedDrinkId).then(data => fillFormData(data));
-        else resetFormData();
+    useEffect(async () => {
+        if (selectedDrinkId) {
+            const data = await drinksRequests.get(selectedDrinkId);
+            const {category, name, description, basePrice, sizes} = data;
+            setOptionsVisibility({ sizes: sizes.length > 0 });
+            setDrinkData({category, name, description, basePrice, sizes});
+        } else resetFormData();
     }, [selectedDrinkId, selectedCategory])
-
-    /**
-     * Helper of useEffect.
-     * Fill form data when function gets a valid drinkId.
-     * @param {Object} data 
-     */
-    const fillFormData = (data) => {
-        const {category, title, description, basePrice, sizes} = data;
-        setOptionsVisibility({ sizes: sizes.length > 0 });
-        setDrinkData({category, title, description, basePrice, sizes});
-    }
 
     /**
      * Reset all inputs.
@@ -96,7 +89,7 @@ const ManageDrink_Modal = (props) => {
      */
     const cbButtonSubmit = (e) => {
         e.preventDefault();
-        const isValid = Boolean(drinkData.title);
+        const isValid = Boolean(drinkData.name);
         if (!isValid) {
             alert("missing content");
             return;

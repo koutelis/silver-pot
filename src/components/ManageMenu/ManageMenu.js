@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { DropDownList, Title } from "components/generic.js";
+import { MENUS } from "store/config.js";
 import ManageFoods from "components/ManageMenu/ManageFoods.js";
 import ManageDrinks from "components/ManageMenu/ManageDrinks.js";
 import styles from "styles/ManageMenu.module.css";
@@ -15,11 +16,6 @@ import styles from "styles/ManageMenu.module.css";
 const ManageMenu = () => {
     const [selectedSection, setSelectedSection] = useState("foods");
 
-    const options = {
-        foods: "FOOD",
-        drinks: "DRINK"
-    }
-
     const cbSectionSelected = (e) => {
         setSelectedSection(e.target.value);
     }
@@ -27,7 +23,12 @@ const ManageMenu = () => {
     return <div className={styles["master-container"]}>
         <div className={styles["top-panel"]} >
             <Title text="Manage Menu" />
-            <DropDownList className={styles["ddl--menu-item-type"]} label="Select menu-item type" options={options} onChange={cbSectionSelected} />
+            <DropDownList
+                className={styles["ddl--menu-item-type"]} 
+                label="Select menu-item type" 
+                options={MENUS.itemTypes} 
+                onChange={cbSectionSelected} 
+            />
         </div>
         {selectedSection === "foods" ? <ManageFoods /> : <ManageDrinks /> }
     </div>

@@ -30,11 +30,10 @@ const apiMenusUrl = ENDPOINTS.menus;
 async function getItem(apiUrl, _id) {
     try {
         const response = await fetch(apiUrl + _id);
-        if (!response) throw Error("A single item should have been returned, given a valid _id");
+        if (!response || !response.ok) return null;
         return response.json();
     } catch (err) {
         console.error(err);
-        return null;
     }
 }
 

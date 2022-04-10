@@ -11,7 +11,7 @@ const InputMenuItemOptionsBox = (props) => {
     const { label, nameLabel, name, priceLabel, price, cbInputChanged: liftStateUp, cbRemove } = props;
 
     /**
-     * CHANGE handler for TITLE input (lift state up)
+     * CHANGE handler for NAME input (lift state up)
      * @param {Event} e 
      */
     const cbNameChanged = (e) => {

@@ -46,3 +46,11 @@
     flex-direction: column;
     gap: 10px;
 }
+
+.add-item-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.btn--send-order {}

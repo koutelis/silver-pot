@@ -11,7 +11,6 @@ import styles from "styles/ManageMenu.module.css";
  * @returns {JSX}
  */
 const ManageDrinks = () => {
-    // state
     const [drinks, setDrinks] = useState([]);
     const [filteredDrinks, setFilteredDrinks] = useState([]);
     const [modalIsVisible, setModalIsVisible] = useState(false);
@@ -59,7 +58,7 @@ const ManageDrinks = () => {
     const cbDeleteDrink = async (id) => {
         setModalIsVisible(false);
         const selectedDrink = await drinksRequests.get(id);
-        const proceed = window.confirm(`Are you sure you want to delete "${selectedDrink.title}"?`);
+        const proceed = window.confirm(`Are you sure you want to delete "${selectedDrink.name}"?`);
         if (proceed) {
             const response = await drinksRequests.delete(id);
             if (response.status === 204) loadDrinks();

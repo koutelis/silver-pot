@@ -82,7 +82,8 @@
 /* ModalWindow */
 /***************/
 
-.overlay {
+.overlay,
+.overlay-trans {
     backdrop-filter: blur(4px);
     background-color: var(--overlay-bg-color);
     left: 0;
@@ -94,7 +95,13 @@
     z-index: 20;
 }
 
-.modal-window {
+.overlay-trans{
+    background-color: var(--overlay-bg-color__trans);
+    z-index: 40;
+}
+
+.modal-window,
+.modal-window__2 {
     background-color: var(--main-bg-color__bright);
     border-radius: 9px;
     box-shadow: var(--box-shadow-size1) var(--box-shadow-color__bright);
@@ -110,7 +117,12 @@
     z-index: 30;
 }
 
-.modal-window:hover .btn--close-modal {
+.modal-window__2 {
+    z-index: 50;
+}
+
+.modal-window:hover .btn--close-modal,
+.modal-window__2:hover .btn--close-modal {
     visibility: visible;
 }
 
@@ -125,6 +137,7 @@
     right: 4px;
     top: 0;
     visibility: hidden;
+    z-index: 60;
 }
 
 .btn--close-modal:hover {
@@ -155,7 +168,8 @@
 /******************/
 
 @media (max-width: 768px) {
-    .modal-window {
+    .modal-window,
+    .modal-window__2 {
         max-height: 80%;
         width: 100%;
     }

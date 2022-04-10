@@ -27,6 +27,7 @@
     --nav-bg-color: rgb(27, 63, 51);
     --nav-bg-color-portrait: rgb(44, 44, 44);
     --overlay-bg-color: rgba(0, 0, 0, 0.8);
+    --overlay-bg-color__trans: rgba(0, 0, 0, 0.2);
     --printable-menu__headings: rgb(0, 32, 0);
 }
 

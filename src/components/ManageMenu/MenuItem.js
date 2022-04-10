@@ -8,16 +8,16 @@ import styles from "styles/ManageMenu.module.css";
  * @returns 
  */
 const MenuItem = (props) => {
-    const {_id, category, title, description} = props.itemData;
+    const {_id, category, name, description} = props.itemData;
 
     return <div className={styles["menu-item"]} onClick={(e) => props.onClick(_id)} >
-        <div title={`delete ${title}`} className={styles["btn--del-item"]} onClick={(e) => { e.stopPropagation(); props.onDelete(_id) }} >
+        <div title={`delete ${name}`} className={styles["btn--del-item"]} onClick={(e) => { e.stopPropagation(); props.onDelete(_id) }} >
             <GrClose />
         </div>
         <fieldset>
             <legend>{category}</legend>
             <div>
-                <h3>{title}</h3>
+                <h3>{name}</h3>
             </div>
             <div>
                 <span>{description}</span>

@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { foodsRequests, restaurantmenusRequests } from "store/http-requests.js";
-import { Button, Card, Input, ModalWindow, Title } from "components/generic.js";
-import { tomorrowAsString } from "store/utils.js";
+import { Button, Card, Input, Title } from "components/generic.js";
+import { cloneObject, tomorrowAsString } from "store/utils.js";
 import { useReactToPrint } from "react-to-print";
+import { MENUS as defaults } from "store/config.js";
 import MenuItemAdd_Modal from "components/CreateMenu/MenuItemAdd_Modal.js";
 import PrintableMenu_DnD from "components/CreateMenu/PrintableMenu_DnD.js"
 import Menu_DnD from "components/CreateMenu/Menu_DnD.js";
@@ -25,8 +26,8 @@ const CreateMenu = () => {
         // load the template menu
         const response = await restaurantmenusRequests.get("template");
         const { fontSize: fetchedFontSize, items: fetchedItems } = response;
-        if (fetchedFontSize) setFontSize(fetchedFontSize);
-        if (fetchedItems) setItems(fetchedItems);
+        setFontSize(fetchedFontSize ?? 14);
+        setItems(fetchedItems ?? cloneObject(defaults.template));
         
         // find out window width to display the appropriate view
         setIsPrintView(window.innerWidth > 768);
@@ -138,9 +139,12 @@ const CreateMenu = () => {
                 ref={printableMenuRef} />
             <Menu_DnD visible={!isPrintView} itemList={items} onDragDrop={cbHandleDragDrop} />
         </Card>
-        <ModalWindow onClose={() => setModalIsVisible(false)} visible={modalIsVisible}>
-            <MenuItemAdd_Modal onSelection={cbSelectItemAdd} selectedItems={items} />
-        </ModalWindow>
+        <MenuItemAdd_Modal 
+            onClose={() => setModalIsVisible(false)} 
+            onSelection={cbSelectItemAdd} 
+            selectedItems={items} 
+            visible={modalIsVisible} 
+        />
     </div>
 }
 

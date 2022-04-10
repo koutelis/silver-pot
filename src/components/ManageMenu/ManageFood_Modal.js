@@ -19,24 +19,18 @@ const ModalManageMenuItem = (props) => {
     const [optionsVisibility, setOptionsVisibility] = useState({ addons: false, removables: false })
 
     // reset form inputs and preselect category according to category filter (from ManageFoods.js)
-    useEffect(() => {
-        if (selectedFoodId) foodsRequests.get(selectedFoodId).then(data => fillFormData(data));
-        else resetFormData();
-    }, [selectedFoodId, selectedCategory])
+    useEffect(async () => {
+        if (selectedFoodId) {
+            const data = await foodsRequests.get(selectedFoodId);
+            const {_id, timeRanges, ...usefullData} = data;
 
-    /**
-     * Helper of useEffect.
-     * Fill form data when function gets a valid foodId.
-     * @param {Object} data 
-     */
-    const fillFormData = (data) => {
-        const {_id, timeRanges, ...usefullData} = data;
-        setOptionsVisibility({
-            addons: usefullData.addons.length > 0,
-            removables: usefullData.removables.length > 0,
-        })
-        setFoodData(usefullData);
-    }
+            setOptionsVisibility({
+                addons: usefullData.addons.length > 0,
+                removables: usefullData.removables.length > 0,
+            })
+            setFoodData(usefullData);
+        } else resetFormData();
+    }, [selectedFoodId, selectedCategory])
 
     /**
      * Reset all inputs.
@@ -108,7 +102,7 @@ const ModalManageMenuItem = (props) => {
     const cbButtonSubmit = (e) => {
         e.preventDefault();
 
-        const isValid = Boolean(foodData.title) && Boolean(foodData.basePrice);
+        const isValid = Boolean(foodData.name) && Boolean(foodData.basePrice);
         if (!isValid) {
             alert("missing content");
             return;

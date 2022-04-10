@@ -36,8 +36,8 @@ const InputMenuItemData = (props) => {
                 </div>
 
                 <div className={styles["input-field"]}>
-                    <label htmlFor="title">Title</label>
-                    <input required value={itemData.title} name="title" type="text" placeholder="menu item's title" onChange={cbInputChanged} />
+                    <label htmlFor="name">Name</label>
+                    <input required value={itemData.name} name="name" type="text" placeholder="menu item's name" onChange={cbInputChanged} />
                 </div>
 
                 <div className={styles["input-field"]}>

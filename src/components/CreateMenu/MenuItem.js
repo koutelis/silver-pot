@@ -7,11 +7,11 @@ import styles from "styles/ManageMenu.module.css";
  * @returns {JSX}
  */
 const MenuItem = (props) => {
-    const {_id, basePrice, title, description} = props.itemData;
+    const {_id, basePrice, name, description} = props.itemData;
 
     return <div className={styles["menu-item"]}>
         <div>
-            <h3>{title}<span> €{basePrice.toFixed(2)}</span></h3>
+            <h3>{name}<span> €{basePrice.toFixed(2)}</span></h3>
         </div>
         <div>
             <span>{description}</span>

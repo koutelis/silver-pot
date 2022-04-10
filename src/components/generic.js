@@ -31,9 +31,9 @@ const Card = (props) => {
  * @returns {JSX}
  */
  const DropDownList = (props) => {
-    let {className, hasEmpty, label, onChange, options} = props;
+    let {className, hasEmpty, label, onChange, options, value} = props;
     const classList = [ styles["dropdownlist"], (className ?? "") ].join(" ");
-    
+
     options = Object
         .entries(options)
         .map(([k, v]) => <option key={k} value={k}>{v}</option>);
@@ -47,7 +47,7 @@ const Card = (props) => {
     
     return <div className={classList}>
         <label htmlFor={label}> {label} </label>
-        <select name={label} onChange={onChange}>
+        <select name={label} onChange={onChange} value={value ?? ""}>
             {options}
         </select>
     </div>
@@ -77,9 +77,32 @@ const ModalWindow = (props) => {
     const { onClose, visible } = props;
     const mask = visible ? "" : " hidden"
 
+    const cbOverlayClick = (e) => {
+        e.stopPropagation();
+        onClose();
+    }
+
     return <>
-        <div className={`${styles["overlay"]}${mask}`} onClick={onClose}></div>
+        <div className={`${styles["overlay"]}${mask}`} onClick={cbOverlayClick}></div>
         <div className={`${styles["modal-window"]}${mask}`}>
+            <div className={styles["btn--close-modal"]} onClick={onClose}><GrClose /></div>
+            {props.children}
+        </div>
+    </>
+}
+
+/**
+ * Generic modal window with overlay and close button.
+ * @param {Object} props 
+ * @returns {JSX}
+ */
+ const ModalWindow_2 = (props) => {
+    const { onClose, visible } = props;
+    const mask = visible ? "" : " hidden"
+
+    return <>
+        <div className={`${styles["overlay-trans"]}${mask}`}></div>
+        <div className={`${styles["modal-window__2"]}${mask}`}>
             <div className={styles["btn--close-modal"]} onClick={onClose}><GrClose /></div>
             {props.children}
         </div>
@@ -112,4 +135,4 @@ const Unimplemented = (props) => {
     </div>
 }
 
-export { Button, Card, DropDownList, Input, ModalWindow, Title, Unimplemented };
+export { Button, Card, DropDownList, Input, ModalWindow, ModalWindow_2, Title, Unimplemented };
