@@ -1,44 +1,43 @@
 import React from "react";
 import { FOODS as defaults } from "store/config.js";
+import { toPrintableDate } from "store/utils.js";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import PrintableMenuItem from "components/CreateMenu/PrintableMenuItem.js"
+import MenuItem from "components/CreateMenu/MenuItem.js";
 import styles from "styles/CreateMenu.module.css";
 
 /**
- * SUBCOMPONENT of PrintableMenu.js
- * @param {Object} props - {fontSize: Number, itemList: Object, onDragDrop: function}
- * @returns {JSX} PrintableMenuItem[]
+ * SUBCOMPONENT of CreateMenu.js
+ * Dragable List containing all available menu options as stored in the DB.
+ * @param {Object} props - {fontSize: Number, isPrintView: Boolean, itemList: Object, menuDate: String, onDragDrop: function}
+ * @returns {JSX}
  */
-const PrintableMenuList = (props) => {
-    const { fontSize, itemList, onDragDrop } = props;
+const DailyMenu_DnD = React.forwardRef((props, ref) => {
+    const { fontSize, isPrintView, itemList, menuDate, onDragDrop } = props;
 
     const categories = Object.keys(defaults.categories);
-    let result = [];
+    let dndList = [];
 
     categories.forEach(category => {
         const currentList = itemList[category];
         if (currentList && currentList.length) {
-            result.push(<>
+            dndList.push(<div key={category}>
                 <div className={styles["menu-category-heading"]}>~ {defaults.categories[category]} ~</div>
                 <DragDropContext onDragEnd={onDragDrop}>
                     <Droppable droppableId={category}>
                         {provided => setDroppables(provided, currentList)}
                     </Droppable>
                 </DragDropContext>
-            </>);
+            </div>);
         }
     });
 
     const setDroppables = (provided, currentList) => {
         return <div {...provided.droppableProps} ref={provided.innerRef}>
             {currentList.map((item, index) => (
-                <Draggable key={item._id} draggableId={item._id} index={index}>
+                <Draggable key={item._id + index} draggableId={item._id} index={index}>
                     {provided => (
                         <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                            <PrintableMenuItem 
-                                itemData={item} 
-                                style={{fontSize: `${fontSize}px`}} 
-                            />
+                            <MenuItem itemData={item} fontSize={fontSize} isPrintView={isPrintView} />
                         </div>
                     )}
                 </Draggable>
@@ -47,9 +46,17 @@ const PrintableMenuList = (props) => {
         </div>
     }
 
-    return <div>
-        {result}
-    </div>
-}
+    if (dndList.length === 0) dndList = <h2>No menu options have been selected...</h2>;
 
-export default PrintableMenuList;
+    const outerDivClassName = isPrintView ? styles["printable"] : "";
+    const innerDivClassName = isPrintView ? styles["printableInside"] : "";
+    
+    return <div className={outerDivClassName} ref={ref}>
+        <div className={innerDivClassName} >
+            <h2>Lunch menu, {toPrintableDate(menuDate)}</h2>
+            {dndList}
+        </div>
+    </div>
+})
+
+export default DailyMenu_DnD;

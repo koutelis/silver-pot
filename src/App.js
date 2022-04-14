@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
-import Header from "components/Header.js";
-import Main from "components/Main.js";
-import Footer from "components/Footer.js"
+import Header from "sections/Header.js";
+import Main from "sections/Main.js";
+import Footer from "sections/Footer.js"
 
 /**
  * MASTER container of all

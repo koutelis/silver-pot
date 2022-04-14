@@ -15,14 +15,14 @@
     margin: 10px;
 }
 
-.date {
-    align-self: center;
-    color: var(--main-txt-color__bright);
-}
-
 .title h1 {
     color: var(--main-txt-color__bright);
     margin-bottom: 10px;
+}
+
+.date {
+    align-self: center;
+    color: var(--main-txt-color__bright);
 }
 
 .top-panel-btns {
@@ -65,9 +65,9 @@
     font-size: 0.8rem;
 }
 
-/************************/
-/* PrintableMenu_DnD.js */
-/************************/
+/********************/
+/* DailyMenu_DnD.js */
+/********************/
 
 .printable {
     background-color: var(--main-bg-color__bright);
@@ -100,11 +100,6 @@
 .printableInside > div {
     padding: 5px 0;
 }
-
-/************************/
-/* Menu_DnD.js          */
-/* PrintableMenuList.js */
-/************************/
 
 .menu-category-heading {
     color: var(--printable-menu__headings);

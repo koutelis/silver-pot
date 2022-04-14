@@ -126,7 +126,8 @@
     visibility: visible;
 }
 
-.btn--close-modal {
+.btn--close-modal,
+.btn--del {
     background: none;
     border: none;
     color: var(--attentive-color);
@@ -140,17 +141,20 @@
     z-index: 60;
 }
 
-.btn--close-modal:hover {
+.btn--close-modal:hover,
+.btn--del:hover {
     color: var(--attentive-color__focus);
     font-weight: 600;
 }
 
-.btn--close-modal path {
+.btn--close-modal path,
+.btn--del path {
     fill: var(--attentive-color);
     stroke: var(--attentive-color);
 }
 
-.btn--close-modal:hover path {
+.btn--close-modal:hover path,
+.btn--del:hover path {
     fill: var(--attentive-color__focus);
     stroke: var(--attentive-color__focus);
 }

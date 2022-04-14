@@ -1,27 +1,22 @@
 import React from "react";
-import { GrClose } from "react-icons/gr";
+import { DelButton } from "components/generic.js";
 import styles from "styles/ManageMenu.module.css";
 
 /**
- * COMPONENT of FoodList.js
- * @param {Object} props - {foodData: Object, onClick: function, onDelete: function}
+ * SUBCOMPONENT of MenuItemsList.js
+ * @param {Object} props - {itemData: Object, onClick: function, onDelete: function}
  * @returns 
  */
 const MenuItem = (props) => {
-    const {_id, category, name, description} = props.itemData;
+    const { _id, category, name, description } = props.itemData;
+    const { onClick, onDelete } = props;
 
-    return <div className={styles["menu-item"]} onClick={(e) => props.onClick(_id)} >
-        <div title={`delete ${name}`} className={styles["btn--del-item"]} onClick={(e) => { e.stopPropagation(); props.onDelete(_id) }} >
-            <GrClose />
-        </div>
+    return <div className={styles["menu-item"]} onClick={() => onClick(_id)} >
+        <DelButton className={styles["btn--del-item"]} tooltip={`delete ${name}`} onClick={() => onDelete(_id)} />
         <fieldset>
             <legend>{category}</legend>
-            <div>
-                <h3>{name}</h3>
-            </div>
-            <div>
-                <span>{description}</span>
-            </div>
+            <div><h3>{name}</h3></div>
+            <div><span>{description}</span></div>
         </fieldset>
     </div>
 }

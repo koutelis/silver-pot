@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { DropDownList, Title } from "components/generic.js";
 import { MENUS } from "store/config.js";
-import ManageFoods from "components/ManageMenu/ManageFoods.js";
-import ManageDrinks from "components/ManageMenu/ManageDrinks.js";
+import ManageMenuItems from "components/ManageMenu/ManageMenuItems.js";
 import styles from "styles/ManageMenu.module.css";
 
 /**
@@ -14,10 +13,14 @@ import styles from "styles/ManageMenu.module.css";
  * @returns {JSX}
  */
 const ManageMenu = () => {
-    const [selectedSection, setSelectedSection] = useState("foods");
+    const [selectedMenuItemType, setSelectedMenuItemType] = useState("foods");
 
+    /**
+     * CHANGE event handler for the menu-item type DDL.
+     * @param {Event} e 
+     */
     const cbSectionSelected = (e) => {
-        setSelectedSection(e.target.value);
+        setSelectedMenuItemType(e.target.value);
     }
 
     return <div className={styles["master-container"]}>
@@ -27,10 +30,11 @@ const ManageMenu = () => {
                 className={styles["ddl--menu-item-type"]} 
                 label="Select menu-item type" 
                 options={MENUS.itemTypes} 
-                onChange={cbSectionSelected} 
+                onChange={cbSectionSelected}
+                value={selectedMenuItemType}
             />
         </div>
-        {selectedSection === "foods" ? <ManageFoods /> : <ManageDrinks /> }
+        <ManageMenuItems menuItemType={selectedMenuItemType} />
     </div>
 }
 

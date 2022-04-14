@@ -1,13 +1,13 @@
 import React from "react";
-import { GrClose } from "react-icons/gr";
+import { DelButton, Input } from "components/generic.js";
 import styles from "styles/ManageMenu_Modal.module.css"
 
 /**
- * INPUT component for InputFoodAddons CONTAINER
+ * INPUT component for InputMenuItemOptions CONTAINER
  * @param {Object} props - { label: String, nameLabel: String, name: String, priceLabel: String, price: Number, cbInputChanged: function, cbRemove: function }
  * @returns {JSX}
  */
-const InputMenuItemOptionsBox = (props) => {
+const MenuItemOptionsForm_Input = (props) => {
     const { label, nameLabel, name, priceLabel, price, cbInputChanged: liftStateUp, cbRemove } = props;
 
     /**
@@ -35,21 +35,11 @@ const InputMenuItemOptionsBox = (props) => {
     return <div className={styles["input-field"]}>
         <fieldset>
             <legend>{label}</legend>
-            <div>
-                <label htmlFor="name">{nameLabel}</label>
-                <input value={name} name="name" placeholder="excluded if empty" onChange={cbNameChanged} />
-            </div>
-            <div>
-                <span>
-                    <label htmlFor="price">{priceLabel}</label>
-                    <input value={price} name="price" type="Number" min="0" max="5" step="0.25" onChange={cbPriceChanged}/>
-                </span>
-            </div>
-            <div>
-                <div className={styles["btn--del-option"]} onClick={cbRemove} title={`remove ${label}`}><GrClose /></div>
-            </div>
+            <Input name="name" label={nameLabel} value={name} placeholder="excluded if empty" onChange={cbNameChanged} />
+            <Input name="price" label={priceLabel} value={price} type="Number" min="0" max="5" step="0.25" onChange={cbPriceChanged} />
+            <DelButton className={styles["btn--del-option"]} onClick={cbRemove} tooltip={`delete ${label}`} />
         </fieldset>
     </div>
 }
 
-export default InputMenuItemOptionsBox;
+export default MenuItemOptionsForm_Input;

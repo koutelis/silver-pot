@@ -1,14 +1,14 @@
 import React from "react";
 import { Button } from "components/generic.js";
-import InputMenuOptionsBox from "components/ManageMenu/InputMenuItemOptionsBox.js";
+import InputMenuOptionsBox from "components/ManageMenu/MenuItemOptionsForm_Input.js";
 import styles from "styles/ManageMenu_Modal.module.css"
 
 /**
- * SUBCONTAINER component for ModalAddFood and ModalAddDrink forms
+ * SUBCONTAINER component for FoodOptions.js and DrinkOptions.js
  * @param {Object} props - {visible: Boolean, optionsList: Array, optionsProperty: String, optionName: String, priceLabel: String, btnLabel: String, onSelect: function, onChange: function, onAdd: function, onRemove: function}
  * @returns {JSX}
  */
-const InputMenuItemOptions = (props) => {
+const MenuItemOptionsForm = (props) => {
     const { visible, optionsList, optionsProperty, optionName, priceLabel, btnLabel,
         onSelect, onChange: liftStateUp, onAdd, onRemove } = props;
 
@@ -38,4 +38,4 @@ const InputMenuItemOptions = (props) => {
     </div>
 }
 
-export default InputMenuItemOptions
+export default MenuItemOptionsForm

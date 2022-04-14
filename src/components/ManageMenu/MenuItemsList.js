@@ -3,14 +3,14 @@ import MenuItem from "components/ManageMenu/MenuItem.js";
 import styles from "styles/ManageMenu.module.css";
 
 /**
- * Container of menu items
+ * CONTAINER of menu items
  * @param {Object} props - { itemsData: Object, onItemClick: function, onDeleteItem: function }
  * @returns {JSX}
  */
 const MenuItemsList = (props) => {
-    const { itemsData, onItemClick, onDeleteItem } = props;
+    const { items, onItemClick, onDeleteItem } = props;
 
-    if (itemsData.length === 0) return (
+    if (items.length === 0) return (
         <div className={`${styles["item-list-container"]} ${styles["item-list-container__empty"]}`} >
             <h3>No options found...</h3>
         </div>
@@ -19,11 +19,11 @@ const MenuItemsList = (props) => {
     return <div className={styles["item-list-container"]} >
         <h3>Available Options:</h3>
         <div className={styles["item-list"]} >
-            {itemsData.map(food => 
+            {items.map(item => 
                 <MenuItem 
-                    key={food._id} 
-                    itemData={food} 
-                    onClick={() => onItemClick(food._id)} 
+                    key={item._id} 
+                    itemData={item} 
+                    onClick={() => onItemClick(item._id)} 
                     onDelete={onDeleteItem} 
                 />)
             }

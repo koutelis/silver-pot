@@ -4,13 +4,12 @@ import styles from "styles/generic.module.css";
 
 /**
  * Generic button
- * @param {Object} props {text: String, ...rest}
+ * @param {Object} props
  * @returns {JSX}
  */
 const Button = (props) => {
     const {text, className, ...rest} = props;
     const classList = [ styles["btn"], (className ?? "") ].join(" ");
-
     return <button className={classList} {...rest}>{text}</button>
 }
 
@@ -26,6 +25,25 @@ const Card = (props) => {
 }
 
 /**
+ * Generic X delete button
+ * @param {Object} props
+ * @returns {JSX}
+ */
+const DelButton = (props) => {
+    const { className, tooltip, name, onClick } = props;
+    const classList = [ styles["btn--del"], (className ?? "") ].join(" ");
+
+    const cbClick = (e) => { 
+        e.stopPropagation(); 
+        onClick();
+    }
+
+    return <div title={tooltip} className={classList} onClick={cbClick} >
+        <GrClose />
+    </div>
+}
+
+/**
  * Generic DropDownList populated by the passed options Object
  * @param {Object} props - {hasEmpty: Boolean, label: String, onChange: function, options: Object}
  * @returns {JSX}
@@ -37,7 +55,7 @@ const Card = (props) => {
     options = Object
         .entries(options)
         .map(([k, v]) => <option key={k} value={k}>{v}</option>);
-
+        
     if (options.length === 0) return <div className={classList}>
         <label>No options available</label>
     </div>;
@@ -93,6 +111,7 @@ const ModalWindow = (props) => {
 
 /**
  * Generic modal window with overlay and close button.
+ * Transparent and non-closable overlay.
  * @param {Object} props 
  * @returns {JSX}
  */
@@ -107,6 +126,21 @@ const ModalWindow = (props) => {
             {props.children}
         </div>
     </>
+}
+
+/**
+ * Generic label & input textarea.
+ * @param {Object} props 
+ * @returns {JSX}
+ */
+ const TextArea = (props) => {
+    const { className, label, name, ...rest } = props;
+    const classList = [ styles["input"], (className ?? "") ].join(" ");
+
+    return <div className={classList}>
+        <label htmlFor={name}>{label}</label>
+        <textarea name={name} {...rest} />
+    </div>
 }
 
 /**
@@ -135,4 +169,4 @@ const Unimplemented = (props) => {
     </div>
 }
 
-export { Button, Card, DropDownList, Input, ModalWindow, ModalWindow_2, Title, Unimplemented };
+export { Button, Card, DelButton, DropDownList, Input, ModalWindow, ModalWindow_2, TextArea, Title, Unimplemented };

@@ -1,21 +1,31 @@
-const ENDPOINTS_PROD = {
-    drinks: "https://silver-pot-srv.herokuapp.com/api/drinks/",
-    foods: "https://silver-pot-srv.herokuapp.com/api/foods/",
-    menus: "https://silver-pot-srv.herokuapp.com/api/restaurantmenus/",
-    orders: "https://silver-pot-srv.herokuapp.com/api/orders/"
-};
+const CURRENCIES = {
+    dollar: { abbr: "usd", name: "dollar", sign: "$" },
+    euro: { abbr: "eu", name: "euro", sign: "€" },
+    pound: { abbr: "gbp", name: "pounds", sign: "£" }
+}
 
-const ENDPOINTS_DEV = {
-    drinks: "http://localhost:3001/api/drinks/",
-    foods: "http://localhost:3001/api/foods/",
-    menus: "http://localhost:3001/api/restaurantmenus/",
-    orders: "http://localhost:3001/api/orders/"
-};
+const CURRENCY = CURRENCIES.euro;
 
-const ENDPOINTS = process.env.REACT_APP_IS_DEV_MODE === "true" ? ENDPOINTS_DEV : ENDPOINTS_PROD;
+
+
+const ENDPOINTS = {
+    drinks: "/api/drinks/",
+    drinksCategorized: "/api/drinkscat/",
+    foods: "/api/foods/",
+    menus: "/api/restaurantmenus/",
+    orders: "/api/orders/"
+}
+
+const url = (process.env.REACT_APP_IS_DEV_MODE === "true")
+    ? "http://localhost:3001" 
+    : "https://silver-pot-srv.herokuapp.com";
+
+Object.keys(ENDPOINTS).forEach(key => ENDPOINTS[key] = url + ENDPOINTS[key]);
+
+
 
 const FOODS = {
-    foodData: {
+    itemData: {
         category: "other",
         name: "",
         description: "",
@@ -23,6 +33,7 @@ const FOODS = {
         addons: [ { name: "", price: "1.5" } ],
         removables: [ { name: "", price: "0" } ]
     },
+    options: { addons: {}, removables: {} },
     addons: { name: "", price: "1.5" },
     removables: { name: "", price: "0" },
     categories: {
@@ -37,14 +48,17 @@ const FOODS = {
     }
 };
 
+
+
 const DRINKS = {
-    drinkData: {
+    itemData: {
         category: "other",
         name: "",
         description: "",
         basePrice: "3",
         sizes: []
     },
+    options: { sizes: {} },
     sizes: { name: "", price: "3" },
     categories: {
         other: "OTHERS",
@@ -55,22 +69,37 @@ const DRINKS = {
     }
 };
 
+
+
 const MENUS = {
     template: {
-        other: [],
-        starter: [],
-        main: [],
-        salad: [],
-        pizza: [],
-        sandwich: [],
-        soup: [],
-        dessert: []
+        date: null, 
+        fontSize: 15,
+        drinks: {
+            coffee: [],
+            juice: [],
+            other: [],
+            smoothie: [],
+            tea: []
+        },
+        foods: {
+            other: [],
+            starter: [],
+            main: [],
+            salad: [],
+            pizza: [],
+            sandwich: [],
+            soup: [],
+            dessert: []
+        }
     },
     itemTypes: {
         foods: "FOODS",
         drinks: "DRINKS"
     }
 }
+
+
 
 const ORDERS = {
     order: {
@@ -89,7 +118,11 @@ const ORDERS = {
         6: "TABLE 06",
         7: "TABLE 07",
         8: "TABLE 08"
-    }
+    },
+    foodOptions: {addons: [], removables: [], comments: ""},
+    drinkOptions: {sizes: [], comments: ""}
 }
 
-export { ENDPOINTS, FOODS, DRINKS, MENUS, ORDERS };
+
+
+export { CURRENCY, ENDPOINTS, FOODS, DRINKS, MENUS, ORDERS };

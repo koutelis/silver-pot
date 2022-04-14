@@ -201,7 +201,7 @@ h3.inputs__heading {
     .input-field div {
         align-items: center;
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         margin-right: 2px;
     }
 }
@@ -209,6 +209,6 @@ h3.inputs__heading {
 @media (pointer:none), (pointer:coarse) {
     .btn--close-modal,
     .btn--del-option {
-        visibility: visible;
+        visibility: visible !important;
     }
 }

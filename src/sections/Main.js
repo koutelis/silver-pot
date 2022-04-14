@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Home from "components/Home.js";
+import Home from "sections/Home.js";
 import ManageMenu from "components/ManageMenu/ManageMenu.js";
 import CreateMenu from "components/CreateMenu/CreateMenu.js";
 import WaitersSection from "components/WaitersSection/WaitersSection.js";

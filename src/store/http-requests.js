@@ -1,6 +1,7 @@
 import { ENDPOINTS } from 'store/config.js';
 
 const apiDrinksUrl = ENDPOINTS.drinks;
+const apiDrinksCatUrl = ENDPOINTS.drinksCategorized;
 const apiFoodsUrl = ENDPOINTS.foods;
 const apiMenusUrl = ENDPOINTS.menus;
 
@@ -11,7 +12,7 @@ const apiMenusUrl = ENDPOINTS.menus;
  * @param {String} apiUrl - API endpoint
  * @returns {Promise} - Array of drink objects
  */
- async function getItems(apiUrl) {
+ async function getAll(apiUrl) {
     try {
         const response = await fetch(apiUrl);
         return response.json();
@@ -95,7 +96,7 @@ async function getItem(apiUrl, _id) {
 //#endregion
 
 const foodsRequests = {
-    getAll: () => getItems(apiFoodsUrl),
+    getAll: () => getAll(apiFoodsUrl),
     get: (_id) => getItem(apiFoodsUrl, _id),
     post: (data) => postItem(apiFoodsUrl, data),
     put: (_id, data) => putItem(apiFoodsUrl, _id, data),
@@ -103,7 +104,8 @@ const foodsRequests = {
 }
 
 const drinksRequests = {
-    getAll: () => getItems(apiDrinksUrl),
+    getAll: () => getAll(apiDrinksUrl),
+    getAllCategorized: () => getAll(apiDrinksCatUrl),
     get: (_id) => getItem(apiDrinksUrl, _id),
     post: (data) => postItem(apiDrinksUrl, data),
     put: (_id, data) => putItem(apiDrinksUrl, _id, data),
