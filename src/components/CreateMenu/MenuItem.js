@@ -1,6 +1,6 @@
 import React from "react";
 import { CURRENCY } from "store/config.js";
-import styles from "styles/ManageMenu.module.css";
+import styles from "styles/CreateMenu.module.css";
 
 /**
  * COMPONENT of DailyMenu_DnD.js

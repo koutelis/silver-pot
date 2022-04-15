@@ -17,8 +17,9 @@
     --main-bg-color__focus: #f9f5f3;
     --main-body-color__dark: black;
     --main-border-color__bright: #ddd;
-    --main-border-color__pale: #d3c7c3;
     --main-border-color__dark: black;
+    --main-border-color__focus: rgb(34, 82, 66);
+    --main-border-color__pale: #d3c7c3;
     --main-color: rgb(34, 82, 66);
     --main-color__pale: rgb(204, 241, 225);
     --main-txt-color__bright: white;

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { DropDownList, Input, TextArea } from "components/generic.js";
 import { CURRENCY } from "store/config.js";
-import styles from "styles/ManageMenu_Modal.module.css"
+import styles from "styles/ManageMenu.module.css"
 
 /**
  * SUBCOMPONENT of ManageMenuItem_Modal.js
@@ -27,17 +27,17 @@ const MenuItemDataForm = (props) => {
         <div className={styles["inputs__column"]}>
             <h3 className={styles["inputs__heading"]} onClick={(e) => setDisplayData(!displayData)}>{heading}</h3>
             <div className={`${styles["inputs__grid-container"]} ${mask}`}>
-                <DropDownList className={styles["input-field"]} label="category" 
-                    options={categories} value={itemData.category} onChange={cbInputChanged}
+                <DropDownList label="category" options={categories} 
+                    value={itemData.category} onChange={cbInputChanged}
                 />
-                <Input className={styles["input-field"]} name="name" label="Name" required={true}
-                    value={itemData.name} type="text" placeholder="menu item's name" onChange={cbInputChanged} 
+                <Input name="name" label="Name" required={true} value={itemData.name} 
+                    type="text" placeholder="menu item's name" onChange={cbInputChanged} 
                 />
-                <TextArea className={styles["input-field"]} name="description" label="Description"
-                    value={itemData.description} type="text" placeholder="extra information" onChange={cbInputChanged} 
+                <TextArea name="description" label="Description" value={itemData.description} 
+                    type="text" placeholder="extra information" onChange={cbInputChanged} 
                 />
-                <Input className={styles["input-field"]} name="basePrice" label={`Price (${CURRENCY.sign})`} required={true}
-                    value={itemData.basePrice} type="number" min="1" max="20" step="0.5" onChange={cbInputChanged} 
+                <Input name="basePrice" label={`Price (${CURRENCY.sign})`} value={itemData.basePrice} 
+                    type="number" min="1" max="20" step="0.5" required={true} onChange={cbInputChanged} 
                 />
             </div>
         </div>

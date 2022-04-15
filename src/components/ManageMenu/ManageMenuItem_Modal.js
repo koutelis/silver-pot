@@ -5,7 +5,7 @@ import { cloneObject } from "store/utils.js";
 import { Button, ModalWindow } from "components/generic.js";
 import { FoodOptions, DrinkOptions } from "components/ManageMenu/MenuItemOptions.js";
 import MenuItemDataForm from "components/ManageMenu/MenuItemDataForm.js";
-import styles from "styles/ManageMenu_Modal.module.css"
+import styles from "styles/ManageMenu.module.css"
 
 /**
  * MODAL for adding/editing/deleting an item in the overall available menu.
@@ -21,10 +21,12 @@ const ManageMenuItem_Modal = (props) => {
 
     // reset form inputs and preselect category according to category filter (from ManageMenuItems.js)
     useEffect(async () => {
+        let isMounted = true;
         if (selectedItemId) {
             const data = await requestsHandler.get(selectedItemId);
-            setItemData({...data});
+            if (isMounted) setItemData({...data});
         } else resetFormData();
+        return () => { isMounted = false };
     }, [selectedItemId, menuItemType, selectedCategory])
 
     /**
@@ -123,9 +125,7 @@ const ManageMenuItem_Modal = (props) => {
             });
     }
 
-    if (!visible) return <></>
-
-    const btnText = selectedItemId ? "Save" : "Add"
+    if (!visible) return null;
 
     return <ModalWindow onClose={() => cbModalClose()} visible={visible} >
         <form className={styles["add-item-form"]} >
@@ -150,7 +150,11 @@ const ManageMenuItem_Modal = (props) => {
                         onRemove={cbRemoveOption}
                     />
             }
-            <Button onClick={cbButtonSubmit} type="button" text={btnText} />
+            <Button 
+                onClick={cbButtonSubmit} 
+                type="button" 
+                text={selectedItemId ? "Save" : "Add"} 
+            />
         </form>
     </ModalWindow>
 }

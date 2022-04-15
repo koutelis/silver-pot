@@ -1,6 +1,6 @@
 import React from "react";
 import { CURRENCY } from "store/config.js";
-import styles from "styles/ManageMenu.module.css";  //STEF:TODO
+import styles from "styles/WaitersSection.module.css";
 
 const MenuItem = (props) => {
     const { itemData, onClick } = props;

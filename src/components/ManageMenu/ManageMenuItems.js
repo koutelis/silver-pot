@@ -21,6 +21,17 @@ const ManageMenuItems = (props) => {
     const defaults = (menuItemType === "foods") ? foodsDefaults : drinkDefaults;
     const requestsHandler = (menuItemType === "foods") ? foodsRequests : drinksRequests;
 
+    // runs only the first time and loads all available items of the specified type
+    useEffect(() => loadItems(), [menuItemType]);
+
+    // runs every time the items or filter change, to filter the items to be displayed
+    useEffect(() => {
+        const categoryExistsForType = Object.keys(defaults.categories).includes(categoryFilter);
+        if (!categoryExistsForType) setCategoryFilter("");
+        const result = items.filter(item => categoryFilter === "" || item.category === categoryFilter);
+        setFilteredItems(result);
+    }, [items, categoryFilter]);
+
     /**
      * Load all available menu items from the DB,
      * according to type (foods or drinks).
@@ -29,17 +40,6 @@ const ManageMenuItems = (props) => {
         const fetchedItems = await requestsHandler.getAll();
         setItems( fetchedItems ?? [] );
     }
-
-    // runs only the first time and loads all available items of the specified type
-    useEffect(loadItems, [menuItemType]);
-
-    // runs every time the items or filter change
-    useEffect(() => {
-        const categoryExistsForType = Object.keys(defaults.categories).includes(categoryFilter);
-        if (!categoryExistsForType) setCategoryFilter("");
-        const result = items.filter(item => categoryFilter === "" || item.category === categoryFilter);
-        setFilteredItems(result);
-    }, [items, categoryFilter]);
 
     /**
      * Callback to open the modal.
@@ -99,7 +99,7 @@ const ManageMenuItems = (props) => {
     }
 
     return <Card>
-        <div className={styles["card-container"]}>
+        <div className={styles["upper-panel"]}>
             <h2>MANAGE {menuItemType.toUpperCase()}</h2>
             <DropDownList hasEmpty={true} label="Filter by Category" className={styles["ddl--category"]}
                 options={defaults.categories} onChange={cbCategoryFilter} value={categoryFilter}

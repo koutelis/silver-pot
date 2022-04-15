@@ -30,8 +30,8 @@ const FOODS = {
         name: "",
         description: "",
         basePrice: 10,
-        addons: [ { name: "", price: "1.5" } ],
-        removables: [ { name: "", price: "0" } ]
+        addons: [],
+        removables: []
     },
     options: { addons: {}, removables: {} },
     addons: { name: "", price: "1.5" },
@@ -94,8 +94,8 @@ const MENUS = {
         }
     },
     itemTypes: {
-        foods: "FOODS",
-        drinks: "DRINKS"
+        foods: "FOOD",
+        drinks: "BEVERAGE"
     }
 }
 
@@ -103,10 +103,11 @@ const MENUS = {
 
 const ORDERS = {
     order: {
-        timestamp: null,
-        table: null,
+        drinks: [],
         foods: [],
-        drinks: []
+        table: null,
+        totalCost: 0,
+        timestamp: null
     },
     items: { foods: [], drinks: [] },
     tables: {

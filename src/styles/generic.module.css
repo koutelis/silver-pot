@@ -43,38 +43,100 @@
     text-transform: uppercase;
 }
 
+/*************/
+/* DelButton */
+/*************/
+
+.btn--del {
+    background: none;
+    border: none;
+    color: var(--attentive-color);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 2.5rem;
+    position: absolute;
+    right: 4px;
+    top: 0;
+    visibility: hidden;
+}
+
+.btn--del:hover {
+    color: var(--attentive-color__focus);
+    font-weight: 600;
+    visibility: visible;
+}
+
+.btn--del path {
+    fill: var(--attentive-color);
+    stroke: var(--attentive-color);
+}
+
+.btn--del:hover path {
+    fill: var(--attentive-color__focus);
+    stroke: var(--attentive-color__focus);
+}
+
 /****************/
 /* DropDownList */
 /****************/
 
+.dropdownlist {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    padding: 10px;
+    position: relative;
+}
+.dropdownlist label {
+    color: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+}
 .dropdownlist select {
     border: 1px solid var(--main-border-color__bright);
     border-radius: 0.5rem;
     font-size: 1rem;
-    padding: 0.3rem 1rem;
+    padding: 0.8rem 1rem;
     transition: all 0.2s;
+}
+
+.dropdownlist select:focus {
+    border-color: var(--main-border-color__focus);
 }
 
 /*********/
 /* Input */
 /*********/
 
+.input {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    padding: 10px;
+}
+
+.input label {
+    color: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
 .input input {
     border: 1px solid var(--main-border-color__bright);
     border-radius: 0.5rem;
     font-size: 1rem;
-    margin-left: 1rem;
     padding: 0.8rem 1rem;
     transition: all 0.2s;
 }
 
-.input::placeholder {
+.input input::placeholder {
     color: var(--main-txt-color__pale);
 }
 
-.input:focus {
+.input input:focus {
     background-color: var(--main-bg-color__focus);
-    border: 1px solid var(--main-color);
+    border-color: var(--main-border-color__focus);
     outline: none;
 }
 
@@ -126,11 +188,9 @@
     visibility: visible;
 }
 
-.btn--close-modal,
-.btn--del {
+.btn--close-modal {
     background: none;
     border: none;
-    color: var(--attentive-color);
     cursor: pointer;
     font-family: inherit;
     font-size: 2.5rem;
@@ -138,25 +198,77 @@
     right: 4px;
     top: 0;
     visibility: hidden;
-    z-index: 60;
 }
 
-.btn--close-modal:hover,
-.btn--del:hover {
-    color: var(--attentive-color__focus);
+.modal-window .btn--close-modal{
+    z-index: 35;
+}
+
+.modal-window__2 .btn--close-modal{
+    z-index: 55;
+}
+
+.btn--close-modal:hover {
+    font-weight: 600;
+    visibility: visible;
+}
+
+.btn--close-modal path {
+    fill: var(--main-color);
+    stroke: var(--main-color);
+}
+
+.btn--close-modal:hover path {
+    fill: var(--attentive-color__pale);
+    stroke: var(--attentive-color__pale);
+}
+
+/************/
+/* Textarea */
+/************/
+
+.input-textarea {
+    display: flex;
+    flex-direction: column;
+    font-size: 1rem;
+    padding: 0.8rem 1rem;
+    padding: 10px;
+    position: relative;
+    transition: all 0.2s;
+}
+
+/* border: 1px solid var(--main-border-color__bright);
+border-radius: 0.5rem; */
+
+.input-textarea fieldset {
+    border: 1px solid var(--main-border-color__dark);
+    border-radius: 0.5rem;
+    padding: 1.5rem 2rem;
+}
+
+.input-textarea label {
+    color: inherit;
+    font-size: 1rem;
     font-weight: 600;
 }
 
-.btn--close-modal path,
-.btn--del path {
-    fill: var(--attentive-color);
-    stroke: var(--attentive-color);
+.input-textarea textarea {
+    border: 1px solid var(--main-border-color__bright);
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    padding: 0.8rem 1rem;
+    transition: all 0.2s;
+    width: 100%;
 }
 
-.btn--close-modal:hover path,
-.btn--del:hover path {
-    fill: var(--attentive-color__focus);
-    stroke: var(--attentive-color__focus);
+.input-textarea textarea::placeholder {
+    color: var(--main-txt-color__pale);
+}
+
+.input-textarea textarea:focus {
+    background-color: var(--main-bg-color__focus);
+    border: 1px solid var(--main-border-color__focus);
+    outline: none;
 }
 
 /*********/
@@ -171,6 +283,13 @@
 /* RESPONSIVENESS */
 /******************/
 
+@media (max-width: 1200px) {
+    .modal-window,
+    .modal-window__2 {
+        width: 70%;
+    }
+}
+
 @media (max-width: 768px) {
     .modal-window,
     .modal-window__2 {
@@ -178,3 +297,11 @@
         width: 100%;
     }
 }
+
+@media (pointer:none), (pointer:coarse) {
+    .btn--close-modal path,
+    .btn--del {
+        visibility: visible !important;
+    }
+}
+

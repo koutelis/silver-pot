@@ -1,9 +1,9 @@
 import React from "react";
 import { DelButton, Input } from "components/generic.js";
-import styles from "styles/ManageMenu_Modal.module.css"
+import styles from "styles/ManageMenu.module.css"
 
 /**
- * INPUT component for InputMenuItemOptions CONTAINER
+ * INPUT component for MenuItemOptionsForm CONTAINER
  * @param {Object} props - { label: String, nameLabel: String, name: String, priceLabel: String, price: Number, cbInputChanged: function, cbRemove: function }
  * @returns {JSX}
  */
@@ -32,13 +32,15 @@ const MenuItemOptionsForm_Input = (props) => {
         });
     }
 
-    return <div className={styles["input-field"]}>
+    return <div className={styles["option-box"]}>
         <fieldset>
             <legend>{label}</legend>
-            <Input name="name" label={nameLabel} value={name} placeholder="excluded if empty" onChange={cbNameChanged} />
-            <Input name="price" label={priceLabel} value={price} type="Number" min="0" max="5" step="0.25" onChange={cbPriceChanged} />
-            <DelButton className={styles["btn--del-option"]} onClick={cbRemove} tooltip={`delete ${label}`} />
+            <div className={styles["option-box__inputs"]}>
+                <Input name="name" label={nameLabel} value={name} placeholder="excluded if empty" onChange={cbNameChanged} />
+                <Input name="price" label={priceLabel} value={price} type="Number" min="0" max="5" step="0.25" onChange={cbPriceChanged} />
+            </div>
         </fieldset>
+        <DelButton className={styles["btn--del-option"]} onClick={cbRemove} tooltip={`delete ${label}`} />
     </div>
 }
 

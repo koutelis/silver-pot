@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useAsync } from "store/hooks.js";
 import { restaurantmenusRequests } from "store/http-requests.js";
 import { cloneObject, todayAsString } from "store/utils.js";
 import { Button, Card, DropDownList, Title, Unimplemented } from "components/generic.js";
@@ -17,20 +18,22 @@ const WaitersSection = () => {
     const [currentMode, setCurrentMode] = useState("add");
     const [orderModalIsVisible, setOrderModalIsVisible] = useState(false);
 
-    // runs only first time
-    useEffect(async () => {
+    // runs only first time, checks for an unprocessed pending order
+    useEffect(() => {
         // check for an unprocessed pending order
         const pendingOrder = JSON.parse(localStorage.getItem("currentOrder"));
         if (pendingOrder) {
             setCurrentOrder(pendingOrder);
             setSelectedTable(pendingOrder.table);
         }
-
-        // load today's menu
-        const currentMenu = await restaurantmenusRequests.get( todayAsString() );
-        if (currentMenu) setAvailableItems(currentMenu);
     }, []);
 
+    // runs only first time, loads today's menu
+    useAsync(
+        () => restaurantmenusRequests.get( todayAsString() ),
+        (currentMenu) => { if (currentMenu) setAvailableItems(currentMenu); }
+    )
+    
     const cbTableSelected = (e) => {
         const table = e.target.value;
         setSelectedTable(table);
@@ -59,9 +62,16 @@ const WaitersSection = () => {
                 ...snapshot,
                 [menuItemType]: snapshot[menuItemType].concat([itemOrder])
             };
+            result.totalCost = calculateTotalCost(result);
             localStorage.setItem("currentOrder", JSON.stringify(result));
             return result;
         });
+    }
+
+    const calculateTotalCost = (order) => {
+        const foodsTotalPrice = order.foods.reduce((total, current) => total + current.totalPrice, 0);
+        const drinksTotalPrice = order.drinks.reduce((total, current) => total + current.totalPrice, 0);
+        return foodsTotalPrice + drinksTotalPrice;
     }
 
     const cbMenuItemEdited = (menuItemType, itemOrder) => {
@@ -79,6 +89,7 @@ const WaitersSection = () => {
                 ...snapshot,
                 [menuItemType]: itemList
             };
+            result.totalCost = calculateTotalCost(result);
             localStorage.setItem("currentOrder", JSON.stringify(result));
             return result;
         });
@@ -90,8 +101,9 @@ const WaitersSection = () => {
             const itemList = snapshot[menuItemType];
             const result = {
                 ...snapshot,
-                [menuItemType]: itemList.filter(item => item._id !== itemId)
+                [menuItemType]: itemList.filter(item => item._id !== itemId),
             };
+            result.totalCost = calculateTotalCost(result);
             localStorage.setItem("currentOrder", JSON.stringify(result));
             return result;
         });
@@ -102,11 +114,12 @@ const WaitersSection = () => {
         setOrderModalIsVisible(true);
     }
 
-    const cbSubmitOrder = () => {
-        setOrderModalIsVisible(false);
+    const hasSelectedItems = () => {
+        return Boolean(currentOrder.foods.length + currentOrder.drinks.length);
+    }
 
-        const hasItems = Boolean(currentOrder.foods.length + currentOrder.drinks.length);
-        if (!hasItems) {
+    const cbSubmitOrder = () => {
+        if (!hasSelectedItems()) {
             alert("No menu items have been selected");
         } else if (!currentOrder.table) {
             alert("A table must be selected");
@@ -146,15 +159,22 @@ const WaitersSection = () => {
             localStorage.removeItem("currentOrder");
             setCurrentOrder( cloneObject(ORDERS.order) )
             setSelectedTable(null);
+            setOrderModalIsVisible(false);
+
+            // STEF:TODO
+            // SEND finalizedOrder TO DB, to be broadcasted to other sections
         }
     }
+
+    const btnViewOrder_mask = hasSelectedItems() ? "" : "hidden";
+    const btnViewOrder_ClassList = [styles["btn--open-order-modal"], btnViewOrder_mask].join(" ");
 
     return <div className={styles["master-container"]}>
         <div className={styles["top-panel"]} >
             <Title className={styles["title"]} text="WAITERS SECTION" />
             <DropDownList 
                 hasEmpty={true} 
-                className={styles["tables"]} 
+                className={styles["ddl--restaurant-table"]} 
                 label="Select table" 
                 onChange={cbTableSelected} 
                 options={ORDERS.tables} 
@@ -169,13 +189,13 @@ const WaitersSection = () => {
                     value={selectedMenuItemType}
                 />
                 <Button 
-                    className={styles["btn--open-modal"]} 
+                    className={btnViewOrder_ClassList} 
                     text="View Order" 
                     onClick={cbOpenOrderModal} 
                 />
             </div>
         </div>
-        <Card>
+        <Card className={styles["card"]}>
             <AvailableMenuItemsList 
                 itemsType={selectedMenuItemType} 
                 menuItems={availableItems} 
@@ -195,7 +215,8 @@ const WaitersSection = () => {
             onClose={() => setOrderModalIsVisible(false)} 
             onSelect={cbMenuItemSelected}
             onSubmit={cbSubmitOrder}
-            selectedItems={currentOrder}
+            onTableChange={cbTableSelected}
+            currentOrder={currentOrder}
             visible={orderModalIsVisible} 
         />
     </div>

@@ -34,19 +34,18 @@
     font-size: 1.2rem;
 }
 
-/*******************/
-/* ManageFoods.js  */
-/* ManageDrinks.js */
-/*******************/
+/***********************/
+/* ManageMenuItems.js  */
+/***********************/
 
-.card-container {
+.upper-panel {
     align-items: center;
     display: grid;
     grid-template: repeat(2, 1fr) / repeat(2, 1fr);
     text-align: center;
 }
 
-.card-container h2 {
+.upper-panel h2 {
     color: var(--main-color);
     grid-area: 1 / 1 / 1 / 3;
 }
@@ -90,14 +89,13 @@
 }
 
 .item-list {
-    height: 70vh;
+    height: 60vh;
     overflow-y: auto;
 }
 
-/**************************/
-/* ManageMenu/MenuItem.js */
-/* CreateMenu/MenuItem.js */
-/**************************/
+/***************/
+/* MenuItem.js */
+/***************/
 
 .menu-item {
     background-color: var(--main-bg-color__bright);
@@ -158,6 +156,174 @@
     stroke: var(--attentive-color__focus);
 }
 
+/***************************/
+/* ManageMenuItem_Modal.js */
+/***************************/
+
+.add-item-form {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+/**************************/
+/* MenuItemOptionsForm.js */
+/**************************/
+
+.options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
+.btn--add-option {
+    background-color: var(--main-bg-color__focus);
+    border: 1px solid var(--main-border-color__dark);
+    border-radius: 0;
+    color: var(--main-txt-color__dark);
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 0.6rem 0;
+    text-transform: uppercase;
+    transition: all 0.2s;
+    width: 100%;
+}
+
+.btn--add-option:hover {
+    border-color: var(--main-color);
+    color: var(--main-color);
+    transform: none;
+    transition: transform .3s;
+}
+
+/***********************/
+/* MenuItemDataForm.js */
+/***********************/
+
+.inputs__column {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.inputs__heading {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1rem;
+}
+
+.inputs__heading h3,
+h3.inputs__heading {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-right: 0.5rem;
+    text-transform: uppercase;
+}
+
+.inputs__grid-container {
+    align-content: center;
+    display: grid;
+    grid-template-columns: repeat(4, [col] 1fr);
+    grid-gap: 10px;
+    justify-content: center;
+}
+
+.inputs__grid-container > div:first-child {
+    grid-column: 1 / span 2;
+}
+
+.inputs__grid-container > div:nth-child(2) {
+    grid-column: 3 / span 2;
+}
+
+.inputs__grid-container > div:nth-child(3) {
+    grid-column: 1 / span 3;
+}
+
+.inputs__grid-container > div:last-child {
+    grid-column: 4 / span 1;
+}
+
+.inputs__grid-container > div {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+}
+
+/********************************/
+/* MenuItemOptionsForm_Input.js */
+/********************************/
+
+.option-box {
+    position: relative;
+}
+
+.option-box fieldset {
+    border: 1px solid var(--main-border-color__pale);
+    border-radius: var(--border-radius-medium);
+    padding: 10px;
+    
+}
+
+.option-box legend {
+    background-color: var(--main-bg-color__bright);
+    font-size: 1.2rem;
+    font-weight: 700;
+    left: 1rem;
+    padding: 0 0.5rem;
+    text-transform: uppercase;
+    top: -0.2rem;
+    transform: rotate(0deg);
+}
+
+.option-box:hover .btn--del-option {
+    visibility: visible;
+}
+
+.option-box__inputs {
+    display: flex;
+    flex-direction: row;
+}
+
+.option-box__inputs > div {
+    display: flex;
+    flex-direction: row;
+}
+
+.btn--del-option {
+    background: none;
+    border: none;
+    color: var(--attentive-color);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 2.5rem;
+    position: absolute;
+    right: 4px;
+    top: 0;
+    visibility: hidden;
+}
+
+.btn--del-option:hover {
+    color: var(--attentive-color__focus);
+    font-weight: 600;
+}
+
+.btn--del-option path {
+    fill: var(--attentive-color);
+    stroke: var(--attentive-color);
+}
+
+.btn--del-option:hover path {
+    fill: var(--attentive-color__focus);
+    stroke: var(--attentive-color__focus);
+}
+
 /* RESPONSIVENESS */
 /******************/
 
@@ -167,8 +333,46 @@
     }
 }
 
+@media (max-width: 600px) {
+    .option-box__inputs {
+        flex-direction: column;
+    }
+
+    .option-box__inputs > div {
+        flex-direction: row;
+    }
+}
+
+@media (max-width: 480px) {
+    .inputs__grid-container {
+        display: block;
+    }
+}
+
+@media (max-width: 360px) {
+    .option-box__inputs > div {
+        flex-direction: column;
+    }
+}
+
+@media (min-width: 1024px) {
+    .input-field fieldset {
+        display: flex;
+        flex-direction: row;
+    }
+    
+    .input-field div {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        margin-right: 2px;
+    }
+}
+
 @media (pointer:none), (pointer:coarse) {
+    .btn--close-modal,
+    .btn--del-option,
     .btn--del-item {
-        visibility: visible;
+        visibility: visible !important;
     }
 }

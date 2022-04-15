@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Input, ModalWindow, ModalWindow_2 } from "components/generic.js";
+import { Button, TextArea, ModalWindow, ModalWindow_2 } from "components/generic.js";
 import { cloneObject } from "store/utils.js";
 import { FoodOptions, DrinkOptions } from "components/WaitersSection/MenuItemOptions.js";
 import styles from "styles/WaitersSection.module.css";
@@ -22,9 +22,17 @@ const MenuItemOrder_Modal = (props) => {
         setSelectedOptions(() => prepareMenuItemOptions());
     }, [menuItem, menuItemType]);
 
+    // runs when the options change to set the correct total price
+    useEffect(() => {
+        if (!menuItem) return;
+        setTotalPrice(() => calcTotalPrice());
+
+    }, [selectedOptions]);
+
     /**
-     * Helper of useEffect
-     * @returns {Object} where each property has an Array of options as value
+     * Helper of 1st useEffect.
+     * Populates the menu item's available options (addons/removables/sizes/comments)
+     * @returns {Object} where each of its properties has an Array of options as value
      */
     const prepareMenuItemOptions = () => {
         if (menuItemType === "foods") {
@@ -59,15 +67,9 @@ const MenuItemOrder_Modal = (props) => {
         };
     }
 
-    // runs when the options change to set the correct total price
-    useEffect(() => {
-        if (!menuItem) return;
-        setTotalPrice(() => calcTotalPrice());
-
-    }, [selectedOptions]);
-
     /**
-     * Helper of useEffect.
+     * Helper of 2nd useEffect.
+     * Calculates the menu item's total price according to selected options.
      * @returns {Number} Float
      */
     const calcTotalPrice = () => {
@@ -133,8 +135,14 @@ const MenuItemOrder_Modal = (props) => {
     /**
      * Callback handler for the delete item button
      */
-    const cbRemoveItem = () => onMenuItemRemove(menuItemType, menuItem._id);
+    const cbRemoveItem = () => {
+        setVisible(false);
+        onMenuItemRemove(menuItemType, menuItem._id);
+    }
 
+    /**
+     * Callback handler for the submit (add/save) button
+     */
     const cbSubmit = () => {
         const itemOrder = {
             ...menuItem,
@@ -148,15 +156,32 @@ const MenuItemOrder_Modal = (props) => {
         setVisible(false);
     }
 
-    if (!visible) return <></>;
+    if (!visible) return null;
 
     const { basePrice, category, description, name } = menuItem;
     const form = <form className={styles["add-item-form"]} >
-        <label>{category}</label>
-        <label>{name}</label>
-        <label>{description}</label>
-        <label>{basePrice}</label>
-        <label>{totalPrice}</label>
+        <div className={styles["add-item-form__main-data"]}>
+            <div>
+                <label htmlFor="category">Category</label>
+                <span name="category">{category}</span>
+            </div>
+            <div>
+                <label htmlFor="name">name</label>
+                <span name="name">{name}</span>
+            </div>
+            <div>
+                <label htmlFor="description">description</label>
+                <span name="description">{description ?? "-"}</span>
+            </div>
+            <div>
+                <label htmlFor="basePrice">basePrice</label>
+                <span name="basePrice">{basePrice}</span>
+            </div>
+            <div>
+                <label htmlFor="totalPrice">totalPrice</label>
+                <span name="totalPrice">{totalPrice}</span>
+            </div>
+        </div>
 
         {
             (menuItemType === "foods")
@@ -164,12 +189,13 @@ const MenuItemOrder_Modal = (props) => {
                 : <DrinkOptions onRadioChange={cbOptionsChanged_radio} options={selectedOptions} /> 
         }
 
-        <Input 
-            label="Special requests" 
+        <TextArea 
+            label="Comments" 
             name="comments" 
-            type="text" 
             value={selectedOptions.comments} 
             onChange={cbInputChanged} 
+            placeholder="special requests"
+            type="text"
         />
         {(mode === "edit") && <Button type="button" onClick={cbRemoveItem} text="Remove" />}
         <Button 

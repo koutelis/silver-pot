@@ -130,7 +130,7 @@
 .ddl--menu-item-add select {
     border: 1px solid var(--main-border-color__dark);
     padding: 0.4rem 1rem;
-    width: 50%;
+    width: 65%;
 }
 
 .ddl--menu-item-add option {
@@ -139,6 +139,42 @@
 
 .ddl--category option {
     font-size: 1.2rem;
+}
+
+/***************/
+/* MenuItem.js */
+/***************/
+
+.menu-item {
+    background-color: var(--main-bg-color__bright);
+    border-radius: 4px;
+    box-shadow: 0 2px 8px var(--box-shadow-color__dark);
+    margin: 0.2rem 0;
+    padding: 0.2rem;
+    position: relative;
+}
+
+.menu-item:hover {
+    background-color: var(--main-color__pale);
+}
+
+.menu-item fieldset {
+    border-color: var(--main-color__pale);
+    padding: 0.5rem;
+}
+
+.menu-item legend {
+    color: var(--main-color);
+    font-size: 1.2rem;
+    text-transform: uppercase;
+}
+
+.menu-item:hover .btn--del-item {
+    visibility: visible;
+}
+
+.menu-item:hover fieldset {
+    border-color: var(--attentive-color);
 }
 
 /* RESPONSIVENESS */
@@ -153,11 +189,18 @@
         gap: 10px;
         justify-content: flex-start;
     }
+
+    .menu-item {
+        margin: 0.4rem 0;
+    }
 }
 
 @media (max-width: 480px) {
     .top-panel-btns {
         flex-direction: column;
+    }
+    .ddl--menu-item-add select {
+        width: 50%;
     }
 }
 
@@ -168,6 +211,10 @@
 
     .printable-ctrls {
         flex-direction: column-reverse;
+    }
+
+    .modal-form {
+        gap: 50px;
     }
 }
 

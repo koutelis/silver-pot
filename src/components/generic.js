@@ -135,7 +135,7 @@ const ModalWindow = (props) => {
  */
  const TextArea = (props) => {
     const { className, label, name, ...rest } = props;
-    const classList = [ styles["input"], (className ?? "") ].join(" ");
+    const classList = [ styles["input-textarea"], (className ?? "") ].join(" ");
 
     return <div className={classList}>
         <label htmlFor={name}>{label}</label>

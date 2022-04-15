@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useAsync } from "store/hooks.js";
 import { foodsRequests } from "store/http-requests.js";
 import { Button, DropDownList, Input, ModalWindow } from "components/generic.js";
 import { FOODS as defaults } from "store/config";
@@ -13,17 +14,16 @@ import styles from "styles/CreateMenu.module.css";
 const MenuItemAdd_Modal = (props) => {
     const [selectedItemId, setSelectedItemId] = useState("");
     const [availability, setAvailability] = useState(10);
-    const [options, setOptions] = useState([]);
+    const [menuCatalogue, setMenuCatalogue] = useState([]);
     const [filteredOptions, setFilteredOptions] = useState({});
     const [filter, setFilter] = useState("");
     const { onClose, onSelection, selectedItems, visible } = props;
 
-    // runs only the first time to populate the items DDL options
-    useEffect(async () => {
-        // fetch items from DB
-        const fetchedItems = await foodsRequests.getAll();
-        setOptions(fetchedItems);
-    }, []);
+    // runs only the first time to populate the items DDL options from DB
+    useAsync(
+        () => foodsRequests.getAll(),
+        (fetchedItems) => setMenuCatalogue(fetchedItems)
+    )
 
     // runs on changes to exlude already added items from the DDL
     useEffect(() => {
@@ -38,13 +38,13 @@ const MenuItemAdd_Modal = (props) => {
         }
 
         let result = {};
-        options
+        menuCatalogue
         .filter(option => filter === "" || option.category === filter)
         .filter(option => !selectedItemsIds.includes(option._id))
         .forEach(option => result[option._id] = option.name);
 
         setFilteredOptions(result);
-    }, [options, filter, selectedItems]);
+    }, [menuCatalogue, filter, selectedItems]);
 
     const cbAvailabilityChanged = (e) => {
         setAvailability(e.target.value);

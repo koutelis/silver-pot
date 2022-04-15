@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
+import { useAsync } from "store/hooks.js";
 import { foodsRequests, restaurantmenusRequests } from "store/http-requests.js";
 import { Button, Card, Input, Title } from "components/generic.js";
 import { cloneObject, tomorrowAsString } from "store/utils.js";
@@ -23,17 +24,16 @@ const CreateMenu = () => {
     const [fontSize, setFontSize] = useState(14);
 
     // runs only first time
-    useEffect(async () => {
-        // load the template menu
-        const response = await restaurantmenusRequests.get("template");
-        const { fontSize: fetchedFontSize, foods: fetchedFoods, drinks: fetchedDrinks } = response;
-        setFontSize(fetchedFontSize ?? defaults.template.fontSize);
-        setFoods(fetchedFoods ?? cloneObject(defaults.template.foods));
-        setDrinks(fetchedDrinks ?? cloneObject(defaults.template.drinks));
-        
-        // find out window width to display the appropriate view
-        setIsPrintView(window.innerWidth > 768);
-    }, []);
+    useAsync(
+        () => restaurantmenusRequests.get("template"), 
+        (response) => {
+            const { fontSize: fetchedFontSize, foods: fetchedFoods, drinks: fetchedDrinks } = response;
+            setFontSize(fetchedFontSize ?? defaults.template.fontSize);
+            setFoods(fetchedFoods ?? cloneObject(defaults.template.foods));
+            setDrinks(fetchedDrinks ?? cloneObject(defaults.template.drinks));
+            setIsPrintView(window.innerWidth > 768);  // find out window width to display the appropriate view
+        }
+    );
 
     /**
      * CHANGE handler for the selected date.
