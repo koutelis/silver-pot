@@ -1,18 +1,56 @@
 import React, { useState, useEffect } from "react";
-import { Button, TextArea, ModalWindow, ModalWindow_2 } from "components/generic.js";
+import { Button, DelButton, TextArea, ModalWindow, ModalWindow_2 } from "components/generic.js";
 import { cloneObject } from "store/utils.js";
+import { CURRENCY } from "store/config.js";
 import { FoodOptions, DrinkOptions } from "components/WaitersSection/MenuItemOptions.js";
 import styles from "styles/WaitersSection.module.css";
+
+
+const MenuItemMainData = (props) => {
+    const { menuItem, mode, cbRemoveItem, totalPrice } = props;
+    const { basePrice, category, description, name } = menuItem;
+
+    return <div className={styles["add-item-form__data1"]}>
+        <div>
+            <span>[ {category} ]</span>
+        </div>
+        <div>
+            <h2>{name}</h2>
+        </div>
+        <div className={styles["add-item-form__data2"]}>
+            <div>
+                <label htmlFor="description">description:</label>
+                <span name="description">{description ?? "-"}</span>
+            </div>
+            <div>
+                <label htmlFor="basePrice">regular price:</label>
+                <span name="basePrice">{CURRENCY.sign}{basePrice.toFixed(2)}</span>
+            </div>
+            <div>
+                <label htmlFor="totalPrice">total cost:</label>
+                <span name="totalPrice">{CURRENCY.sign}{totalPrice.toFixed(2)}</span>
+            </div>
+            {
+                (mode === "edit") && 
+                <DelButton className={styles["add-item-form__del"]} 
+                    onClick={cbRemoveItem} tooltip={`delete ${name}`} 
+                />
+            }
+        </div>
+    </div>
+}
+
+
 
 /**
  * SUBCOMPONENT of WaitersSection.js
  * @param {Object} props { menuItem: Object, menuItemType: String, mode: String, onClose: function, onMenuItemAdd: function, onMenuItemEdit: function, onMenuItemRemove: function }
  * @returns {JSX}
  */
-const MenuItemOrder_Modal = (props) => {
+const MenuItem_Modal = (props) => {
     const [visible, setVisible] = useState(false);
     const [selectedOptions, setSelectedOptions] = useState({});
-    const [totalPrice, setTotalPrice] = useState(0);
+    const [itemTotalCost, setItemTotalCost] = useState(0);
     const { menuItem, menuItemType, mode, onClose, onMenuItemAdd, onMenuItemEdit, onMenuItemRemove } = props;
 
     // runs only the first time to populate the options (addons/removables/sizes/comments)
@@ -25,7 +63,7 @@ const MenuItemOrder_Modal = (props) => {
     // runs when the options change to set the correct total price
     useEffect(() => {
         if (!menuItem) return;
-        setTotalPrice(() => calcTotalPrice());
+        setItemTotalCost(() => calcTotalPrice());
 
     }, [selectedOptions]);
 
@@ -81,7 +119,7 @@ const MenuItemOrder_Modal = (props) => {
                 return (current.checked) ? total + current.price : total;
             }, 0);
             
-            return basePrice + addonsTotalPrice - removablesTotalPrice;
+            return menuItem.basePrice + addonsTotalPrice - removablesTotalPrice;
         } else {
             return selectedOptions.sizes.filter(size => size.checked)[0].price;
         }
@@ -147,7 +185,7 @@ const MenuItemOrder_Modal = (props) => {
         const itemOrder = {
             ...menuItem,
             ...selectedOptions,
-            totalPrice
+            totalPrice: itemTotalCost
         }
         
         const dispatch = (mode === "add") ? onMenuItemAdd : onMenuItemEdit;
@@ -158,46 +196,23 @@ const MenuItemOrder_Modal = (props) => {
 
     if (!visible) return null;
 
-    const { basePrice, category, description, name } = menuItem;
     const form = <form className={styles["add-item-form"]} >
-        <div className={styles["add-item-form__main-data"]}>
-            <div>
-                <label htmlFor="category">Category</label>
-                <span name="category">{category}</span>
-            </div>
-            <div>
-                <label htmlFor="name">name</label>
-                <span name="name">{name}</span>
-            </div>
-            <div>
-                <label htmlFor="description">description</label>
-                <span name="description">{description ?? "-"}</span>
-            </div>
-            <div>
-                <label htmlFor="basePrice">basePrice</label>
-                <span name="basePrice">{basePrice}</span>
-            </div>
-            <div>
-                <label htmlFor="totalPrice">totalPrice</label>
-                <span name="totalPrice">{totalPrice}</span>
-            </div>
-        </div>
-
+        <MenuItemMainData menuItem={menuItem} mode={mode} 
+            totalPrice={itemTotalCost} cbRemoveItem={cbRemoveItem} 
+        />
         {
             (menuItemType === "foods")
                 ? <FoodOptions onCheckboxChange={cbOptionsChanged_cbx} options={selectedOptions} />
                 : <DrinkOptions onRadioChange={cbOptionsChanged_radio} options={selectedOptions} /> 
         }
-
         <TextArea 
-            label="Comments" 
+            label="Comments:" 
             name="comments" 
             value={selectedOptions.comments} 
             onChange={cbInputChanged} 
             placeholder="special requests"
             type="text"
         />
-        {(mode === "edit") && <Button type="button" onClick={cbRemoveItem} text="Remove" />}
         <Button 
             type="button" 
             onClick={cbSubmit} 
@@ -210,4 +225,4 @@ const MenuItemOrder_Modal = (props) => {
         : <ModalWindow_2 onClose={cbCloseModal} visible={visible}> {form} </ModalWindow_2>
 }
 
-export default MenuItemOrder_Modal;
+export default MenuItem_Modal;

@@ -7,7 +7,7 @@ import styles from "styles/WaitersSection.module.css";
 
 /**
  * SUBCOMPONENT of WaitersSection.js
- * @param {Object} props 
+ * @param {Object} props { currentOrder: Object, onClose: function, onSelect: function, onSubmit: function, onTableChange: function, visible: Boolean }
  * @returns {JSX}
  */
 const Order_Modal = (props) => {
@@ -20,7 +20,6 @@ const Order_Modal = (props) => {
         <ModalWindow onClose={onClose} visible={visible}>
             <DropDownList 
                 hasEmpty={true} 
-                className={styles["ddl--restaurant-table__modal"]} 
                 label="Selected table" 
                 onChange={onTableChange} 
                 options={ORDERS.tables} 

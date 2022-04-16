@@ -24,10 +24,6 @@ nav {
     text-transform: uppercase;
 }
 
-.nav-link > a[class="active"] {
-    color: var(--attentive-color) !important;
-}
-
 /* LANDSCAPE */
 /*************/
 

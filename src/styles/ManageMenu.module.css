@@ -12,26 +12,12 @@
 }
 
 .ddl--menu-item-type {
-    align-items: center;
-    justify-content: flex-end;
     color: var(--main-txt-color__bright);
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    padding: 10px;
+    justify-content: flex-end;
 }
 
 .ddl--menu-item-type select {
-    border: 1px solid var(--main-border-color__dark);
-    border-radius: 0.5rem;
-    font-size: 1rem;
-    padding: 0.4rem 1rem;
-    transition: all 0.2s;
-    width: 30%;
-}
-
-.ddl--menu-item-type option {
-    font-size: 1.2rem;
+    border-color: var(--main-border-color__dark);
 }
 
 /***********************/
@@ -53,10 +39,6 @@
 .ddl--category {
     grid-area: 2 / 1 / 2 / 1;
     justify-self: flex-start;
-}
-
-.ddl--category option {
-    font-size: 1.2rem;
 }
 
 .btn--add-item {
@@ -126,34 +108,15 @@
 }
 
 .menu-item:hover fieldset {
-    border-color: var(--attentive-color);
+    border-color: var(--attentive-color__pale);
 }
 
 .btn--del-item {
-    border: none;
-    color: var(--attentive-color);
-    cursor: pointer;
-    font-family: inherit;
     font-size: 2rem;
     visibility: hidden;
     position: absolute;
     right: 0.3rem;
     top: 0;
-}
-
-.btn--del-item:hover {
-    font-weight: 600;
-    color: var(--attentive-color__focus);
-}
-
-.btn--del-item path {
-    fill: var(--attentive-color);
-    stroke: var(--attentive-color);
-}
-
-.btn--del-item:hover path {
-    fill: var(--attentive-color__focus);
-    stroke: var(--attentive-color__focus);
 }
 
 /***************************/
@@ -181,14 +144,8 @@
 .btn--add-option {
     background-color: var(--main-bg-color__focus);
     border: 1px solid var(--main-border-color__dark);
-    border-radius: 0;
     color: var(--main-txt-color__dark);
-    cursor: pointer;
     font-size: 1rem;
-    font-weight: 600;
-    padding: 0.6rem 0;
-    text-transform: uppercase;
-    transition: all 0.2s;
     width: 100%;
 }
 
@@ -196,7 +153,6 @@
     border-color: var(--main-color);
     color: var(--main-color);
     transform: none;
-    transition: transform .3s;
 }
 
 /***********************/
@@ -297,31 +253,10 @@ h3.inputs__heading {
 }
 
 .btn--del-option {
-    background: none;
-    border: none;
-    color: var(--attentive-color);
-    cursor: pointer;
-    font-family: inherit;
-    font-size: 2.5rem;
     position: absolute;
     right: 4px;
     top: 0;
     visibility: hidden;
-}
-
-.btn--del-option:hover {
-    color: var(--attentive-color__focus);
-    font-weight: 600;
-}
-
-.btn--del-option path {
-    fill: var(--attentive-color);
-    stroke: var(--attentive-color);
-}
-
-.btn--del-option:hover path {
-    fill: var(--attentive-color__focus);
-    stroke: var(--attentive-color__focus);
 }
 
 /* RESPONSIVENESS */

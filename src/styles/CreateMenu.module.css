@@ -38,10 +38,8 @@
 .btn--save-menu,
 .btn--print-menu {
     background-color: var(--main-txt-color__bright);
-    border-radius: var(--border-radius-small);
     color: var(--main-color);
     font-size: 1rem;
-    padding: 0.3rem 1.2rem;
 }
 
 .btn--print-menu {
@@ -60,9 +58,12 @@
     justify-content: space-between;
 }
 
+.input--font-size {
+    padding: 0;
+}
+
 .btn--save-template {
-    border-radius: var(--border-radius-small);
-    font-size: 0.8rem;
+    font-size: 1rem;
 }
 
 /********************/
@@ -119,26 +120,13 @@
 
 .ddl--menu-item-add,
 .ddl--category {
-    align-items: center;
-    justify-content: flex-start;
     color: var(--main-txt-color__dark);
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
+    justify-content: flex-start;
 }
 
 .ddl--menu-item-add select {
-    border: 1px solid var(--main-border-color__dark);
-    padding: 0.4rem 1rem;
+    border-color: var(--main-border-color__dark);
     width: 65%;
-}
-
-.ddl--menu-item-add option {
-    font-size: 1.2rem;
-}
-
-.ddl--category option {
-    font-size: 1.2rem;
 }
 
 /***************/
@@ -199,22 +187,20 @@
     .top-panel-btns {
         flex-direction: column;
     }
+
+    .modal-form > div {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
     .ddl--menu-item-add select {
-        width: 50%;
+        width: 100%;
     }
 }
 
 @media (max-width: 360px) {
-    .btn--toggle-view {
-        font-size: 0.85rem;
-    }
-
     .printable-ctrls {
         flex-direction: column-reverse;
-    }
-
-    .modal-form {
-        gap: 50px;
     }
 }
 

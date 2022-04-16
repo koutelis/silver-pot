@@ -128,7 +128,7 @@ const CreateMenu = () => {
         </div>
         <Card className={styles["card"]}>
             <div className={[styles["printable-ctrls"], printMask].join(" ")}>
-                <Input
+                <Input className={styles["input--font-size"]}
                     label="Font size" htmlFor="font-size" name="font-size" type="number" min="8" max="20" step="1"
                     onChange={(e) => setFontSize(e.target.value)} value={fontSize}
                 />

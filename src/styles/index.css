@@ -82,6 +82,14 @@ footer {
     margin-top: 10px;
 }
 
+a {
+    text-decoration: none;
+}
+
+a.active {
+    color: var(--attentive-color);
+}
+
 .hidden {
     display: none !important;
 }

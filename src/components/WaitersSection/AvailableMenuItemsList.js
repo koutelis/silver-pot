@@ -7,7 +7,7 @@ import styles from "styles/WaitersSection.module.css";
 /**
  * SUBCOMPONENT of WaitersSection.js
  * Contains a list of menu items (either foods or drinks).
- * @param {Object} props
+ * @param {Object} props { itemsType: String, menuItems: Object, onSelect: function }
  * @returns {JSX}
  */
  const AvailableMenuItemsList = (props) => {
@@ -18,8 +18,16 @@ import styles from "styles/WaitersSection.module.css";
 
     // runs whenever there are changes to set the view
     useEffect(() => {
-        setItemsNavHtml( prepareItemsNavigation() );
-        setItemsHtml( prepareItemsList() );
+        const menuExists = Object.keys(menuItems.foods).length > 0;
+
+        setItemsNavHtml(() => {
+            if (!menuExists) return null;
+            return prepareItemsNavigation();
+        });
+        setItemsHtml(() => {
+            if (!menuExists) return <h2>A menu has not been set for today...</h2>
+            return prepareItemsList();
+        });
     }, [itemsType, filter, menuItems]);
 
     /**
@@ -77,7 +85,7 @@ import styles from "styles/WaitersSection.module.css";
             </div>;
         });
 
-        return itemsList.length ? itemsList : <h2>A menu has not been set for today...</h2>;
+        return itemsList.length ? itemsList : <h2>No {itemsType} found...</h2>;
     }
 
     /**

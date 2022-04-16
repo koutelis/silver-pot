@@ -5,10 +5,14 @@ import { cloneObject, todayAsString } from "store/utils.js";
 import { Button, Card, DropDownList, Title, Unimplemented } from "components/generic.js";
 import { MENUS, ORDERS } from "store/config.js";
 import AvailableMenuItemsList from "components/WaitersSection/AvailableMenuItemsList.js";
-import MenuItemOrder_Modal from "components/WaitersSection/MenuItemOrder_Modal.js";
+import MenuItem_Modal from "components/WaitersSection/MenuItem_Modal.js";
 import Order_Modal from "components/WaitersSection/Order_Modal.js";
 import styles from "styles/WaitersSection.module.css";
 
+/**
+ * FR3
+ * @returns {JSX}
+ */
 const WaitersSection = () => {
     const [availableItems, setAvailableItems] = useState( cloneObject(ORDERS.items) );
     const [currentOrder, setCurrentOrder] = useState( cloneObject(ORDERS.order) );
@@ -172,27 +176,31 @@ const WaitersSection = () => {
     return <div className={styles["master-container"]}>
         <div className={styles["top-panel"]} >
             <Title className={styles["title"]} text="WAITERS SECTION" />
-            <DropDownList 
-                hasEmpty={true} 
-                className={styles["ddl--restaurant-table"]} 
-                label="Select table" 
-                onChange={cbTableSelected} 
-                options={ORDERS.tables} 
-                value={selectedTable}
-            />
-            <div className={styles["top-panel-btns"]}>
-                <DropDownList 
-                    className={styles["ddl--menu-item-type"]} 
-                    label="Select menu-item type" 
-                    options={MENUS.itemTypes} 
-                    onChange={cbSectionSelected} 
-                    value={selectedMenuItemType}
-                />
-                <Button 
-                    className={btnViewOrder_ClassList} 
-                    text="View Order" 
-                    onClick={cbOpenOrderModal} 
-                />
+            <div className={styles["top-panel-ctrls"]}>
+                <div className={styles["top-panel-ctrls__ddls"]}>
+                    <DropDownList 
+                        hasEmpty={true} 
+                        className={styles["ddl--restaurant-table"]} 
+                        label="Select table" 
+                        onChange={cbTableSelected} 
+                        options={ORDERS.tables} 
+                        value={selectedTable}
+                    />
+                    <DropDownList 
+                        className={styles["ddl--menu-item-type"]} 
+                        label="Select menu-item type" 
+                        options={MENUS.itemTypes} 
+                        onChange={cbSectionSelected} 
+                        value={selectedMenuItemType}
+                    />
+                </div>
+                <div>
+                    <Button 
+                        className={btnViewOrder_ClassList} 
+                        text="View Order" 
+                        onClick={cbOpenOrderModal} 
+                    />
+                </div>
             </div>
         </div>
         <Card className={styles["card"]}>
@@ -202,7 +210,7 @@ const WaitersSection = () => {
                 onSelect={cbMenuItemSelected} 
             />
         </Card>
-        <MenuItemOrder_Modal 
+        <MenuItem_Modal 
             menuItem={selectedItem}
             menuItemType={selectedMenuItemType}
             mode={currentMode}

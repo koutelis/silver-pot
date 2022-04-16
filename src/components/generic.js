@@ -1,5 +1,5 @@
 import React from "react";
-import { GrClose } from "react-icons/gr";
+import { GrClose, GrTrash, GrTroubleshoot } from "react-icons/gr";
 import styles from "styles/generic.module.css";
 
 /**
@@ -30,7 +30,7 @@ const Card = (props) => {
  * @returns {JSX}
  */
 const DelButton = (props) => {
-    const { className, tooltip, name, onClick } = props;
+    const { className, tooltip, onClick } = props;
     const classList = [ styles["btn--del"], (className ?? "") ].join(" ");
 
     const cbClick = (e) => { 
@@ -39,7 +39,7 @@ const DelButton = (props) => {
     }
 
     return <div title={tooltip} className={classList} onClick={cbClick} >
-        <GrClose />
+        <GrTrash />
     </div>
 }
 
@@ -163,9 +163,10 @@ const Title = (props) => {
  * @returns {JSX}
  */
 const Unimplemented = (props) => {
-    return <div style={{color: "white", textAlign: "center"}}>
-        <h2 style={{color: "var(--attentive-color__pale)"}}>{props.title}</h2>
+    return <div className={styles["unimplemented"]}>
+        <h2>{props.title}</h2>
         <h3>Not implemented yet...</h3>
+        <div><GrTroubleshoot /></div>
     </div>
 }
 

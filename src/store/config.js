@@ -109,7 +109,7 @@ const ORDERS = {
         totalCost: 0,
         timestamp: null
     },
-    items: { foods: [], drinks: [] },
+    items: { foods: {}, drinks: {} },
     tables: {
         1: "TABLE 01",
         2: "TABLE 02",

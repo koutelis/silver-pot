@@ -20,51 +20,33 @@
     margin-bottom: 10px;
 }
 
-.ddl--restaurant-table {
-    align-self: center;
-    color: var(--main-txt-color__bright);
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    padding: 10px;
-}
-
-.top-panel-btns {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    justify-content: space-around;
-    width: 100%;
-}
-
-.ddl--menu-item-type {
+.top-panel-ctrls {
     align-items: center;
-    justify-content: flex-end;
-    color: var(--main-txt-color__bright);
     display: flex;
     flex-direction: row;
     gap: 10px;
-    padding: 10px;
+    justify-content: space-between;
+}
+
+.top-panel-ctrls__ddls {
+    align-items: flex-end;
+    display: flex;
+    flex-direction: column;
+}
+
+.ddl--restaurant-table,
+.ddl--menu-item-type {
+    color: var(--main-txt-color__bright);
 }
 
 .ddl--menu-item-type select {
-    border: 1px solid var(--main-border-color__dark);
-    border-radius: 0.5rem;
-    font-size: 1rem;
-    padding: 0.4rem 1rem;
-    transition: all 0.2s;
-}
-
-.ddl--menu-item-type option {
-    font-size: 1.2rem;
+    border-color: var(--main-border-color__dark);
 }
 
 .btn--open-order-modal {
     background-color: var(--main-txt-color__bright);
-    border-radius: var(--border-radius-small);
     color: var(--attentive-color);
-    font-size: 1rem;
-    padding: 0.3rem 1.2rem;
+    height: 100px;
 }
 
 .card {
@@ -164,9 +146,9 @@
     border-color: var(--attentive-color);
 }
 
-/**************************/
-/* MenuItemOrder_Modal.js */
-/**************************/
+/*********************/
+/* MenuItem_Modal.js */
+/*********************/
 
 .order-list {
     display: flex;
@@ -184,25 +166,78 @@
     gap: 20px;
 }
 
-.add-item-form__main-data > div:nth-child(-n+5) {
+.add-item-form__data1 {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 0.8rem 1rem;
+    text-transform: capitalize;
+}
+
+.add-item-form__data1 h2 {
+    color: var(--main-color);
+    text-align: center;
+}
+
+.add-item-form__data2 {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: relative;
+}
+
+.add-item-form__data2 span {
+    font-weight: 600;
+}
+
+.add-item-form__data2 label {
+    margin-right: 10px;
+}
+
+.add-item-form__del {
+    font-size: 3rem;
+    bottom: 0;
+    position: absolute;
+    right: 0;
+}
+
+/**********************/
+/* MenuItemOptions.js */
+/**********************/
+
+.option-group-container {
+    margin: 0 1rem;
+    text-align: center;
+}
+
+.option-group {
+    border: 1px solid var(--main-border-color__pale);
+    border-radius: var(--border-radius-medium);
+    padding: 0.8rem 1rem;
+    text-transform: capitalize;
+}
+
+.option-group > div {
+    align-items: center;
     display: flex;
     flex-direction: row;
-    gap: 10px;
-    text-transform: uppercase;
+    gap: 20px;
+    padding: 0.8rem 0;
+}
+
+.option-group > div > *:hover {
+    cursor: pointer;
+}
+
+.option-group input[type=checkbox],
+.option-group input[type=radio] {
+    filter: hue-rotate(260deg);
+    transform: scale(2.5);
 }
 
 /******************/
 /* Order_Modal.js */
 /******************/
-
-.ddl--restaurant-table__modal {
-    /* align-self: center; */
-    color: var(--main-txt-color__dark);
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    padding: 10px;
-}
 
 .btn--send-order {
     align-self: center;
@@ -218,12 +253,14 @@
     padding: 1rem;
 }
 
-/**********************/
-/* MenuItemOptions.js */
-/**********************/
-
-.option-group {}
-
+.selected-items-group-title {
+    align-items: center;
+    color: var(--main-color);
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: center;
+}
 
 /* RESPONSIVENESS */
 /******************/
@@ -242,15 +279,25 @@
     }
 }
 
-@media (max-width: 480px) {
-    .top-panel-btns {
-        /* align-items: center; */
+@media (max-width: 600px) {
+    .top-panel-ctrls {
+        align-items: flex-end;
         flex-direction: column;
-        justify-content: flex-start;
+    }
+    .btn--open-order-modal {
+        margin-right: 10px;
+        height: auto;
+    }
+}
+@media (max-width: 480px) {
+    .top-panel-ctrls,
+    .top-panel-ctrls__ddls {
+        align-items: center;
     }
 
+    .ddl--restaurant-table,
     .ddl--menu-item-type {
-        justify-content: center;
+        flex-direction: column;
     }
 }
 
