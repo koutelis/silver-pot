@@ -229,9 +229,6 @@
     transition: all 0.2s;
 }
 
-/* border: 1px solid var(--main-border-color__bright);
-border-radius: 0.5rem; */
-
 .input-textarea fieldset {
     border: 1px solid var(--main-border-color__dark);
     border-radius: 0.5rem;
@@ -272,6 +269,10 @@ border-radius: 0.5rem; */
     text-transform: uppercase;
 }
 
+/*****************/
+/* Unimplemented */
+/*****************/
+
 .unimplemented {
     color: var(--main-txt-color__bright);
     height: 50vh;
@@ -289,14 +290,17 @@ border-radius: 0.5rem; */
     font-size: 7rem;
     height: 100%;
     justify-content: center;
-    transition: transform 2s;
 }
 
 .unimplemented path {
     stroke: var(--attentive-color__pale);
 }
 
-.unimplemented > div:hover {
+.unimplemented > div svg {
+    transition: transform 2s;
+}
+
+.unimplemented > div:hover svg {
     transform: rotate(360deg);
     transition: transform 0.5s;
 }

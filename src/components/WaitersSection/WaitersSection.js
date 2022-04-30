@@ -228,8 +228,10 @@ const WaitersSection = () => {
             visible={orderModalIsVisible} 
         />
     </div>
-
-    // return <Unimplemented title="Waiters section" />
 }
 
-export default WaitersSection;
+const WaitersSectionTemp = () => {
+    return <Unimplemented title="Waiters section" />
+}
+
+export default WaitersSectionTemp;
