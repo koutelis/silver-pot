@@ -2,6 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Handlee&display=swap');
 
 :root {
+    --active-color: rgb(204, 241, 225);
     --attentive-color: rgb(255, 72, 0);
     --attentive-color__focus: rgb(231, 35, 0);
     --attentive-color__pale: rgb(151, 79, 50);
@@ -34,8 +35,14 @@
 
 * {
     box-sizing: border-box;
+    caret-color: transparent;
     margin: 0;
     padding: 0;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 html {
@@ -48,7 +55,7 @@ body {
     background-image: url(../assets/bg1.jpg);
     background-repeat: no-repeat;
     background-size:auto;
-    margin: auto;
+    margin: 0 auto;
     width: 60%;
 }
 
@@ -57,9 +64,24 @@ body {
     border-radius: var(--border-radius-small);
 }
 
+header {
+    align-items: center;
+    background-color: var(--nav-bg-color);
+    background: linear-gradient(
+        0deg, 
+        var(--main-body-color__dark) 10%, 
+        var(--nav-bg-color) 100%
+    );
+    border-radius: var(--border-radius-small) var(--border-radius-small) 0 0;
+    display: flex;
+    min-height: 5vh;
+    position: relative;
+}
+
 main {
     background-color: transparent;
-    margin: auto;
+    margin: 0 auto;
+    min-height: 91vh;
     width: 99%;
 }
 
@@ -76,10 +98,9 @@ footer {
     color: var(--main-txt-color__pale);
     display: flex;
     flex-direction: column;
-    padding: 5px;
+    padding: 10px 5px 5px 5px;
     min-height: 4vh;
     justify-content: center;
-    margin-top: 10px;
 }
 
 a {
@@ -88,6 +109,10 @@ a {
 
 a.active {
     color: var(--attentive-color);
+}
+
+ul {
+    list-style-type: none;
 }
 
 .hidden {
@@ -117,7 +142,7 @@ a.active {
 
 @media print {
     body {
-        margin: auto;
+        margin: 0 auto;
         background-color: var(--main-bg-color__bright);
         width: 100%;
     }

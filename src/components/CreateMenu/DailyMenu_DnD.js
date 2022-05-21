@@ -21,7 +21,7 @@ const DailyMenu_DnD = React.forwardRef((props, ref) => {
         const currentList = itemList[category];
         if (currentList && currentList.length) {
             dndList.push(<div key={category}>
-                <div className={styles["menu-category-heading"]}>~ {defaults.categories[category]} ~</div>
+                <div className={styles["menu-category-heading"]}>~ {defaults.categories[category].label} ~</div>
                 <DragDropContext onDragEnd={onDragDrop}>
                     <Droppable droppableId={category}>
                         {provided => setDroppables(provided, currentList)}

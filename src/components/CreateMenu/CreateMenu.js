@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { useAsync } from "store/hooks.js";
-import { foodsRequests, restaurantmenusRequests } from "store/http-requests.js";
-import { Button, Card, Input, Title } from "components/generic.js";
+import { foodsRequests, restaurantmenusRequests } from "store/connections.js";
+import { Button, Card, Input, LoadingSpinner, Title } from "components/generic.js";
 import { cloneObject, tomorrowAsString } from "store/utils.js";
 import { useReactToPrint } from "react-to-print";
 import { MENUS as defaults } from "store/config.js";
@@ -16,6 +16,7 @@ import styles from "styles/CreateMenu.module.css";
  * @returns {JSX}
  */
 const CreateMenu = () => {
+    const [isLoading, setIsLoading] = useState(true);
     const [foods, setFoods] = useState({});
     const [drinks, setDrinks] = useState({});
     const [date, setDate] = useState(tomorrowAsString());
@@ -32,6 +33,7 @@ const CreateMenu = () => {
             setFoods(fetchedFoods ?? cloneObject(defaults.template.foods));
             setDrinks(fetchedDrinks ?? cloneObject(defaults.template.drinks));
             setIsPrintView(window.innerWidth > 768);  // find out window width to display the appropriate view
+            setIsLoading(false);
         }
     );
 
@@ -90,8 +92,10 @@ const CreateMenu = () => {
     const cbSaveMenu = async () => {
         const _id = date;
         const data = { date, fontSize, foods, drinks };
-        await restaurantmenusRequests.put(_id, data);
-        alert("daily menu saved");
+
+        const res = await restaurantmenusRequests.put(_id, data);
+        if (res) alert("daily menu saved");
+        restaurantmenusRequests.deletePast();
     }
 
     /**
@@ -112,6 +116,8 @@ const CreateMenu = () => {
     const printMask = isPrintView ? "" : "hidden";
     const btnSwitchText = `Switch to ${isPrintView ? "Block" : "Print"} view`;
 
+    
+    if (isLoading) return <LoadingSpinner />
     return <div className={styles["master-container"]}>
         <div className={styles["top-panel"]} >
             <Title className={styles["title"]} text="Set Menu of the Day" />
@@ -120,7 +126,7 @@ const CreateMenu = () => {
                 onChange={cbDateChange} value={date} 
             />
             <div className={styles["top-panel-btns"]}>
-                <Button className={styles["btn--toggle-view"]} text={btnSwitchText} type="button" onClick={() => setIsPrintView(!isPrintView)} />
+                <Button className={styles["btn--toggle-view"]} text={btnSwitchText} onClick={() => setIsPrintView(!isPrintView)} />
                 <Button className={styles["btn--open-modal"]} text="Add Item" onClick={() => setModalIsVisible(true)} />
                 <Button className={styles["btn--save-menu"]} text="Save Menu" onClick={cbSaveMenu} />
                 <Button className={[styles["btn--print-menu"], printMask].join(" ")} text="Print Menu" onClick={handlePrint} />

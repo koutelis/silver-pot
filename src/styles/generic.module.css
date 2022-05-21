@@ -23,6 +23,10 @@
     outline: none;
 }
 
+.btn:active {
+    background-color: var(--active-color);
+}
+
 .btn > *:first-child {
     margin-right: 1rem;
 }
@@ -43,16 +47,67 @@
     text-transform: uppercase;
 }
 
-/*************/
-/* DelButton */
-/*************/
+/******************/
+/* Checkbox_Label */
+/******************/
 
-.btn--del {
+.checkbox-label-pair {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    padding: 0.8rem 0;
+}
+
+.checkbox-label-pair > *:hover {
+    cursor: pointer;
+}
+
+.checkbox-label-pair input[type=checkbox],
+.checkbox-label-pair input[type=radio] {
+    filter: hue-rotate(260deg);
+    margin-left: 1rem;
+    transform: scale(2.5);
+    -webkit-transform: scale(2.5);
+}
+
+/******************/
+/* CompleteButton */
+/******************/
+
+.btn--complete {
     background: none;
     border: none;
     cursor: pointer;
     font-family: inherit;
     font-size: 2.5rem;
+}
+
+.btn--complete path {
+    stroke: var(--attentive-color);
+}
+
+.btn--complete:hover path {
+    stroke: var(--attentive-color__focus);
+}
+
+/*************/
+/* DelButton */
+/*************/
+
+.btn--del {
+    align-items: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    font-family: inherit;
+    font-size: 2.5rem;
+    gap: 20px;
+}
+
+.btn--del span {
+    font-size: 1rem;
 }
 
 .btn--del path {
@@ -158,6 +213,7 @@
 .modal-window,
 .modal-window__2 {
     background-color: var(--main-bg-color__bright);
+    background: linear-gradient(var(--main-bg-color__bright), rgb(211, 231, 222));
     border-radius: 9px;
     box-shadow: var(--box-shadow-size1) var(--box-shadow-color__bright);
     left: 50%;
@@ -260,6 +316,48 @@
     outline: none;
 }
 
+/******************/
+/* LoadingSpinner */
+/******************/
+
+@keyframes spinner {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.spinner-container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 10px solid #f3f3f3;
+    border-top: 10px solid #383636;
+    border-radius: 50%;
+    animation: spinner 1.5s linear infinite;
+}
+
+/*************/
+/* TickImage */
+/*************/
+
+.tick-container {
+    align-items: center;
+    display: flex;
+    font-size: 1rem;
+}
+
+.tick-container polyline {
+    stroke: var(--main-color);
+}
+
 /*********/
 /* Title */
 /*********/
@@ -328,4 +426,3 @@
         visibility: visible !important;
     }
 }
-

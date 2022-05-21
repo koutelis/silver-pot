@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FaBars } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
+import { NAV_ROUTES } from "store/config.js";
 import styles from "styles/Header.module.css";
 
 const Header = () => {
@@ -32,13 +33,14 @@ const Navbar = () => {
 };
 
 const NavMenu = (props) => {
+    const navLinks = Object.values(NAV_ROUTES).map((route, index) => {
+        return <div key={index} className={styles["nav-link"]}{...props}>
+            <NavLink to={route.path}>{route.label}</NavLink>
+        </div>
+    })
+    
     return <>
-        <div className={styles["nav-link"]} {...props}><NavLink to="/">HOME</NavLink></div>
-        <div className={styles["nav-link"]} {...props}><NavLink to="/manageMenu">Manage Menu</NavLink></div>
-        <div className={styles["nav-link"]} {...props}><NavLink to="/createMenu">Create Menu</NavLink></div>
-        <div className={styles["nav-link"]} {...props}><NavLink to="/waiters">Waiters</NavLink></div>
-        <div className={styles["nav-link"]} {...props}><NavLink to="/kitchenStaff">Kitchen staff</NavLink></div>
-        <div className={styles["nav-link"]} {...props}><NavLink to="/cashier">Cashier</NavLink></div>
+        {navLinks}
     </>
 }
 

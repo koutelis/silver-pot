@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Card, LoadingSpinner, Title } from "components/generic.js";
 import { ordersRequests, ordersSubscriptions } from "store/connections.js";
-import OrdersList from "components/KitchenSection/OrdersList.js";
-import styles from "styles/KitchenSection.module.css";
+import OrdersList from "components/BarSection/OrdersList.js";
+import styles from "styles/BarSection.module.css";
 
 /**
- * FR4 - Kitchen Section
- * This section should display orders grouped by table in FIFO queue 
- * and using colored divisions for each group of dishes to make for easy distinction. 
- * For instance, all orders of table 3 will use a green-coloured background 
- * and starters/appetizers should be displayed first. 
+ * FR4 - Bar Section
+ * Similar to kitchen section, but for drinks and desserts.
  * @returns {JSX}
  */
-const KitchenSection = () => {
+const BarSection = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [orders, setOrders] = useState([]);
 
@@ -41,26 +38,29 @@ const KitchenSection = () => {
      * @param {Array} ordersIds 
      */
     const cleanupLocalStorage = (ordersIds) => {
-        Object.keys(localStorage)
-            .filter(k => k.startsWith("orderFoods-"))
-            .map(k => k.split("-", 1)[1])
-            .forEach(k => {
-                if (!ordersIds.includes(k)) localStorage.removeItem(`orderFoods-${k}`);
-            });
+        ["orderDrinks-", "orderFoods-"].forEach(prefix => {
+            Object.keys(localStorage)
+                .filter(k => k.startsWith(prefix))
+                .map(k => k.split("-", 1)[1])
+                .forEach(k => {
+                    if (!ordersIds.includes(k)) localStorage.removeItem(`${prefix}${k}`);
+                });
+        });
     }
 
     const cbOrderComplete = (completedOrder) => {
         completedOrder.foods.forEach(food => {
-            if (food.category !== "dessert") food.complete = true;
+            if (food.category === "dessert") food.complete = true;
         });
-        completedOrder.kitchenComplete = true;
+        completedOrder.drinks.forEach(drink => drink.complete = true);
+        completedOrder.barComplete = true;
         ordersRequests.put(completedOrder._id, completedOrder);
     }
 
     if (isLoading) return <LoadingSpinner />
     return <div className={styles["master-container"]}>
         <div className={styles["top-panel"]} >
-            <Title className={styles["title"]} text="KITCHEN SECTION" />
+            <Title className={styles["title"]} text="BAR SECTION" />
         </div>
         <Card className={styles["card"]}>
             <OrdersList orders={orders} onOrderComplete={cbOrderComplete} />
@@ -68,4 +68,4 @@ const KitchenSection = () => {
     </div>
 }
 
-export default KitchenSection;
+export default BarSection;

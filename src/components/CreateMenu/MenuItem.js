@@ -1,5 +1,5 @@
 import React from "react";
-import { CURRENCY } from "store/config.js";
+import { toCurrency } from "store/utils.js";
 import styles from "styles/CreateMenu.module.css";
 
 /**
@@ -17,7 +17,7 @@ import styles from "styles/CreateMenu.module.css";
 
     return <div className={className} style={style}>
         <div>
-            <h3>{name}<span> - {CURRENCY.sign}{basePrice.toFixed(2)}</span></h3>
+            <h3>{name}<span> - {toCurrency(basePrice)}</span></h3>
         </div>
         <div>
             <span>{description}</span>

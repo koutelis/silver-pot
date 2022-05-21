@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAsync } from "store/hooks.js";
-import { foodsRequests } from "store/http-requests.js";
+import { foodsRequests } from "store/connections.js";
 import { Button, DropDownList, Input, ModalWindow } from "components/generic.js";
 import { FOODS as defaults } from "store/config";
 import styles from "styles/CreateMenu.module.css";
@@ -39,9 +39,9 @@ const MenuItemAdd_Modal = (props) => {
 
         let result = {};
         menuCatalogue
-        .filter(option => filter === "" || option.category === filter)
-        .filter(option => !selectedItemsIds.includes(option._id))
-        .forEach(option => result[option._id] = option.name);
+            .filter(option => filter === "" || option.category === filter)
+            .filter(option => !selectedItemsIds.includes(option._id))
+            .forEach(option => result[option._id] = {"label": option.name});
 
         setFilteredOptions(result);
     }, [menuCatalogue, filter, selectedItems]);
@@ -81,7 +81,6 @@ const MenuItemAdd_Modal = (props) => {
                 value={filter}
             />
             <Button 
-                type="button" 
                 onClick={() => onSelection(selectedItemId, availability)} 
                 text="ADD TO MENU" 
             />

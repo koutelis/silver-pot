@@ -37,7 +37,7 @@ import styles from "styles/WaitersSection.module.css";
      */
     const prepareItemsNavigation = () => {
         const defaultCategories = cloneObject( ((itemsType === "foods") ? FOODS : DRINKS).categories );
-        defaultCategories.none = "ALL";
+        defaultCategories.none = {label: "ALL"};
         const items = (itemsType === "foods") ? menuItems.foods : menuItems.drinks;
         const itemsNav = ["none"].concat(
             Object
@@ -51,7 +51,7 @@ import styles from "styles/WaitersSection.module.css";
                     id={category}
                     className={classList}
                     onClick={(e) => setFilter(e.target.id)}>
-                        {defaultCategories[category]}
+                        {defaultCategories[category].label}
                 </div>;
             });
 
@@ -80,7 +80,7 @@ import styles from "styles/WaitersSection.module.css";
             if (!categorizedList || !categorizedList.length) return;
 
             return <div key={category}>
-                {getMenuItemsHeading(defaults.categories[category])}
+                {getMenuItemsHeading(defaults.categories[category].label)}
                 <div>{populateMenuItems(categorizedList)}</div>
             </div>;
         });

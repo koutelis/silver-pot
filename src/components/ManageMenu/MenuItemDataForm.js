@@ -27,7 +27,7 @@ const MenuItemDataForm = (props) => {
         <div className={styles["inputs__column"]}>
             <h3 className={styles["inputs__heading"]} onClick={(e) => setDisplayData(!displayData)}>{heading}</h3>
             <div className={`${styles["inputs__grid-container"]} ${mask}`}>
-                <DropDownList label="category" options={categories} 
+                <DropDownList label="Category" options={categories} 
                     value={itemData.category} onChange={cbInputChanged}
                 />
                 <Input name="name" label="Name" required={true} value={itemData.name} 
@@ -38,6 +38,9 @@ const MenuItemDataForm = (props) => {
                 />
                 <Input name="basePrice" label={`Price (${CURRENCY.sign})`} value={itemData.basePrice} 
                     type="number" min="1" max="20" step="0.5" required={true} onChange={cbInputChanged} 
+                />
+                <Input name="posDirections" label="POS info" value={itemData.posDirections} 
+                    type="text" placeholder="where to find this item in the cash-register..." onChange={cbInputChanged} 
                 />
             </div>
         </div>

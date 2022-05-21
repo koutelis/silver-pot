@@ -8,7 +8,7 @@ import MenuItemOptionsForm from "components/ManageMenu/MenuItemOptionsForm.js";
  * @param {Object} props 
  * @returns {JSX}
  */
- const FoodOptions = (props) => {
+export const FoodOptions = (props) => {
     const { itemData, onChange, onAdd, onRemove } = props;
     const [optionsVisibility, setOptionsVisibility] = useState({ addons: false, removables: false })
 
@@ -67,7 +67,7 @@ import MenuItemOptionsForm from "components/ManageMenu/MenuItemOptionsForm.js";
  * @param {Object} props 
  * @returns {JSX}
  */
-const DrinkOptions = (props) => {
+export const DrinkOptions = (props) => {
     const { itemData, onChange, onAdd, onRemove } = props;
     const [optionsVisibility, setOptionsVisibility] = useState({ sizes: false })
 
@@ -101,5 +101,3 @@ const DrinkOptions = (props) => {
         onRemove={onRemove}
     />
 }
-
-export {FoodOptions, DrinkOptions};

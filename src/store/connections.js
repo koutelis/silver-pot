@@ -1,9 +1,12 @@
-import { ENDPOINTS } from 'store/config.js';
+import io from "socket.io-client";
+import { ENDPOINTS, WEB_SOCKETS } from 'store/config.js';
 
+const socket = io(WEB_SOCKETS.orders);
 const apiDrinksUrl = ENDPOINTS.drinks;
 const apiDrinksCatUrl = ENDPOINTS.drinksCategorized;
 const apiFoodsUrl = ENDPOINTS.foods;
 const apiMenusUrl = ENDPOINTS.menus;
+const apiOrdersUrl = ENDPOINTS.orders;
 
 //#region "GENERIC VERBS"
 
@@ -12,13 +15,12 @@ const apiMenusUrl = ENDPOINTS.menus;
  * @param {String} apiUrl - API endpoint
  * @returns {Promise} - Array of drink objects
  */
- async function getAll(apiUrl) {
+async function getAll(apiUrl) {
     try {
         const response = await fetch(apiUrl);
         return response.json();
     } catch (err) {
-        console.error(err);
-        return null;
+        return onError(err);
     }
 }
 
@@ -34,7 +36,7 @@ async function getItem(apiUrl, _id) {
         if (!response || !response.ok) return null;
         return response.json();
     } catch (err) {
-        console.error(err);
+        return onError(err);
     }
 }
 
@@ -44,7 +46,7 @@ async function getItem(apiUrl, _id) {
  * @param {Object} data - item
  * @returns {Promise} - response Object
  */
- function postItem(apiUrl, data) {
+function postItem(apiUrl, data) {
     const settings = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -54,7 +56,7 @@ async function getItem(apiUrl, _id) {
     try {
         return fetch(apiUrl, settings);
     } catch (err) {
-        console.error(err);
+        return onError(err);
     }
 }
 
@@ -65,7 +67,7 @@ async function getItem(apiUrl, _id) {
  * @param {Object} data - food Object
  * @returns {Promise} - response Object
  */
- function putItem(apiUrl, _id, data) {
+function putItem(apiUrl, _id, data) {
     const settings = {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -75,7 +77,7 @@ async function getItem(apiUrl, _id) {
     try {
         return fetch(apiUrl + _id, settings);
     } catch (err) {
-        console.error(err);
+        return onError(err);
     }
 }
 
@@ -85,15 +87,30 @@ async function getItem(apiUrl, _id) {
  * @param {String} apiUrl - API endpoint
  * @returns {Promise} - response Object
  */
- function deleteItem(apiUrl, _id) {
+function deleteItem(apiUrl, _id) {
     try {
         return fetch(apiUrl + _id, { method: "DELETE" });
     } catch (err) {
-        console.error(err);
+        return onError(err);
     }
 }
 
+function deletePastMenus() {
+    try {
+        return fetch(apiMenusUrl, { method: "DELETE" });
+    } catch (err) {
+        return onError(err);
+    }
+}
+
+function onError(err) {
+    // console.error(err);
+    return Promise.reject(null);
+}
+
 //#endregion
+
+//#region "HTTP REQUESTS"
 
 const foodsRequests = {
     getAll: () => getAll(apiFoodsUrl),
@@ -114,7 +131,38 @@ const drinksRequests = {
 
 const restaurantmenusRequests = {
     get: (_id) => getItem(apiMenusUrl, _id),
-    put: (_id, data) => putItem(apiMenusUrl, _id, data)
+    put: (_id, data) => putItem(apiMenusUrl, _id, data),
+    deletePast: deletePastMenus
 }
 
-export { foodsRequests, drinksRequests, restaurantmenusRequests };
+const ordersRequests = {
+    getAll: () => getAll(apiOrdersUrl),
+    getByTable: (tableNum) => getItem(apiOrdersUrl + "table/", tableNum),
+    post: (data) => postItem(apiOrdersUrl, data),
+    put: (_id, data) => putItem(apiOrdersUrl, _id, data),
+    delete: (_id) => deleteItem(apiOrdersUrl, _id)
+}
+
+//#endregion
+
+//#region "SOCKETS"
+
+/**
+ * Get new WebSocket to subscript to the MongoDB orders collection.
+ * @returns {function} - WebSocket listener removal function
+ */
+const ordersSubscribe = (onChangeHandler, event) => {
+    socket.on(event, onChangeHandler);
+
+    const cleanup = () => socket.off(event, onChangeHandler);
+    return cleanup;
+}
+
+const ordersSubscriptions = {
+    orderUpdates: (onChangeHandler) => ordersSubscribe(onChangeHandler, "ordersUpdated"),
+    menuUpdates: (onChangeHandler) => ordersSubscribe(onChangeHandler, "menuUpdated")
+}
+
+//#endregion
+
+export { foodsRequests, drinksRequests, restaurantmenusRequests, ordersRequests, ordersSubscriptions };

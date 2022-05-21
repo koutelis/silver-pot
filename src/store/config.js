@@ -6,6 +6,9 @@ const CURRENCIES = {
 
 const CURRENCY = CURRENCIES.euro;
 
+const url = (process.env.REACT_APP_IS_DEV_MODE === "true")
+    ? "http://localhost:3001" 
+    : "https://silver-pot-srv.herokuapp.com";
 
 
 const ENDPOINTS = {
@@ -15,14 +18,21 @@ const ENDPOINTS = {
     menus: "/api/restaurantmenus/",
     orders: "/api/orders/"
 }
-
-const url = (process.env.REACT_APP_IS_DEV_MODE === "true")
-    ? "http://localhost:3001" 
-    : "https://silver-pot-srv.herokuapp.com";
-
 Object.keys(ENDPOINTS).forEach(key => ENDPOINTS[key] = url + ENDPOINTS[key]);
 
+const WEB_SOCKETS = {
+    orders: url
+}
 
+const NAV_ROUTES = {
+    root: {path: "/", label: "HOME"},
+    manageMenu: {path: "/manageMenu", label: "Manage Menu"},
+    createMenu: {path: "/createMenu", label: "Create Menu"},
+    waitersSection: {path: "/waiters", label: "Waiters"},
+    kitchenSection: {path: "/kitchen", label: "Kitchen"},
+    barSection: {path: "/bar", label: "Bar"},
+    cashSection: {path: "/cashier", label: "Cashdesk"}
+}
 
 const FOODS = {
     itemData: {
@@ -31,24 +41,24 @@ const FOODS = {
         description: "",
         basePrice: 10,
         addons: [],
-        removables: []
+        removables: [],
+        comments: "",
+        posDirections: ""
     },
     options: { addons: {}, removables: {} },
     addons: { name: "", price: "1.5" },
     removables: { name: "", price: "0" },
     categories: {
-        other: "OTHERS",
-        starter: "STARTERS",
-        main: "MAINS",
-        salad: "SALADS",
-        pizza: "PIZZAS",
-        sandwich: "SANDWICHES",
-        soup: "SOUPS",
-        dessert: "DESSERTS"
+        other: {label: "OTHERS"},
+        starter: {label: "STARTERS"},
+        main: {label: "MAINS"},
+        salad: {label: "SALADS"},
+        pizza: {label: "PIZZAS"},
+        sandwich: {label: "SANDWICHES"},
+        soup: {label: "SOUPS"},
+        dessert: {label: "DESSERTS"}
     }
 };
-
-
 
 const DRINKS = {
     itemData: {
@@ -56,20 +66,20 @@ const DRINKS = {
         name: "",
         description: "",
         basePrice: "3",
-        sizes: []
+        sizes: [],
+        comments: "",
+        posDirections: ""
     },
     options: { sizes: {} },
     sizes: { name: "", price: "3" },
     categories: {
-        other: "OTHERS",
-        coffee: "COFFEE",
-        tea: "TEA",
-        juice: "JUICE",
-        smoothie: "SMOOTHIE"
+        other: {label: "OTHERS"},
+        coffee: {label: "COFFEE"},
+        tea: {label: "TEA"},
+        juice: {label: "JUICE"},
+        smoothie: {label: "SMOOTHIE"}
     }
 };
-
-
 
 const MENUS = {
     template: {
@@ -94,12 +104,10 @@ const MENUS = {
         }
     },
     itemTypes: {
-        foods: "FOOD",
-        drinks: "BEVERAGE"
+        foods: {label: "FOOD"},
+        drinks: {label: "BEVERAGE"}
     }
 }
-
-
 
 const ORDERS = {
     order: {
@@ -107,23 +115,28 @@ const ORDERS = {
         foods: [],
         table: null,
         totalCost: 0,
-        timestamp: null
+        time: null
     },
     items: { foods: {}, drinks: {} },
     tables: {
-        1: "TABLE 01",
-        2: "TABLE 02",
-        3: "TABLE 03",
-        4: "TABLE 04",
-        5: "TABLE 05",
-        6: "TABLE 06",
-        7: "TABLE 07",
-        8: "TABLE 08"
+        1: {label: "TABLE 01", color: "#c8e0c9"},
+        2: {label: "TABLE 02", color: "#d5e6f0"},
+        3: {label: "TABLE 03", color: "#eff9da"},
+        4: {label: "TABLE 04", color: "#f9ebdf"},
+        5: {label: "TABLE 05", color: "#f9d8d6"},
+        6: {label: "TABLE 06", color: "#d6cdea"},
+        7: {label: "TABLE 07", color: "#cce8e4"},
+        8: {label: "TABLE 08", color: "#ecefe3"}
     },
     foodOptions: {addons: [], removables: [], comments: ""},
-    drinkOptions: {sizes: [], comments: ""}
+    drinkOptions: {sizes: [], comments: ""},
+    orderTypes: {
+        completed: {label: "COMPLETED"},
+        pending: {label: "PENDING"}
+    },
+    sortOrder: {
+        foods: ["starter", "soup", "salad", "other", "dessert"]
+    }
 }
 
-
-
-export { CURRENCY, ENDPOINTS, FOODS, DRINKS, MENUS, ORDERS };
+export { CURRENCY, ENDPOINTS, WEB_SOCKETS, NAV_ROUTES, FOODS, DRINKS, MENUS, ORDERS };

@@ -34,7 +34,11 @@ const MenuItemOptionsForm = (props) => {
                     cbRemove={() => onRemove(optionsProperty, index)}
                 />
             })}
-            <Button className={styles["btn--add-option"]} onClick={() => onAdd(optionsProperty)} type="button" text={btnLabel} />
+            <Button 
+                className={styles["btn--add-option"]} 
+                onClick={() => onAdd(optionsProperty)} 
+                text={btnLabel} 
+            />
         </div>
     </div>
 }

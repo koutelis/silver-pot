@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FOODS as foodsDefaults, DRINKS as drinksDefaults } from "store/config.js";
-import { foodsRequests, drinksRequests } from "store/http-requests.js";
+import { foodsRequests, drinksRequests } from "store/connections.js";
 import { cloneObject } from "store/utils.js";
 import { Button, ModalWindow } from "components/generic.js";
 import { FoodOptions, DrinkOptions } from "components/ManageMenu/MenuItemOptions.js";
@@ -152,7 +152,6 @@ const ManageMenuItem_Modal = (props) => {
             }
             <Button 
                 onClick={cbButtonSubmit} 
-                type="button" 
                 text={selectedItemId ? "Save" : "Add"} 
             />
         </form>

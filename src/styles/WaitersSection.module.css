@@ -12,7 +12,7 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-    margin: 10px;
+    margin: 0 10px;
 }
 
 .title h1 {
@@ -94,7 +94,8 @@
 }
 
 .item-list-container {
-    border: 1px solid black;
+    background-color: var(--main-bg-color__focus);
+    border: 1px solid var(--attentive-color__pale);
     border-radius: var(--border-radius-small);
     margin-top: 7px;
     padding: 6px;
@@ -106,7 +107,7 @@
 }
 
 .item-list {
-    height: 60vh;
+    /* height: 60vh; */
     overflow-y: auto;
 }
 
@@ -150,16 +151,6 @@
 /* MenuItem_Modal.js */
 /*********************/
 
-.order-list {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-}
-
-.order-list h2 {
-    text-align: center;
-}
-
 .add-item-form {
     display: flex;
     flex-direction: column;
@@ -201,12 +192,30 @@
     right: 0;
 }
 
+.btn--add {
+    align-self: center;
+}
+
 /**********************/
 /* MenuItemOptions.js */
 /**********************/
 
+.food-addons {
+    background-color: rgb(220, 255, 220);
+}
+
+.food-removables {
+    background-color: rgb(255, 220, 220);
+}
+
+.food-removables input[type=checkbox],
+.food-removables input[type=radio] {
+    filter: hue-rotate(150deg);
+    transform: scale(2.5);
+}
+
 .option-group-container {
-    margin: 0 1rem;
+    padding: 0 1rem;
     text-align: center;
 }
 
@@ -217,29 +226,29 @@
     text-transform: capitalize;
 }
 
-.option-group > div {
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-    padding: 0.8rem 0;
-}
-
-.option-group > div > *:hover {
-    cursor: pointer;
-}
-
-.option-group input[type=checkbox],
-.option-group input[type=radio] {
-    filter: hue-rotate(260deg);
-    transform: scale(2.5);
-}
-
 /******************/
 /* Order_Modal.js */
 /******************/
 
-.btn--send-order {
+.order-list {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.order-list h2 {
+    text-align: center;
+}
+
+.order-controls {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    justify-content: space-between;
+    padding: 1rem;
+}
+
+.btn--order-control {
     align-self: center;
 }
 
@@ -284,6 +293,11 @@
         align-items: flex-end;
         flex-direction: column;
     }
+
+    .order-controls {
+        flex-direction: column;
+    }
+
     .btn--open-order-modal {
         margin-right: 10px;
         height: auto;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Button, DelButton, TextArea, ModalWindow, ModalWindow_2 } from "components/generic.js";
+import { Button, DelButton, TextArea, ModalWindow } from "components/generic.js";
 import { cloneObject } from "store/utils.js";
-import { CURRENCY } from "store/config.js";
+import { toCurrency } from "store/utils.js";
 import { FoodOptions, DrinkOptions } from "components/WaitersSection/MenuItemOptions.js";
 import styles from "styles/WaitersSection.module.css";
 
@@ -12,7 +12,7 @@ const MenuItemMainData = (props) => {
 
     return <div className={styles["add-item-form__data1"]}>
         <div>
-            <span>[ {category} ]</span>
+            <span>[ {category} ] - {menuItem.availability} available</span>
         </div>
         <div>
             <h2>{name}</h2>
@@ -24,11 +24,11 @@ const MenuItemMainData = (props) => {
             </div>
             <div>
                 <label htmlFor="basePrice">regular price:</label>
-                <span name="basePrice">{CURRENCY.sign}{basePrice.toFixed(2)}</span>
+                <span name="basePrice">{toCurrency(basePrice)}</span>
             </div>
             <div>
                 <label htmlFor="totalPrice">total cost:</label>
-                <span name="totalPrice">{CURRENCY.sign}{totalPrice.toFixed(2)}</span>
+                <span name="totalPrice">{toCurrency(totalPrice)}</span>
             </div>
             {
                 (mode === "edit") && 
@@ -39,8 +39,6 @@ const MenuItemMainData = (props) => {
         </div>
     </div>
 }
-
-
 
 /**
  * SUBCOMPONENT of WaitersSection.js
@@ -214,15 +212,18 @@ const MenuItem_Modal = (props) => {
             type="text"
         />
         <Button 
-            type="button" 
+            className={styles["btn--add"]}
             onClick={cbSubmit} 
             text={(mode === "add") ? "Add to Menu" : "Save Changes"} 
         />
     </form>
 
-    return (mode === "add")
-        ? <ModalWindow onClose={cbCloseModal} visible={visible}> {form} </ModalWindow>
-        : <ModalWindow_2 onClose={cbCloseModal} visible={visible}> {form} </ModalWindow_2>
+    return <ModalWindow 
+                onClose={cbCloseModal} 
+                visible={visible} 
+                isClosable={mode === "add"}> 
+        {form} 
+    </ModalWindow>
 }
 
 export default MenuItem_Modal;

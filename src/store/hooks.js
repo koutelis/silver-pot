@@ -7,14 +7,14 @@ import { useEffect } from "react";
  * @param {function} cbAsync 
  * @param {function} onSuccess 
  */
-const useAsync = (cbAsync, onSuccess) => {
+export const useAsync = (cbAsync, onSuccess) => {
     useEffect(() => {
         let isActive = true;
-        cbAsync().then(response => {
-            if (isActive) onSuccess(response);
-        });
+        cbAsync()
+            .then(response => {
+                if (isActive) onSuccess(response);
+            })
+            .catch(err => console.error(err));
         return () => { isActive = false };
     }, [])
 }
-
-export { useAsync };

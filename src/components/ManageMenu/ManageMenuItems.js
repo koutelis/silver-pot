@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { foodsRequests, drinksRequests } from "store/http-requests.js";
+import { foodsRequests, drinksRequests } from "store/connections.js";
 import { FOODS as foodsDefaults, DRINKS as drinkDefaults } from "store/config.js";
-import { Button, Card, DropDownList } from "components/generic.js";
+import { Button, Card, DropDownList, LoadingSpinner } from "components/generic.js";
 import ManageMenuItem_Modal from "components/ManageMenu/ManageMenuItem_Modal.js";
 import MenuItemsList from "components/ManageMenu/MenuItemsList.js";
 import styles from "styles/ManageMenu.module.css";
@@ -11,6 +11,7 @@ import styles from "styles/ManageMenu.module.css";
  * @returns {JSX}
  */
 const ManageMenuItems = (props) => {
+    const [isLoading, setIsLoading] = useState(true);
     const [items, setItems] = useState([]);
     const [filteredItems, setFilteredItems] = useState([]);
     const [modalIsVisible, setModalIsVisible] = useState(false);
@@ -39,6 +40,7 @@ const ManageMenuItems = (props) => {
     const loadItems = async () => {
         const fetchedItems = await requestsHandler.getAll();
         setItems( fetchedItems ?? [] );
+        setIsLoading(false);
     }
 
     /**
@@ -98,6 +100,7 @@ const ManageMenuItems = (props) => {
         setCategoryFilter(selectedCategory);
     }
 
+    if (isLoading) return <LoadingSpinner />
     return <Card>
         <div className={styles["upper-panel"]}>
             <h2>MANAGE {menuItemType.toUpperCase()}</h2>

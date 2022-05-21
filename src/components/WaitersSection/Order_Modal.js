@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, DropDownList, ModalWindow } from "components/generic.js";
-import { CURRENCY } from "store/config";
+import { toCurrency } from "store/utils.js";
 import { ORDERS } from "store/config.js";
 import SelectedMenuItemsList from "components/WaitersSection/SelectedMenuItemsList.js";
 import styles from "styles/WaitersSection.module.css";
@@ -11,10 +11,10 @@ import styles from "styles/WaitersSection.module.css";
  * @returns {JSX}
  */
 const Order_Modal = (props) => {
-    const { currentOrder, onClose, onSelect, onSubmit, onTableChange, visible } = props;
+    const { currentOrder, onClear, onClose, onSelect, onSubmit, onTableChange, visible } = props;
     const btnMask = Boolean(currentOrder.foods.length + currentOrder.drinks.length) ? "" : "hidden";
-    const btnClassList = [styles["btn--send-order"], btnMask].join(" ");
-    const totalCost = `${CURRENCY.sign}${currentOrder.totalCost.toFixed(2)}`;
+    const btnClassList = [styles["btn--order-control"], btnMask].join(" ");
+    const totalCost = `${toCurrency(currentOrder.totalCost)}`;
 
     return <>
         <ModalWindow onClose={onClose} visible={visible}>
@@ -35,6 +35,13 @@ const Order_Modal = (props) => {
                     itemsType={"drinks"} 
                     items={currentOrder.drinks} 
                     onSelect={onSelect} 
+                />
+            </div>
+            <div className={styles["order-controls"]}>
+                <Button 
+                    className={btnClassList} 
+                    text={`Clear Order`}
+                    onClick={onClear} 
                 />
                 <Button 
                     className={btnClassList} 

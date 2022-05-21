@@ -2,21 +2,6 @@
 /* NavBar.js */
 /*************/
 
-nav {
-    align-items: center;
-    background-color: var(--nav-bg-color);
-    background: linear-gradient(
-        0deg, 
-        var(--main-body-color__dark) 10%, 
-        var(--nav-bg-color) 100%
-    );
-    border-radius: var(--border-radius-small) var(--border-radius-small) 0 0;
-    display: flex;
-    height: 7vh;
-    margin-bottom: 10px;
-    position: relative;
-}
-
 .nav-link {
     cursor: pointer;
     text-align: center;
@@ -41,7 +26,7 @@ nav {
 .nav-menu__landscape .nav-link {
     background-color: var(--main-bg-color__bright);
     border: 1px solid var(--main-border-color__dark);
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     display: flex;
     margin-left: 5px;
     padding: 4px;
