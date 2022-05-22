@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _ from "lodash";
 import { CURRENCY, ORDERS } from "store/config.js";
 
 /**
@@ -71,8 +71,8 @@ const toCurrency = (num) => {
  */
 const toPrintableDate = (dt) => {
     const [weekday, month, day] = (new Date(Date.parse(dt))).toLocaleString(
-        'default', 
-        { weekday: 'long', month: 'long', day: 'numeric' }
+        "default", 
+        { weekday: "long", month: "long", day: "numeric" }
     ).split(" ");
     return `${month} ${toOrdinal(+day)}`;
 }

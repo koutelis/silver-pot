@@ -4,6 +4,31 @@ import { ORDERS } from "store/config.js";
 import { DrinkDetails, DessertDetails } from "components/BarSection/BarItemDetails.js";
 import styles from "styles/BarSection.module.css";
 
+
+const DrinksList = (props) => {
+    const { drinks, onClick } = props;
+    return drinks.map((drink, index) => (
+        <DrinkDetails 
+            key={index} 
+            data={drink} 
+            onClick={() => onClick(drink.complete, index)} 
+        />
+    ));
+}
+
+const DessertsList = (props) => {
+    const { foods, onClick } = props;
+    return foods.map((food, index) => {
+        if (food.category === "dessert") {
+            return <DessertDetails 
+                key={index} 
+                data={food} 
+                onClick={() => onClick(food.complete, index)} 
+            />;
+        }
+    });
+}
+
 /**
  * SUBCOMPONENT of OrdersList.js
  * @returns {JSX}
@@ -16,47 +41,62 @@ const Order = (props) => {
     
     useEffect(() => {
         // set drinks
-        const drinksCache = localStorage.getItem(`orderDrinks-${orderData._id}`);
+        const drinksCache = JSON.parse(localStorage.getItem(`orderDrinks-${orderData._id}`));
         if (drinksCache) {
-            setDrinks(JSON.parse(drinksCache));
+            const updatedCache = orderData.drinks.map(drink => {
+                const tmp = { ...drink };
+                if (drinksCache[tmp._id]) {
+                    tmp.complete = drinksCache[tmp._id].complete;
+                }
+                return tmp;
+            });           
+            setDrinks(updatedCache);
         } else {
-            const orderedDrinks = [ ...orderData.drinks ];
-            setDrinks(orderedDrinks);
+            setDrinks(orderData.drinks);
         }
         
         // set foods
-        let foodsCache = localStorage.getItem(`orderFoods-${orderData._id}`);
+        const foodsCache = JSON.parse(localStorage.getItem(`orderBarFoods-${orderData._id}`));
         if (foodsCache) {
-            foodsCache = JSON.parse(foodsCache);
-            // fix foods as handled by the kitchen
-            foodsCache.forEach((food, index) => {
-                if (food.category !== "dessert") food.complete = orderData.foods[index].complete;
-            })
-            setFoods(foodsCache);
+            const updatedCache = orderData.foods.map(food => {
+                const tmp = { ...food };
+                if (tmp.category === "dessert" && foodsCache[tmp._id]) {
+                    tmp.complete = foodsCache[tmp._id].complete;
+                }
+                return tmp;
+            });           
+            setFoods(updatedCache);
         } else {
             setFoods(orderData.foods);
         }
     }, [orderData]);
 
-    // manage drinks cache
+    // manage foods cache
     useEffect(() => {
-        if (!drinks) localStorage.removeItem(`orderDrinks-${orderData._id}`);
-        else localStorage.setItem(`orderDrinks-${orderData._id}`, JSON.stringify(drinks));
-    }, [drinks]);
+        const hasDesserts = foods.filter(food => food.category === "dessert").length > 0;
+        if (!hasDesserts) localStorage.removeItem(`orderBarFoods-${orderData._id}`);
+        else {
+            const tmp = {};
+            foods.filter(food => food.category === "dessert").forEach(dessert => tmp[dessert._id] = dessert);
+            localStorage.setItem(`orderBarFoods-${orderData._id}`, JSON.stringify(tmp));
+        }
+    }, [foods]);
 
     // manage drinks cache
     useEffect(() => {
-        if (!foods) localStorage.removeItem(`orderFoods-${orderData._id}`);
-        else localStorage.setItem(`orderFoods-${orderData._id}`, JSON.stringify(foods));
-    }, [foods]);
+        if (!drinks.length) localStorage.removeItem(`orderDrinks-${orderData._id}`);
+        else {
+            const tmp = {};
+            drinks.forEach(drink => tmp[drink._id] = drink);
+            localStorage.setItem(`orderDrinks-${orderData._id}`, JSON.stringify(drinks))
+        };
+    }, [drinks]);
 
     const hasItemsToDisplay = drinks.length || foods.some(food => food.category === "dessert");
     if (!hasItemsToDisplay) return null;
 
     /**
      * CLICK event handler for checkboxes/radios and their corresponding labels.
-     * @param {Boolean} prevCheckedStatus 
-     * @param {Number} index 
      */
     const cbDrinkClick = (prevCheckedStatus, index) => {
         setDrinks(snapshot => {
@@ -68,8 +108,6 @@ const Order = (props) => {
 
     /**
      * CLICK event handler for checkboxes/radios and their corresponding labels.
-     * @param {Boolean} prevCheckedStatus 
-     * @param {Number} index 
      */
      const cbDessertClick = (prevCheckedStatus, index) => {
         setFoods(snapshot => {
@@ -85,7 +123,7 @@ const Order = (props) => {
      */
     const cbComplete = () => {
         // clear relevant cache
-        ["orderDrinks-", "orderFoods-"].forEach(prefix => {
+        ["orderDrinks-", "orderBarFoods-"].forEach(prefix => {
             const key = `${prefix}${orderData._id}`;
             const cache = localStorage.getItem(key);
             if (cache) localStorage.removeItem(key);
@@ -127,30 +165,6 @@ const Order = (props) => {
             />
         </div>
     </div>
-}
-
-const DrinksList = (props) => {
-    const { drinks, onClick } = props;
-    return drinks.map((drink, index) => (
-        <DrinkDetails 
-            key={index} 
-            data={drink} 
-            onClick={() => onClick(drink.complete, index)} 
-        />
-    ));
-}
-
-const DessertsList = (props) => {
-    const { foods, onClick } = props;
-    return foods.map((food, index) => {
-        if (food.category === "dessert") {
-            return <DessertDetails 
-                key={index} 
-                data={food} 
-                onClick={() => onClick(food.complete, index)} 
-            />;
-        }
-    });
 }
 
 export default Order;

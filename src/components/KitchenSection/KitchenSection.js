@@ -43,7 +43,7 @@ const KitchenSection = () => {
     const cleanupLocalStorage = (ordersIds) => {
         Object.keys(localStorage)
             .filter(k => k.startsWith("orderFoods-"))
-            .map(k => k.split("-", 1)[1])
+            .map(k => k.split("-")[1])
             .forEach(k => {
                 if (!ordersIds.includes(k)) localStorage.removeItem(`orderFoods-${k}`);
             });

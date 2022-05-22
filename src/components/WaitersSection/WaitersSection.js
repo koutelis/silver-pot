@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { restaurantmenusRequests, ordersRequests, ordersSubscriptions } from "store/connections.js";
-import { cloneObject, currentTimeString, sortFoodsByCategory, todayAsString } from "store/utils.js";
+import { cloneObject, currentTimeString, todayAsString } from "store/utils.js";
 import { Button, Card, DropDownList, LoadingSpinner, Title } from "components/generic.js";
 import { MENUS, ORDERS } from "store/config.js";
 import AvailableMenuItemsList from "components/WaitersSection/AvailableMenuItemsList.js";
@@ -22,7 +22,7 @@ const WaitersSection = () => {
     const [currentOrder, setCurrentOrder] = useState( cloneObject(ORDERS.order) );
     const [selectedTable, setSelectedTable] = useState(null);
     const [selectedMenuItemType, setSelectedMenuItemType] = useState("foods");
-    const [selectedItem, setSelectedItem] = useState(null);
+    const [selectedItem, setSelectedItem] = useState({ data: null, index: null });
     const [currentMode, setCurrentMode] = useState("add");
     const [orderModalIsVisible, setOrderModalIsVisible] = useState(false);
 
@@ -41,6 +41,40 @@ const WaitersSection = () => {
         const socketCleanup = ordersSubscriptions.menuUpdates(loadAvailableItems);
         return socketCleanup;
     }, []);
+
+    useEffect(() => {
+        const tmp = cloneObject(currentOrder.foods);
+        if (tmp.length) {
+            tmp.forEach(food => {
+                food.availability = availableItems
+                    .foods[food.category]
+                    .find(itm => itm._id === food._id)
+                    .availability;
+            });
+
+            setCurrentOrder(snapshot => {
+                return {
+                    ...snapshot,
+                    foods: tmp
+                }
+            })
+        }
+
+        if (selectedItem.data) {
+            setSelectedItem(snapshot => {
+                const { _id, category } = snapshot.data;
+                const newData = {
+                    ...snapshot.data,
+                    availability: availableItems.foods[category].find(itm => itm._id === _id).availability
+                }
+
+                return newData.availability > 0
+                    ? { ...snapshot, data: newData }
+                    : { data: null, index: null }
+            })
+            // loop more and remove unavailables
+        }
+    }, [availableItems]);
 
     /**
      * Load available items of today's menu from DB
@@ -87,10 +121,10 @@ const WaitersSection = () => {
      * @param {String} menuItemType "foods" or "drinks"
      * @param {Object} itemData see 'Orders' MongoDB schema
      */
-    const cbMenuItemSelected = (mode, menuItemType, itemData) => {
+    const cbMenuItemSelected = (mode, menuItemType, itemData, index) => {
         setCurrentMode(mode);
         setSelectedMenuItemType(menuItemType);
-        setSelectedItem(itemData);
+        setSelectedItem({ data: itemData, index });
     }
 
     /**
@@ -107,19 +141,21 @@ const WaitersSection = () => {
     /**
      * CLICK button handler. Add menu item to current order
      * @param {String} menuItemType "foods" or "drinks"
-     * @param {Object} selectedItem currently selected menu item
+     * @param {Object} chosenItem currently selected menu item
      */
-    const cbMenuItemAdd = (menuItemType, selectedItem) => {
-        setSelectedItem(null);
+    const cbMenuItemAdd = (menuItemType, chosenItem, quantity) => {
+        setSelectedItem({ data: null, index: null });
+
+        const selection = [];
+        for (let i = 0; i < quantity; i++) {
+            selection.push(chosenItem);
+        }
+
         setCurrentOrder(snapshot => {
             const result = {
                 ...snapshot,
-                [menuItemType]: snapshot[menuItemType].concat([selectedItem])
+                [menuItemType]: snapshot[menuItemType].concat(selection)
             };
-
-            if (menuItemType === "foods") {
-                result.foods = sortFoodsByCategory(result.foods);
-            }
 
             result.totalCost = calculateTotalCost(result);
             localStorage.setItem("currentOrder", JSON.stringify(result));
@@ -130,20 +166,13 @@ const WaitersSection = () => {
     /**
      * CLICK button handler. Edit menu item in current order
      * @param {String} menuItemType "foods" or "drinks"
-     * @param {Object} selectedItem currently selected menu item
+     * @param {Object} chosenItem currently selected menu item
      */
-    const cbMenuItemEdit = (menuItemType, selectedItem) => {
-        setSelectedItem(null);
+    const cbMenuItemEdit = (menuItemType, chosenItem, index) => {
+        setSelectedItem({ data: null, index: null });
         setCurrentOrder(snapshot => {
-            const itemList = snapshot[menuItemType];
-
-            // change only the relevant item
-            for (let i = 0; i < itemList.length; i++) {
-                if (itemList[i]._id === selectedItem._id) {
-                    itemList[i] = selectedItem;
-                    break;
-                }
-            }
+            const itemList = [...snapshot[menuItemType]];
+            itemList[index] = chosenItem;
             
             const result = {
                 ...snapshot,
@@ -159,15 +188,15 @@ const WaitersSection = () => {
     /**
      * CLICK button handler. Remove menu item from current order
      * @param {String} menuItemType "foods" or "drinks"
-     * @param {String} selectedItemId currently selected menu item
+     * @param {String} chosenItemId currently selected menu item
      */
-    const cbMenuItemRemove = (menuItemType, selectedItemId) => {
-        setSelectedItem(null);
+    const cbMenuItemRemove = (menuItemType, chosenItemId) => {
+        setSelectedItem({ data: null, index: null });
         setCurrentOrder(snapshot => {
             const itemList = snapshot[menuItemType];
             const result = {
                 ...snapshot,
-                [menuItemType]: itemList.filter(item => item._id !== selectedItemId),
+                [menuItemType]: itemList.filter(item => item._id !== chosenItemId),
             };
             result.totalCost = calculateTotalCost(result);
             localStorage.setItem("currentOrder", JSON.stringify(result));
@@ -234,11 +263,21 @@ const WaitersSection = () => {
 
     const sendToDB = async (finalizedOrder) => {
         reset();
+        // rename id property to let mongoose create new distinct ones, 
+        /// but keep original as reference
+        finalizedOrder.foods = finalizedOrder.foods.map(food => {
+            const { _id, ...rest } = food;
+            return { ...rest, foodId: _id};
+        });
+        finalizedOrder.drinks = finalizedOrder.drinks.map(drink => {
+            const { _id, ...rest } = drink;
+            return { ...rest, drinkId: _id};
+        });
 
+        // check for existing ongoing order
         const tableExistingOrder = await ordersRequests.getByTable(finalizedOrder.table);
         if (tableExistingOrder) {
             let updatedFoods = finalizedOrder.foods.concat(tableExistingOrder.foods);
-            updatedFoods = sortFoods(updatedFoods);
 
             finalizedOrder = {
                 ...finalizedOrder,
@@ -255,19 +294,11 @@ const WaitersSection = () => {
         finalizedOrder.kitchenComplete = !hasPendingFoods;
         finalizedOrder.barComplete = !(hasPendingDrinks || hasPendingDesserts);
         finalizedOrder.paymentComplete = false;
+        finalizedOrder.date = availableItems?.date ?? todayAsString();
 
         // send to DB
         if (tableExistingOrder) ordersRequests.put(tableExistingOrder._id, finalizedOrder);
         else ordersRequests.post(finalizedOrder);
-    }
-
-    const sortFoods = (foods) => {
-        foods.sort((f1, f2) => {
-            if (f2.category === "starter") return 1;
-            else if (f2.category === "dessert") return -1;
-            return 0;
-        });
-        return foods;
     }
 
     /**
@@ -289,7 +320,6 @@ const WaitersSection = () => {
         finalizedOrder.drinks.forEach(drink => {
             // also rename property 'sizes' to 'size'
             drink.size = drink.sizes.filter(size => size.checked)[0];
-            delete drink.sizes;
             drink.complete = false;
         });
 
@@ -340,10 +370,10 @@ const WaitersSection = () => {
             />
         </Card>
         <MenuItem_Modal 
-            menuItem={selectedItem}
+            menuItemData={selectedItem}
             menuItemType={selectedMenuItemType}
             mode={currentMode}
-            onClose={() => setSelectedItem(null)} 
+            onClose={() => setSelectedItem({ data: null, index: null })} 
             onMenuItemAdd={cbMenuItemAdd}
             onMenuItemEdit={cbMenuItemEdit}
             onMenuItemRemove={cbMenuItemRemove}

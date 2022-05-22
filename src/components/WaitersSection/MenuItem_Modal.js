@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Button, DelButton, TextArea, ModalWindow } from "components/generic.js";
+import { Button, DelButton, Input, TextArea, ModalWindow } from "components/generic.js";
 import { cloneObject } from "store/utils.js";
 import { toCurrency } from "store/utils.js";
 import { FoodOptions, DrinkOptions } from "components/WaitersSection/MenuItemOptions.js";
 import styles from "styles/WaitersSection.module.css";
 
-
 const MenuItemMainData = (props) => {
-    const { menuItem, mode, cbRemoveItem, totalPrice } = props;
+    const { menuItem, mode, cbRemoveItem, totalPrice, quantity } = props;
     const { basePrice, category, description, name } = menuItem;
+
+    let displayTotal = toCurrency(totalPrice);
+    if (quantity > 1) displayTotal += ` x ${quantity} = ${toCurrency(totalPrice * quantity)}`;
 
     return <div className={styles["add-item-form__data1"]}>
         <div>
@@ -28,7 +30,7 @@ const MenuItemMainData = (props) => {
             </div>
             <div>
                 <label htmlFor="totalPrice">total cost:</label>
-                <span name="totalPrice">{toCurrency(totalPrice)}</span>
+                <span name="totalPrice">{displayTotal}</span>
             </div>
             {
                 (mode === "edit") && 
@@ -40,6 +42,21 @@ const MenuItemMainData = (props) => {
     </div>
 }
 
+const QuantityInput = (props) => {
+    const { max, mode, onChange, value } = props;
+
+    if (mode !== "add") return null;
+
+    return <Input 
+        className="" 
+        type="number" 
+        min="1" max={max} step="1" value={value} 
+        label="quantity" 
+        name="quantity" 
+        onChange={onChange} 
+    />
+}
+
 /**
  * SUBCOMPONENT of WaitersSection.js
  * @param {Object} props { menuItem: Object, menuItemType: String, mode: String, onClose: function, onMenuItemAdd: function, onMenuItemEdit: function, onMenuItemRemove: function }
@@ -49,13 +66,16 @@ const MenuItem_Modal = (props) => {
     const [visible, setVisible] = useState(false);
     const [selectedOptions, setSelectedOptions] = useState({});
     const [itemTotalCost, setItemTotalCost] = useState(0);
-    const { menuItem, menuItemType, mode, onClose, onMenuItemAdd, onMenuItemEdit, onMenuItemRemove } = props;
+    const [quantity, setQuantity] = useState(1);
+    const { menuItemData, menuItemType, mode, onClose, onMenuItemAdd, onMenuItemEdit, onMenuItemRemove } = props;
+    const { data: menuItem, index: menuItemIndex } = menuItemData;
 
     // runs only the first time to populate the options (addons/removables/sizes/comments)
     useEffect(() => {
         setVisible(Boolean(menuItem));
         if (!menuItem) return;
         setSelectedOptions(() => prepareMenuItemOptions());
+        setQuantity(1);
     }, [menuItem, menuItemType]);
 
     // runs when the options change to set the correct total price
@@ -87,7 +107,7 @@ const MenuItem_Modal = (props) => {
         else {
             if (mode === "add") {
                 const { basePrice, sizes } = menuItem;
-                const defaultSize = {name: 'default', price: basePrice, checked: false};
+                const defaultSize = {name: "default", price: basePrice, checked: false};
                 let providedSizes = sizes.map(size => { return {...size, checked: false}; });
                 let availableSizes = providedSizes.length ? [] : [ defaultSize ];
                 availableSizes = availableSizes.concat(sizes.map(size => { return {...size, checked: false}; }));
@@ -140,10 +160,10 @@ const MenuItem_Modal = (props) => {
     /**
      * CHANGE event handler for the options checkboxes
      */
-    const cbOptionsChanged_cbx = (optionsProperty, isChecked, index) => {
+    const cbOptionsChanged_cbx = (optionsProperty, isChecked, optionIndex) => {
         setSelectedOptions(snapshot => {
             const newState = cloneObject(snapshot);
-            newState[String(optionsProperty)][index].checked = isChecked;
+            newState[String(optionsProperty)][optionIndex].checked = isChecked;
             return newState;
         });
     }
@@ -180,22 +200,22 @@ const MenuItem_Modal = (props) => {
      * Callback handler for the submit (add/save) button
      */
     const cbSubmit = () => {
-        const itemOrder = {
+        const orderedItem = {
             ...menuItem,
             ...selectedOptions,
             totalPrice: itemTotalCost
         }
-        
-        const dispatch = (mode === "add") ? onMenuItemAdd : onMenuItemEdit;
-        dispatch(menuItemType, itemOrder);
-        setSelectedOptions({});
+
+        if (mode === "add") onMenuItemAdd(menuItemType, orderedItem, quantity);
+        else onMenuItemEdit(menuItemType, orderedItem, menuItemIndex);
+
         setVisible(false);
     }
 
-    if (!visible) return null;
+    if (!visible || !menuItem) return null;
 
     const form = <form className={styles["add-item-form"]} >
-        <MenuItemMainData menuItem={menuItem} mode={mode} 
+        <MenuItemMainData menuItem={menuItem} mode={mode} quantity={quantity}
             totalPrice={itemTotalCost} cbRemoveItem={cbRemoveItem} 
         />
         {
@@ -211,6 +231,14 @@ const MenuItem_Modal = (props) => {
             placeholder="special requests"
             type="text"
         />
+
+        <QuantityInput
+            mode={mode}
+            value={quantity}
+            max={menuItem.availability ?? 10} 
+            onChange={(e) => setQuantity(e.target.value)}
+        />
+        
         <Button 
             className={styles["btn--add"]}
             onClick={cbSubmit} 

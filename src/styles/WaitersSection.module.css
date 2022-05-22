@@ -59,6 +59,10 @@
 /* AvailableMenuItemsList.js */
 /*****************************/
 
+h2.title {
+    color: var(--main-color);
+}
+
 .categories-nav {
     justify-content: space-evenly;
     background-color: var(--main-bg-color__focus);
@@ -128,23 +132,37 @@
     background-color: var(--main-color__pale);
 }
 
-.menu-item fieldset {
-    border-color: var(--main-color__pale);
-    padding: 0.5rem;
+.menu-item:not(.selectable) h3 span {
+    color: var(--attentive-color__pale);
 }
 
-.menu-item legend {
-    color: var(--main-color);
-    font-size: 1.2rem;
-    text-transform: uppercase;
+.unavailable {
+    background-color: var(--disabled-bg);
+    text-decoration: line-through;
 }
 
-.menu-item:hover .btn--del-item {
-    visibility: visible;
+.unavailable:hover {
+    background-color: var(--disabled-bg__hover);
 }
 
-.menu-item:hover fieldset {
-    border-color: var(--attentive-color);
+.addons span {
+    color: green;
+}
+
+.removables span {
+    color: red;
+}
+
+.size span {
+    color: darkblue;
+}
+
+.comments {
+    color: gray;
+}
+
+.customizations {
+    padding-left: 0.5rem;
 }
 
 /*********************/
@@ -179,6 +197,7 @@
 
 .add-item-form__data2 span {
     font-weight: 600;
+    text-transform: lowercase;
 }
 
 .add-item-form__data2 label {

@@ -1,5 +1,5 @@
 import React from "react";
-import MenuItem from "components/WaitersSection/MenuItem.js";
+import { MenuItem } from "components/WaitersSection/MenuItem.js";
 import styles from "styles/WaitersSection.module.css";
 
 /**
@@ -18,7 +18,7 @@ const SelectedMenuItemsList = (props) => {
         {items.map((item, index) => <MenuItem 
             key={item._id + index} 
             itemData={item} 
-            onClick={() => onSelect("edit", itemsType, item)} 
+            onClick={() => onSelect("edit", itemsType, item, index)} 
         />)}
     </div>
 }

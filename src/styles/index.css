@@ -31,6 +31,8 @@
     --overlay-bg-color: rgba(0, 0, 0, 0.8);
     --overlay-bg-color__trans: rgba(0, 0, 0, 0.2);
     --printable-menu__headings: rgb(0, 32, 0);
+    --disabled-bg: #555555;
+    --disabled-bg__hover: #999999;
 }
 
 * {

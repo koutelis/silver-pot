@@ -13,7 +13,7 @@ const OrdersList = (props) => {
         .filter(order => !order.kitchenComplete)
         .map(order => <Order key={order._id} orderData={order} onComplete={onOrderComplete}/>);
     
-    const output = list.length ? list : <h2>No pending orders...</h2>
+    const output = list.length ? list : <h2 className={styles["title"]}>No pending orders...</h2>
 
     return <div className={styles["orders-container"]}>
         {output}

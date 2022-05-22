@@ -38,10 +38,10 @@ const BarSection = () => {
      * @param {Array} ordersIds 
      */
     const cleanupLocalStorage = (ordersIds) => {
-        ["orderDrinks-", "orderFoods-"].forEach(prefix => {
+        ["orderDrinks-", "orderBarFoods-"].forEach(prefix => {
             Object.keys(localStorage)
                 .filter(k => k.startsWith(prefix))
-                .map(k => k.split("-", 1)[1])
+                .map(k => k.split("-")[1])
                 .forEach(k => {
                     if (!ordersIds.includes(k)) localStorage.removeItem(`${prefix}${k}`);
                 });

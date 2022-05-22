@@ -4,6 +4,19 @@ import { ORDERS } from "store/config.js";
 import FoodDetails from "components/KitchenSection/FoodDetails.js";
 import styles from "styles/KitchenSection.module.css";
 
+const KitchenFoodsDetails = (props) => {
+    const { foods, onClick } = props;
+    return foods.map((food, index) => {
+        if (food.category !== "dessert") {
+            return <FoodDetails 
+                key={index} 
+                data={food} 
+                onClick={() => onClick(food.complete, index)} 
+            />;
+        }
+    });
+}
+
 /**
  * SUBCOMPONENT of OrdersList.js
  * @returns {JSX}
@@ -14,20 +27,16 @@ const Order = (props) => {
     const [foods, setFoods] = useState([]);
 
     useEffect(() => {
-        console.log(orderData);
-        let cache = localStorage.getItem(`orderFoods-${orderData._id}`);
+        const cache = JSON.parse(localStorage.getItem(`orderFoods-${orderData._id}`));
         if (cache) {
-            cache = JSON.parse(cache);
-            // fix desserts as handled by the baristas
-            cache.forEach((food, index) => {
-                if (food.category === "dessert") food.complete = orderData.foods[index].complete;
-            })
-
-            // include new un-cached orders
-            // orderData.foods.forEach(food => {
-            //     if (!food.cached ) cache[]
-            // })
-            setFoods(cache);
+            const updatedCache = orderData.foods.map(food => {
+                const tmp = { ...food };
+                if (tmp.category !== "dessert" && cache[tmp._id]) {
+                    tmp.complete = cache[tmp._id].complete;
+                }
+                return tmp;
+            });           
+            setFoods(updatedCache);
         } else {
             setFoods(orderData.foods);
         }
@@ -35,10 +44,11 @@ const Order = (props) => {
 
     // manage cache
     useEffect(() => {
-        if (!foods) localStorage.removeItem(`orderFoods-${orderData._id}`);
+        const hasFoods = foods.filter(food => food.category !== "dessert").length > 0;
+        if (!hasFoods) localStorage.removeItem(`orderFoods-${orderData._id}`);
         else {
-            const tmp = [ ...orderData.foods ];
-            tmp.forEach(food => food.cached = true);
+            const tmp = {};
+            foods.filter(food => food.category !== "dessert").forEach(food => tmp[food._id] = food);
             localStorage.setItem(`orderFoods-${orderData._id}`, JSON.stringify(tmp));
         }
     }, [foods]);
@@ -48,8 +58,6 @@ const Order = (props) => {
 
     /**
      * CLICK event handler for checkboxes/radios and their corresponding labels.
-     * @param {Boolean} prevCheckedStatus 
-     * @param {Number} index 
      */
     const cbFoodClick = (prevCheckedStatus, index) => {
         setFoods(snapshot => {
@@ -85,15 +93,7 @@ const Order = (props) => {
         </div>
         <div className={detailsClassList}>
             <div>
-                {foods
-                    .filter(food => food.category !== "dessert")
-                    .map((food, index) => (
-                        <FoodDetails 
-                            key={index} 
-                            data={food} 
-                            onClick={() => cbFoodClick(food.complete, index)} 
-                        />
-                    ))}
+                <KitchenFoodsDetails foods={foods} onClick={cbFoodClick} />
             </div>
             <CompleteButton 
                 className={styles["btn--order-complete"]} 

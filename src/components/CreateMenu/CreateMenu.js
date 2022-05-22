@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { useAsync } from "store/hooks.js";
-import { foodsRequests, restaurantmenusRequests } from "store/connections.js";
+import { foodsRequests, drinksRequests, restaurantmenusRequests } from "store/connections.js";
 import { Button, Card, Input, LoadingSpinner, Title } from "components/generic.js";
 import { cloneObject, tomorrowAsString } from "store/utils.js";
 import { useReactToPrint } from "react-to-print";
@@ -103,7 +103,19 @@ const CreateMenu = () => {
      */
     const cbSaveTemplate = async () => {
         const _id = "template";
-        const data = { date: null, fontSize, foods, drinks };
+
+        // update drinks
+        const fetchedDrinks = await drinksRequests.getAllCategorized();
+        const drinksCategorized = {};
+        fetchedDrinks.forEach((elem) => (drinksCategorized[elem._id] = elem.items));
+
+        // proceed
+        const data = { 
+            date: null, 
+            fontSize, 
+            foods, 
+            drinks: drinksCategorized 
+        };
         await restaurantmenusRequests.put(_id, data);
         alert("menu saved as template");
     }

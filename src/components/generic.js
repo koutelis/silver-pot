@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { GrClose, GrFormCheckmark, GrStatusGood, GrTrash, GrTroubleshoot } from "react-icons/gr";
 import styles from "styles/generic.module.css";
 
@@ -10,11 +10,10 @@ import styles from "styles/generic.module.css";
 const Button = (props) => {
     const { text, className, ...rest } = props;
     const classList = [styles["btn"], className ?? ""].join(" ");
-    return (
-        <button className={classList} type="button" {...rest}>
-            {text}
-        </button>
-    );
+
+    return <button className={classList} type="button" {...rest}>
+        {text}
+    </button>
 };
 
 /**
@@ -59,11 +58,9 @@ const Checkbox_Label = (props) => {
         onClick();
     };
 
-    return (
-        <div title={tooltip} className={classList} onClick={cbClick}>
-            <GrStatusGood />
-        </div>
-    );
+    return <div title={tooltip} className={classList} onClick={cbClick}>
+        <GrStatusGood />
+    </div>
 };
 
 /**
@@ -80,11 +77,9 @@ const DelButton = (props) => {
         onClick();
     };
 
-    return (
-        <div title={tooltip} className={classList} onClick={cbClick}>
-            <GrTrash /><span>{text ?? ""}</span>
-        </div>
-    );
+    return <div title={tooltip} className={classList} onClick={cbClick}>
+        <GrTrash /><span>{text ?? ""}</span>
+    </div>
 };
 
 /**
@@ -96,36 +91,24 @@ const DropDownList = (props) => {
     let { className, hasEmpty, label, onChange, options, value } = props;
     const classList = [styles["dropdownlist"], className ?? ""].join(" ");
     options = Object.entries(options).map(([k, v]) => (
-        <option key={k} value={k}>
-            {v.label ?? v}
-        </option>
+        <option key={k} value={k}>{v.label ?? v}</option>
     ));
 
-    if (options.length === 0)
-        return (
-            <div className={classList}>
-                <label>No options available</label>
-            </div>
-        );
+    if (options.length === 0) {
+        return <div className={classList}>
+            <label>No options available</label>
+        </div>
+    }
 
     hasEmpty = hasEmpty ?? false;
-    if (hasEmpty)
-        options.splice(
-            0,
-            0,
-            <option key="empty" value="">
-                -
-            </option>
-        );
+    if (hasEmpty) options.splice(0, 0, <option key="empty" value="">-</option>);
 
-    return (
-        <div className={classList}>
-            <label htmlFor={label}> {label} </label>
-            <select name={label} onChange={onChange} value={value ?? ""}>
-                {options}
-            </select>
-        </div>
-    );
+    return <div className={classList}>
+        <label htmlFor={label}> {label} </label>
+        <select name={label} onChange={onChange} value={value ?? ""}>
+            {options}
+        </select>
+    </div>
 };
 
 /**
@@ -137,12 +120,10 @@ const Input = (props) => {
     const { className, label, name, ...rest } = props;
     const classList = [styles["input"], className ?? ""].join(" ");
 
-    return (
-        <div className={classList}>
-            <label htmlFor={name}>{label}</label>
-            <input name={name} {...rest} />
-        </div>
-    );
+    return <div className={classList}>
+        <label htmlFor={name}>{label}</label>
+        <input name={name} {...rest} />
+    </div>
 };
 
 /**
@@ -153,11 +134,13 @@ const Input = (props) => {
 const ModalWindow = (props) => {
     const { onClose, visible } = props;
     const isClosable = props.isClosable ?? true;
-    const mask = visible ? "" : " hidden";
+    const mask = visible ? "" : "hidden";
+
     const overlayClassList = [
         styles[isClosable ? "overlay" : "overlay-trans"],
         mask,
     ].join(" ");
+
     const modalClassList = [
         styles[isClosable ? "modal-window" : "modal-window__2"],
         mask,
@@ -168,17 +151,15 @@ const ModalWindow = (props) => {
         if (isClosable) onClose();
     };
 
-    return (
-        <>
-            <div className={overlayClassList} onClick={cbOverlayClick}></div>
-            <div className={modalClassList}>
-                <div className={styles["btn--close-modal"]} onClick={onClose}>
-                    <GrClose />
-                </div>
-                {props.children}
+    return <>
+        <div className={overlayClassList} onClick={cbOverlayClick}></div>
+        <div className={modalClassList}>
+            <div className={styles["btn--close-modal"]} onClick={onClose}>
+                <GrClose />
             </div>
-        </>
-    );
+            {props.children}
+        </div>
+    </>
 };
 
 const LoadingSpinner = (props) => {
@@ -198,12 +179,10 @@ const TextArea = (props) => {
     const { className, label, name, ...rest } = props;
     const classList = [styles["input-textarea"], className ?? ""].join(" ");
 
-    return (
-        <div className={classList}>
-            <label htmlFor={name}>{label}</label>
-            <textarea name={name} {...rest} />
-        </div>
-    );
+    return <div className={classList}>
+        <label htmlFor={name}>{label}</label>
+        <textarea name={name} {...rest} />
+    </div>
 };
 
 const TickImage = (props) => {
@@ -224,11 +203,9 @@ const Title = (props) => {
     const { className, text } = props;
     const classList = [styles["title"], className ?? ""].join(" ");
 
-    return (
-        <div className={classList}>
-            <h1>{text}</h1>
-        </div>
-    );
+    return <div className={classList}>
+        <h1>{text}</h1>
+    </div>
 };
 
 /**
@@ -237,15 +214,13 @@ const Title = (props) => {
  * @returns {JSX}
  */
 const Unimplemented = (props) => {
-    return (
-        <div className={styles["unimplemented"]}>
-            <h2>{props.title}</h2>
-            <h3>Not implemented yet...</h3>
-            <div>
-                <GrTroubleshoot />
-            </div>
+    return <div className={styles["unimplemented"]}>
+        <h2>{props.title}</h2>
+        <h3>Not implemented yet...</h3>
+        <div>
+            <GrTroubleshoot />
         </div>
-    );
+    </div>
 };
 
 export {

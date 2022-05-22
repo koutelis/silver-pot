@@ -3,11 +3,22 @@ import { Checkbox_Label } from "components/generic.js";
 import FoodDetails from "components/KitchenSection/FoodDetails.js";
 import styles from "styles/BarSection.module.css";
 
+const Size = (props) => {
+    const { name } = props;
+
+    if (!name || name === "") return null;
+    return <div className={styles["size"]}>
+        <span>size:</span>{'\u00A0'}{name}
+    </div>
+}
+
 const Comment = (props) => {
     const { content } = props;
 
     if (!content || content === "") return null;
-    return <div className={styles["comments"]}>customer comment: "{content}"</div>
+    return <div className={styles["comments"]}>
+        customer comment: "{content}"
+    </div>
 }
 
 export const DrinkDetails = (props) => {
@@ -22,6 +33,7 @@ export const DrinkDetails = (props) => {
             onClick={onClick} 
         />
         <div className={styles["customizations"]}>
+            <Size name={data.size.name} />
             <Comment content={data.comments} />
         </div>
     </div>

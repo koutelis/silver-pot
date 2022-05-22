@@ -22,6 +22,10 @@
 /* OrdersList.js */
 /*****************/
 
+h2.title {
+    color: var(--main-color);
+}
+
 .orders-container {
     display: flex;
     flex-direction: column;
@@ -68,6 +72,10 @@
 
 .drink-container {
     margin-bottom: 1rem;
+}
+
+.size span {
+    color: darkblue;
 }
 
 .comments {

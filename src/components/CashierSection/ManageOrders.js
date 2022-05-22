@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Card, DropDownList } from "components/generic.js";
 import { ORDERS } from "store/config.js";
-import { ordersRequests } from "store/connections.js";
+import { todayAsString } from "store/utils.js";
+import { ordersRequests, restaurantmenusRequests } from "store/connections.js";
 import ManageOrder_Modal from "components/CashierSection/ManageOrder_Modal.js";
 import OrdersList from "components/CashierSection/OrdersList.js";
 import styles from "styles/CashierSection.module.css";
@@ -69,27 +70,64 @@ const ManageOrders = (props) => {
         setTableFilter(selectedTable);
     }
 
-    const cbOrderCancel = async () => {
+    const cbOrderCancel = () => {
+        const { _id, foods } = selectedOrder;
+        restoreAvailabilities(foods);
         setSelectedOrder(null);
-        await ordersRequests.delete(selectedOrder._id);
+        ordersRequests.delete(_id);
+    }
+
+    const restoreAvailabilities = async (canceledFoods) => {
+        const todaysMenu = await restaurantmenusRequests.get( todayAsString() );
+        const canceledFoodIds = {}
+        for (const food of canceledFoods) {
+            if (!canceledFoodIds[food.category]) canceledFoodIds[food.category] = {};
+            if (!canceledFoodIds[food.category][food.foodId]) canceledFoodIds[food.category][food.foodId] = 0;
+            canceledFoodIds[food.category][food.foodId] += 1;
+        }
+
+        for (const category in canceledFoodIds) {
+            for (const foodId in canceledFoodIds[category]) {
+                const quantity = canceledFoodIds[category][foodId];
+                todaysMenu.foods[category] = todaysMenu.foods[category].map(itm => {
+                    if (itm._id !== foodId) return itm;
+                    const availability = itm.availability + quantity;
+                    return {
+                        ...itm,
+                        availability
+                    }
+                });
+            }
+        }
+
+        restaurantmenusRequests.put(todaysMenu._id, todaysMenu);
     }
 
     const cbOrderComplete = async () => {
+        // validate
+        const isIncomplete = !selectedOrder.kitchenComplete || !selectedOrder.barComplete;
+        let proceed = true;
+        if (isIncomplete) {
+            proceed = window.confirm("Are you sure? Not all items are marked as complete...")
+        }
+        if (!proceed) return;
+
+        // proceed
+        const order = { 
+            ...selectedOrder,
+            barComplete: true,
+            kitchenComplete: true,
+            paymentComplete: true
+        };
         setSelectedOrder(null);
-        await ordersRequests.put(
-            selectedOrder._id, 
-            {
-                ...selectedOrder, 
-                barComplete: true,
-                kitchenComplete: true,
-                paymentComplete: true
-            }
-        );
+        await ordersRequests.put(order._id, order);
     }
 
-    let title = Object.keys(filteredOrders).length > 0 ? `${orderType} orders` : `no ${orderType} orders found`;
+    const hasFilteredEntries = Object.keys(filteredOrders).length > 0;
+    const hasNoEntries = !hasFilteredEntries && tableFilter === "";
+    let title = hasFilteredEntries ? `${orderType} orders` : `no ${orderType} orders found...`;
     if (tableFilter !== "") title += ` for table ${tableFilter}`
-    const ddlClassList = [styles["ddl--category"], (orders.length ? "" : "hidden")].join(" ");
+    const ddlClassList = [styles["ddl--category"], (hasNoEntries ? "hidden" : "")].join(" ");
 
     return <Card>
         <div className={styles["upper-panel"]}>

@@ -1,5 +1,6 @@
 import io from "socket.io-client";
 import { ENDPOINTS, WEB_SOCKETS } from 'store/config.js';
+import { todayAsString } from "store/utils.js";
 
 const socket = io(WEB_SOCKETS.orders);
 const apiDrinksUrl = ENDPOINTS.drinks;
@@ -33,7 +34,7 @@ async function getAll(apiUrl) {
 async function getItem(apiUrl, _id) {
     try {
         const response = await fetch(apiUrl + _id);
-        if (!response || !response.ok) return null;
+        if (!response?.ok) return null;
         return response.json();
     } catch (err) {
         return onError(err);
@@ -95,6 +96,26 @@ function deleteItem(apiUrl, _id) {
     }
 }
 
+async function getTodaysMenu(_id) {
+    const res = await getItem(apiMenusUrl, _id);
+    if (!res) {
+        const date = todayAsString();
+        const drinks = await drinksRequests.getAllCategorized();
+        const drinksCategorized = {};
+        drinks.forEach((elem) => (drinksCategorized[elem._id] = elem.items));
+        const data = {
+            date,
+            fontSize: 14,
+            foods: [],
+            drinks: drinksCategorized
+        }
+        await restaurantmenusRequests.put(date, data);
+        return getItem(apiMenusUrl, date);
+    }
+
+    return res;
+}
+
 function deletePastMenus() {
     try {
         return fetch(apiMenusUrl, { method: "DELETE" });
@@ -105,7 +126,7 @@ function deletePastMenus() {
 
 function onError(err) {
     // console.error(err);
-    return Promise.reject(null);
+    return Promise.resolve(null);
 }
 
 //#endregion
@@ -130,7 +151,7 @@ const drinksRequests = {
 }
 
 const restaurantmenusRequests = {
-    get: (_id) => getItem(apiMenusUrl, _id),
+    get: (_id) => getTodaysMenu(_id),
     put: (_id, data) => putItem(apiMenusUrl, _id, data),
     deletePast: deletePastMenus
 }
@@ -165,4 +186,10 @@ const ordersSubscriptions = {
 
 //#endregion
 
-export { foodsRequests, drinksRequests, restaurantmenusRequests, ordersRequests, ordersSubscriptions };
+export { 
+    foodsRequests, 
+    drinksRequests, 
+    restaurantmenusRequests, 
+    ordersRequests, 
+    ordersSubscriptions 
+};
