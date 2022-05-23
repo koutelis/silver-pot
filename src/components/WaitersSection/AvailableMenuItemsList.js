@@ -92,7 +92,7 @@ const ItemsList = (props) => {
  * @param {Object} props { itemsType: String, menuItems: Object, onSelect: function }
  * @returns {JSX}
  */
- const AvailableMenuItemsList = (props) => {
+const AvailableMenuItemsList = (props) => {
     const { itemsType, menuItems, onSelect } = props;
     const [filter, setFilter] = useState("none");
 
@@ -127,6 +127,6 @@ const ItemsList = (props) => {
             onSelect={onSelect}
         />
     </div>
- }
+}
 
 export default AvailableMenuItemsList;

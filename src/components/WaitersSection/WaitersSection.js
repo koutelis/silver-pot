@@ -80,7 +80,7 @@ const WaitersSection = () => {
      * Load available items of today's menu from DB
      */
     const loadAvailableItems = async () => {
-        const currentMenu = await restaurantmenusRequests.get( todayAsString() );
+        const currentMenu = await restaurantmenusRequests.getCurrent();
         setAvailableItems(snapshot => currentMenu ?? snapshot);
         setIsLoading(false);
     }
@@ -254,7 +254,7 @@ const WaitersSection = () => {
                 foods: updAvailableFoods
             };
 
-            restaurantmenusRequests.put(updAvailableItems.date, updAvailableItems);
+            restaurantmenusRequests.updateCurrent(updAvailableItems);
 
             // SEND finalizedOrder TO DB, to be broadcasted to other sections
             sendToDB(finalizedOrder);

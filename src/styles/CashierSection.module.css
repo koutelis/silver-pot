@@ -9,6 +9,7 @@
 
 .top-panel h1 {
     color: var(--main-txt-color__bright);
+    padding: 10px;
 }
 
 .ddl--order-type {

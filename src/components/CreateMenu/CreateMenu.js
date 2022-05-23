@@ -26,7 +26,7 @@ const CreateMenu = () => {
 
     // runs only first time
     useAsync(
-        () => restaurantmenusRequests.get("template"), 
+        () => restaurantmenusRequests.getTemplate(), 
         (response) => {
             const { fontSize: fetchedFontSize, foods: fetchedFoods, drinks: fetchedDrinks } = response;
             setFontSize(fetchedFontSize ?? defaults.template.fontSize);
@@ -36,7 +36,7 @@ const CreateMenu = () => {
             setIsLoading(false);
         }
     );
-
+    
     /**
      * CHANGE handler for the selected date.
      * @param {Event} e 

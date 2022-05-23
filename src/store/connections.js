@@ -151,7 +151,9 @@ const drinksRequests = {
 }
 
 const restaurantmenusRequests = {
-    get: (_id) => getTodaysMenu(_id),
+    getTemplate: () => getItem(apiMenusUrl, "template"),
+    getCurrent: () => getTodaysMenu( todayAsString() ),
+    updateCurrent: (data) => putItem(apiMenusUrl, todayAsString(), data),
     put: (_id, data) => putItem(apiMenusUrl, _id, data),
     deletePast: deletePastMenus
 }

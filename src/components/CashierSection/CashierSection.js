@@ -5,6 +5,10 @@ import { DropDownList, LoadingSpinner, Title } from "components/generic.js";
 import ManageOrders from "components/CashierSection/ManageOrders.js";
 import styles from "styles/CashierSection.module.css";
 
+/**
+ * FR5.
+ * @returns {JSX}
+ */
 const CashierSection = () => {
     const [ isLoading, setIsLoading ] = useState(true);
     const [ orders, setOrders ] = useState([]);

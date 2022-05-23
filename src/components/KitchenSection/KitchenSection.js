@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { Card, LoadingSpinner, Title } from "components/generic.js";
+import React, { useState, useEffect, useRef } from "react";
+import { Button, Card, LoadingSpinner, Title } from "components/generic.js";
 import { ordersRequests, ordersSubscriptions } from "store/connections.js";
 import OrdersList from "components/KitchenSection/OrdersList.js";
+import ManageAvailabilities from "components/KitchenSection/ManageAvailabilities.js";
 import styles from "styles/KitchenSection.module.css";
 
 /**
@@ -13,8 +14,10 @@ import styles from "styles/KitchenSection.module.css";
  * @returns {JSX}
  */
 const KitchenSection = () => {
-    const [isLoading, setIsLoading] = useState(true);
-    const [orders, setOrders] = useState([]);
+    const [ isLoading, setIsLoading ] = useState(true);
+    const [ orders, setOrders ] = useState([]);
+    const [ viewMode, setViewMode ] = useState("orders");
+    const availabilitiesManager = useRef(null);
 
     // runs only first time, load pending orders and set websocket connection
     useEffect(() => {
@@ -24,6 +27,7 @@ const KitchenSection = () => {
         const socketCleanup = ordersSubscriptions.orderUpdates(loadOrders);
         return socketCleanup;
     }, []);
+
 
     /**
      * Load current and unprocessed orders from DB
@@ -57,13 +61,47 @@ const KitchenSection = () => {
         ordersRequests.put(completedOrder._id, completedOrder);
     }
 
+    const toggleViewMode = () => {
+        setViewMode(snapshot => snapshot === "orders" ? "availabilities" : "orders");
+    }
+
+    const cbAvailabilitiesUpdate = () => {
+        availabilitiesManager.current.submit();
+        setViewMode("orders");
+    }
+
+    const btnModeText = viewMode === "orders" ? "Set Availabilities" : "View Orders";
+    const btnSubmitAvail_classList = [
+        styles["btn--submit-availabilities"],
+        viewMode === "orders" ? "hidden" : ""
+    ].join(" ");
+    const cardTitleText = viewMode === "orders" ? "ORDERS" : "MANAGE AVAILABILITIES";
+
     if (isLoading) return <LoadingSpinner />
     return <div className={styles["master-container"]}>
         <div className={styles["top-panel"]} >
             <Title className={styles["title"]} text="KITCHEN SECTION" />
+            <div className={styles["top-panel__controls"]}>
+                <Button className={styles["btn--kitchen-mode"]} text={btnModeText} onClick={toggleViewMode} />
+                <Button
+                    className={btnSubmitAvail_classList} 
+                    text="submit changes" 
+                    onClick={cbAvailabilitiesUpdate}
+                />
+                {/* <Button className={btnSubmitAvail_classList} text="submit changes" onClick={toggleViewMode} /> */}
+            </div>
         </div>
         <Card className={styles["card"]}>
-            <OrdersList orders={orders} onOrderComplete={cbOrderComplete} />
+            <h2>{cardTitleText}</h2>
+            <OrdersList 
+                orders={orders} 
+                onOrderComplete={cbOrderComplete} 
+                visible={viewMode === "orders"} 
+            />
+            <ManageAvailabilities 
+                ref={availabilitiesManager}
+                visible={viewMode === "availabilities"} 
+            />
         </Card>
     </div>
 }

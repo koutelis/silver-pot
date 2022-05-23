@@ -78,7 +78,7 @@ const ManageOrders = (props) => {
     }
 
     const restoreAvailabilities = async (canceledFoods) => {
-        const todaysMenu = await restaurantmenusRequests.get( todayAsString() );
+        const todaysMenu = await restaurantmenusRequests.getCurrent();
         const canceledFoodIds = {}
         for (const food of canceledFoods) {
             if (!canceledFoodIds[food.category]) canceledFoodIds[food.category] = {};
@@ -99,8 +99,8 @@ const ManageOrders = (props) => {
                 });
             }
         }
-
-        restaurantmenusRequests.put(todaysMenu._id, todaysMenu);
+        
+        restaurantmenusRequests.updateCurrent(todaysMenu);
     }
 
     const cbOrderComplete = async () => {

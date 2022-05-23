@@ -7,7 +7,9 @@ import styles from "styles/KitchenSection.module.css";
  * @returns {JSX}
  */
 const OrdersList = (props) => {
-    const { orders, onOrderComplete } = props;
+    const { orders, onOrderComplete, visible } = props;
+
+    if (!visible) return null;
 
     const list = orders
         .filter(order => !order.kitchenComplete)
