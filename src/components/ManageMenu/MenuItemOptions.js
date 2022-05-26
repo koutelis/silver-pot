@@ -13,7 +13,7 @@ export const FoodOptions = (props) => {
     const [optionsVisibility, setOptionsVisibility] = useState({ addons: false, removables: false })
 
     // runs whenever item data change, to adjust the options' visibility
-    useEffect(async () => {
+    useEffect(() => {
         if (itemData) {
             setOptionsVisibility({
                 addons: itemData.addons.length > 0,
@@ -72,7 +72,7 @@ export const DrinkOptions = (props) => {
     const [optionsVisibility, setOptionsVisibility] = useState({ sizes: false })
 
     // runs whenever item data change, to adjust the options' visibility
-    useEffect(async () => {
+    useEffect(() => {
         if (itemData) setOptionsVisibility({ sizes: itemData.sizes.length > 0 });
     }, [itemData])
 

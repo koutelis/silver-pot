@@ -16,7 +16,7 @@ const apiOrdersUrl = ENDPOINTS.orders;
  * @param {String} apiUrl - API endpoint
  * @returns {Promise} - Array of drink objects
  */
-async function getAll(apiUrl) {
+const getAll = async (apiUrl) => {
     try {
         const response = await fetch(apiUrl);
         return response.json();
@@ -31,7 +31,7 @@ async function getAll(apiUrl) {
  * @param {String} _id - mongoDB ObjectID
  * @returns {Promise} - menu item object
  */
-async function getItem(apiUrl, _id) {
+const getItem = async (apiUrl, _id) => {
     try {
         const response = await fetch(apiUrl + _id);
         if (!response?.ok) return null;
@@ -47,7 +47,7 @@ async function getItem(apiUrl, _id) {
  * @param {Object} data - item
  * @returns {Promise} - response Object
  */
-function postItem(apiUrl, data) {
+ const postItem = (apiUrl, data) => {
     const settings = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -68,7 +68,7 @@ function postItem(apiUrl, data) {
  * @param {Object} data - food Object
  * @returns {Promise} - response Object
  */
-function putItem(apiUrl, _id, data) {
+ const putItem = (apiUrl, _id, data) => {
     const settings = {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -88,7 +88,7 @@ function putItem(apiUrl, _id, data) {
  * @param {String} apiUrl - API endpoint
  * @returns {Promise} - response Object
  */
-function deleteItem(apiUrl, _id) {
+ const deleteItem = (apiUrl, _id) => {
     try {
         return fetch(apiUrl + _id, { method: "DELETE" });
     } catch (err) {
@@ -96,7 +96,7 @@ function deleteItem(apiUrl, _id) {
     }
 }
 
-async function getTodaysMenu(_id) {
+const getTodaysMenu = async (_id) => {
     const res = await getItem(apiMenusUrl, _id);
     if (!res) {
         const date = todayAsString();
@@ -116,7 +116,7 @@ async function getTodaysMenu(_id) {
     return res;
 }
 
-function deletePastMenus() {
+const deletePastMenus = () => {
     try {
         return fetch(apiMenusUrl, { method: "DELETE" });
     } catch (err) {
@@ -124,7 +124,7 @@ function deletePastMenus() {
     }
 }
 
-function onError(err) {
+const onError = (err) => {
     // console.error(err);
     return Promise.resolve(null);
 }

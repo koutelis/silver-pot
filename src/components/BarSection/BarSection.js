@@ -15,21 +15,28 @@ const BarSection = () => {
 
     // runs only first time, load pending orders and set websocket connection
     useEffect(() => {
-        loadOrders(true);
+        let isMounted = true;
+        loadOrders(true, isMounted);
 
         // set websocket connection
         const socketCleanup = ordersSubscriptions.orderUpdates(loadOrders);
-        return socketCleanup;
+
+        return () => {
+            socketCleanup();
+            isMounted = false;
+        }
     }, []);
 
     /**
      * Load current and unprocessed orders from DB
      */
-    const loadOrders = async (firstTime = false) => {
+    const loadOrders = async (firstTime = false, isMounted = true) => {
         const fetchedOrders = await ordersRequests.getAll();
         if (firstTime) cleanupLocalStorage( fetchedOrders.map(order => order._id) );
-        setOrders(fetchedOrders);
-        setIsLoading(false);
+        if (isMounted) {
+            setOrders(fetchedOrders);
+            setIsLoading(false);
+        }
     }
 
     /**

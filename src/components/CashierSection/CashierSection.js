@@ -16,21 +16,27 @@ const CashierSection = () => {
 
     // runs only the first time and loads all available items of the specified type
     useEffect(() => {
-        loadOrders();
+        let isMounted = true;
+        loadOrders(isMounted);
 
         // set websocket connection
         const socketCleanup = ordersSubscriptions.orderUpdates(loadOrders);
-        return socketCleanup;
+        return () => {
+            socketCleanup();
+            isMounted = false;
+        }
     }, []);
 
     /**
      * Load all available menu items from the DB,
      * according to type (foods or drinks).
      */
-    const loadOrders = async () => {
+    const loadOrders = async (isMounted = true) => {
         const fetchedOrders = await ordersRequests.getAll();
-        setOrders( fetchedOrders ?? [] );
-        setIsLoading(false);
+        if (isMounted) {
+            setOrders( fetchedOrders ?? [] );
+            setIsLoading(false);
+        }
     }
 
     /**

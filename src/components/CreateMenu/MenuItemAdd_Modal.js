@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useAsync } from "store/hooks.js";
 import { foodsRequests } from "store/connections.js";
 import { Button, DropDownList, Input, ModalWindow } from "components/generic.js";
 import { FOODS as defaults } from "store/config";
@@ -20,10 +19,13 @@ const MenuItemAdd_Modal = (props) => {
     const { onClose, onSelection, selectedItems, visible } = props;
 
     // runs only the first time to populate the items DDL options from DB
-    useAsync(
-        () => foodsRequests.getAll(),
-        (fetchedItems) => setMenuCatalogue(fetchedItems)
-    )
+    useEffect(async () => {
+        let isMounted = true;
+        const fetchedFoods = await foodsRequests.getAll();
+        if (isMounted) setMenuCatalogue(fetchedFoods);
+
+        return () => { isMounted = false };
+    }, []);
 
     // runs on changes to exlude already added items from the DDL
     useEffect(() => {
@@ -71,7 +73,7 @@ const MenuItemAdd_Modal = (props) => {
             />
             <Input 
                 label="Approximate servings available" name="availability" type="number" 
-                min="1" max="100" step="1" value={availability} onChange={cbAvailabilityChanged} />
+                min="1" max="1000" step="1" value={availability} onChange={cbAvailabilityChanged} />
             <DropDownList 
                 className={styles["ddl--category"]} 
                 hasEmpty={true} 

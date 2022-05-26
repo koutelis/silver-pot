@@ -15,7 +15,7 @@ const FoodItem = (props) => {
     const isAvailable = availability > 0;
 
     const cbChange = (e) => {
-        onChange(_id, category, e.target.value);
+        onChange(_id, category, +e.target.value);
     }
 
     const strikeOut = !isAvailable ? styles["unavailable"] : "";

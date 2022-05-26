@@ -1,6 +1,6 @@
 import React from "react";
 import { toCurrency } from "store/utils.js";
-import { Button, DelButton, ModalWindow } from "components/generic.js";
+import { Button, ModalWindow } from "components/generic.js";
 import styles from "styles/CashierSection.module.css"
 
 const RowAddon = (props) => {
@@ -96,12 +96,6 @@ const ManageOrder_Modal = (props) => {
     
     if (!orderData) return null;
 
-    const cbOrderCancel = (e) => {
-        const proceed = window.confirm("Are you sure you want to cancel this order?");
-        if (!proceed) return;
-        onCancelOrder();
-    }
-    
     const { foods, drinks, table, time, totalCost } = orderData;
     const foodTables = foods.map((food, index) => <FoodTable key={index} foodData={food} />);
     const drinkTables = drinks.map((drink, index) => <DrinkTable key={index} drinkData={drink} />)
@@ -118,7 +112,7 @@ const ManageOrder_Modal = (props) => {
             </div>
 
             <ModalControls 
-                onCancelOrder={cbOrderCancel} 
+                onCancelOrder={onCancelOrder} 
                 onCompleteOrder={onCompleteOrder}
                 visible={!orderData.paymentComplete}
             />

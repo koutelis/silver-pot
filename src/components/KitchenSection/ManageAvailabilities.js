@@ -39,9 +39,6 @@ const ManageAvailabilities = (props, ref) => {
         setIsLoading(false);
     }
 
-
-    if (!visible) return null;
-
     const cbInputChange = (foodId, foodCategory, value) => {
         setFoods(snapshot => {
             const tmp = { ...snapshot };
@@ -51,6 +48,7 @@ const ManageAvailabilities = (props, ref) => {
         })
     }
 
+    if (!visible) return null;
     if (isLoading) return <LoadingSpinner />
     return <FoodsList_Availabilities foods={foods} onChange={cbInputChange} />
 };

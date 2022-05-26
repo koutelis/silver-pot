@@ -1,10 +1,10 @@
-import React, { useState, useRef } from "react";
-import { useAsync } from "store/hooks.js";
-import { foodsRequests, drinksRequests, restaurantmenusRequests } from "store/connections.js";
-import { Button, Card, Input, LoadingSpinner, Title } from "components/generic.js";
-import { cloneObject, tomorrowAsString } from "store/utils.js";
+import React, { useState, useRef, useEffect } from "react";
 import { useReactToPrint } from "react-to-print";
+import { foodsRequests, drinksRequests, restaurantmenusRequests } from "store/connections.js";
+import { cloneObject, tomorrowAsString } from "store/utils.js";
+import { Button, Card, Input, LoadingSpinner, Title } from "components/generic.js";
 import { MENUS as defaults } from "store/config.js";
+import { useModal } from "store/hooks.js";
 import DailyMenu_DnD from "components/CreateMenu/DailyMenu_DnD.js"
 import MenuItemAdd_Modal from "components/CreateMenu/MenuItemAdd_Modal.js";
 import styles from "styles/CreateMenu.module.css";
@@ -23,19 +23,23 @@ const CreateMenu = () => {
     const [modalIsVisible, setModalIsVisible] = useState(false);
     const [isPrintView, setIsPrintView] = useState(false);
     const [fontSize, setFontSize] = useState(14);
-
+    const { displayAlert } = useModal();
+    
     // runs only first time
-    useAsync(
-        () => restaurantmenusRequests.getTemplate(), 
-        (response) => {
-            const { fontSize: fetchedFontSize, foods: fetchedFoods, drinks: fetchedDrinks } = response;
-            setFontSize(fetchedFontSize ?? defaults.template.fontSize);
-            setFoods(fetchedFoods ?? cloneObject(defaults.template.foods));
-            setDrinks(fetchedDrinks ?? cloneObject(defaults.template.drinks));
+    useEffect(async () => {
+        let isMounted = true;
+        const fetchedTemplateMenu = await restaurantmenusRequests.getTemplate();
+        if (isMounted) {
+            setFontSize(fetchedTemplateMenu.fontSize ?? defaults.template.fontSize);
+            setFoods(fetchedTemplateMenu.foods ?? cloneObject(defaults.template.foods));
+            setDrinks(fetchedTemplateMenu.drinks ?? cloneObject(defaults.template.drinks));
             setIsPrintView(window.innerWidth > 768);  // find out window width to display the appropriate view
             setIsLoading(false);
         }
-    );
+        
+        return () => { isMounted = false };
+    }, []);
+
     
     /**
      * CHANGE handler for the selected date.
@@ -69,7 +73,7 @@ const CreateMenu = () => {
         const foodItem = await foodsRequests.get(foodId);
         const exists = foods[foodItem.category].some(food => food._id === foodItem._id);
         if (exists) {
-            alert("food already entered in the menu");
+            displayAlert(`Food '${foodItem.name}' has already been selected`);
             return;
         }
 
@@ -94,7 +98,7 @@ const CreateMenu = () => {
         const data = { date, fontSize, foods, drinks };
 
         const res = await restaurantmenusRequests.put(_id, data);
-        if (res) alert("daily menu saved");
+        if (res) displayAlert("Daily menu saved!");
         restaurantmenusRequests.deletePast();
     }
 
@@ -109,15 +113,31 @@ const CreateMenu = () => {
         const drinksCategorized = {};
         fetchedDrinks.forEach((elem) => (drinksCategorized[elem._id] = elem.items));
 
+        const foodsCopy = {};
+        Object.entries(foods).forEach(([cat, foodArr]) => {
+            foodsCopy[cat] = foodArr.map(food => ({ ...food, availability: 10}));
+        });
+
         // proceed
         const data = { 
             date: null, 
             fontSize, 
-            foods, 
+            foods: foodsCopy, 
             drinks: drinksCategorized 
         };
         await restaurantmenusRequests.put(_id, data);
-        alert("menu saved as template");
+        displayAlert("Menu saved as template!");
+    }
+
+    const cbAvailabilityChange = (e, foodItemData) => {
+        const newAvailability = +e.target.value;
+        const { category, _id } = foodItemData;
+        setFoods(snapshot => {
+            const index = snapshot[category].findIndex(food => food._id === _id);
+            const tmp = { ...snapshot };
+            tmp[category][index].availability = newAvailability;
+            return tmp;
+        })
     }
 
     // reference to printable component and its print handler
@@ -157,6 +177,7 @@ const CreateMenu = () => {
                 menuDate={date}
                 itemList={foods} 
                 onDragDrop={cbHandleDragDrop} 
+                onAvailabilityChange={cbAvailabilityChange}
                 fontSize={fontSize} 
                 ref={printableMenuRef} 
             />

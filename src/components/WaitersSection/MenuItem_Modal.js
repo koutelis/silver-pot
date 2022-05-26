@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Button, DelButton, Input, TextArea, ModalWindow } from "components/generic.js";
-import { cloneObject } from "store/utils.js";
-import { toCurrency } from "store/utils.js";
+import { cloneObject, toCurrency } from "store/utils.js";
 import { FoodOptions, DrinkOptions } from "components/WaitersSection/MenuItemOptions.js";
 import styles from "styles/WaitersSection.module.css";
 
 const MenuItemMainData = (props) => {
-    const { menuItem, mode, cbRemoveItem, totalPrice, quantity } = props;
+    const { menuItem, mode, onRemoveItem, totalPrice, quantity } = props;
     const { basePrice, category, description, name } = menuItem;
 
     let displayTotal = toCurrency(totalPrice);
@@ -35,7 +34,7 @@ const MenuItemMainData = (props) => {
             {
                 (mode === "edit") && 
                 <DelButton className={styles["add-item-form__del"]} 
-                    onClick={cbRemoveItem} tooltip={`delete ${name}`} 
+                    onClick={onRemoveItem} tooltip={`delete ${name}`} 
                 />
             }
         </div>
@@ -74,6 +73,7 @@ const MenuItem_Modal = (props) => {
     useEffect(() => {
         setVisible(Boolean(menuItem));
         if (!menuItem) return;
+        
         setSelectedOptions(() => prepareMenuItemOptions());
         setQuantity(1);
     }, [menuItem, menuItemType]);
@@ -81,7 +81,7 @@ const MenuItem_Modal = (props) => {
     // runs when the options change to set the correct total price
     useEffect(() => {
         if (!menuItem) return;
-        setItemTotalCost(() => calcTotalPrice());
+        setItemTotalCost(() => (calcTotalPrice()));
 
     }, [selectedOptions]);
 
@@ -193,7 +193,7 @@ const MenuItem_Modal = (props) => {
      */
     const cbRemoveItem = () => {
         setVisible(false);
-        onMenuItemRemove(menuItemType, menuItem._id);
+        onMenuItemRemove(menuItemType, menuItemIndex);
     }
 
     /**
@@ -212,11 +212,12 @@ const MenuItem_Modal = (props) => {
         setVisible(false);
     }
 
+    
     if (!visible || !menuItem) return null;
 
     const form = <form className={styles["add-item-form"]} >
         <MenuItemMainData menuItem={menuItem} mode={mode} quantity={quantity}
-            totalPrice={itemTotalCost} cbRemoveItem={cbRemoveItem} 
+            totalPrice={itemTotalCost} onRemoveItem={cbRemoveItem} 
         />
         {
             (menuItemType === "foods")
@@ -236,7 +237,7 @@ const MenuItem_Modal = (props) => {
             mode={mode}
             value={quantity}
             max={menuItem.availability ?? 10} 
-            onChange={(e) => setQuantity(e.target.value)}
+            onChange={(e) => setQuantity(+e.target.value)}
         />
         
         <Button 

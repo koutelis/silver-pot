@@ -100,7 +100,7 @@ const ManageMenuItem_Modal = (props) => {
 
         const isValid = Boolean(itemData.name);
         if (!isValid) {
-            alert("missing content");
+            displayConfirm("missing content");
             return;
         }
 
@@ -126,7 +126,6 @@ const ManageMenuItem_Modal = (props) => {
     }
 
     if (!visible) return null;
-
     return <ModalWindow onClose={() => cbModalClose()} visible={visible} >
         <form className={styles["add-item-form"]} >
             <MenuItemDataForm 

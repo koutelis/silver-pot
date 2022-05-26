@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Card, DropDownList } from "components/generic.js";
 import { ORDERS } from "store/config.js";
-import { todayAsString } from "store/utils.js";
 import { ordersRequests, restaurantmenusRequests } from "store/connections.js";
+import { useModal } from "store/hooks.js";
 import ManageOrder_Modal from "components/CashierSection/ManageOrder_Modal.js";
 import OrdersList from "components/CashierSection/OrdersList.js";
 import styles from "styles/CashierSection.module.css";
@@ -18,6 +18,7 @@ const ManageOrders = (props) => {
     const [ selectedOrder, setSelectedOrder ] = useState(null);
     const [ tableFilter, setTableFilter ] = useState("");
     const { orderType, orders } = props;
+    const { displayConfirm } = useModal();
     
     useEffect(() => {
         const result = { completed: {}, pending: {} };
@@ -70,7 +71,10 @@ const ManageOrders = (props) => {
         setTableFilter(selectedTable);
     }
 
-    const cbOrderCancel = () => {
+    const cbOrderCancel = async() => {
+        const proceed = await displayConfirm("Are you sure you want to cancel this order?");
+        if (!proceed) return;
+
         const { _id, foods } = selectedOrder;
         restoreAvailabilities(foods);
         setSelectedOrder(null);
@@ -108,7 +112,7 @@ const ManageOrders = (props) => {
         const isIncomplete = !selectedOrder.kitchenComplete || !selectedOrder.barComplete;
         let proceed = true;
         if (isIncomplete) {
-            proceed = window.confirm("Are you sure? Not all items are marked as complete...")
+            proceed = await displayConfirm("Are you sure? Not all items are marked as complete...");
         }
         if (!proceed) return;
 

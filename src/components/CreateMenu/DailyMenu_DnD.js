@@ -12,7 +12,7 @@ import styles from "styles/CreateMenu.module.css";
  * @returns {JSX}
  */
 const DailyMenu_DnD = React.forwardRef((props, ref) => {
-    const { fontSize, isPrintView, itemList, menuDate, onDragDrop } = props;
+    const { fontSize, isPrintView, itemList, menuDate, onDragDrop, onAvailabilityChange } = props;
 
     const categories = Object.keys(defaults.categories);
     let dndList = [];
@@ -37,7 +37,12 @@ const DailyMenu_DnD = React.forwardRef((props, ref) => {
                 <Draggable key={item._id + index} draggableId={item._id} index={index}>
                     {provided => (
                         <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                            <MenuItem itemData={item} fontSize={fontSize} isPrintView={isPrintView} />
+                            <MenuItem 
+                                itemData={item} 
+                                fontSize={fontSize} 
+                                isPrintView={isPrintView} 
+                                onAvailabilityChange={onAvailabilityChange}
+                            />
                         </div>
                     )}
                 </Draggable>

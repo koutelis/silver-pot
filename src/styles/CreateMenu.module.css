@@ -154,6 +154,16 @@
     visibility: visible;
 }
 
+.menu-item {
+    display: flex;
+    justify-content: space-between;
+}
+
+.menu-item input {
+    padding: 0.4rem;
+    width: 4rem;
+}
+
 
 /* RESPONSIVENESS */
 /******************/
@@ -169,6 +179,7 @@
     }
 
     .menu-item {
+        font-size: 0.8rem;
         margin: 0.4rem 0;
     }
 }

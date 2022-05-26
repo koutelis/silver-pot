@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { foodsRequests, drinksRequests } from "store/connections.js";
 import { FOODS as foodsDefaults, DRINKS as drinkDefaults } from "store/config.js";
 import { Button, Card, DropDownList, LoadingSpinner } from "components/generic.js";
+import { useModal } from "store/hooks.js";
 import ManageMenuItem_Modal from "components/ManageMenu/ManageMenuItem_Modal.js";
 import MenuItemsList from "components/ManageMenu/MenuItemsList.js";
 import styles from "styles/ManageMenu.module.css";
@@ -17,6 +18,7 @@ const ManageMenuItems = (props) => {
     const [modalIsVisible, setModalIsVisible] = useState(false);
     const [selectedItemId, setSelectedItemId] = useState(null);
     const [categoryFilter, setCategoryFilter] = useState("");
+    const { displayConfirm } = useModal();
 
     const { menuItemType } = props;
     const defaults = (menuItemType === "foods") ? foodsDefaults : drinkDefaults;
@@ -84,7 +86,7 @@ const ManageMenuItems = (props) => {
         setSelectedItemId(null);
         setModalIsVisible(false);
         const selectedItem = await requestsHandler.get(id);
-        const proceed = window.confirm(`Are you sure you want to delete "${selectedItem.name}"?`);
+        const proceed = await displayConfirm(`Are you sure you want to delete "${selectedItem.name}"?`);
         if (proceed) {
             const response = await requestsHandler.delete(id);
             if (response.status === 204) loadItems();

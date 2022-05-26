@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { GrClose, GrFormCheckmark, GrStatusGood, GrTrash, GrTroubleshoot } from "react-icons/gr";
 import styles from "styles/generic.module.css";
 
@@ -142,7 +142,8 @@ const ModalWindow = (props) => {
     ].join(" ");
 
     const modalClassList = [
-        styles[isClosable ? "modal-window" : "modal-window__2"],
+        styles["modal-window"],
+        styles[isClosable ? "" : "modal-window__2"],
         mask,
     ].join(" ");
 
@@ -158,6 +159,53 @@ const ModalWindow = (props) => {
                 <GrClose />
             </div>
             {props.children}
+        </div>
+    </>
+};
+
+/**
+ * Generic modal alert window with overlay and OK button.
+ * @param {Object} props
+ * @returns {JSX}
+ */
+ const ModalAlert = (props) => {
+    const { onOK, message } = props;
+
+    const classList = [styles["modal-window"], styles["modal-alert"]].join(" ");
+
+    return <>
+        <div className={styles["overlay-above"]}></div>
+        <div className={classList}>
+            <div className={styles["modal-content"]}>
+                {message}
+            </div>
+            <div className={styles["modal-controls"]}>
+                <Button text="OK" onClick={onOK} />
+            </div>
+        </div>
+    </>
+};
+
+/**
+ * Generic modal confirm window with overlay and cancel/yes buttons.
+ * @param {Object} props
+ * @returns {JSX}
+ */
+ const ModalConfirm = (props) => {
+    const { onOK, onCancel, message } = props;
+
+    const classList = [styles["modal-window"], styles["modal-alert"]].join(" ");
+
+    return <>
+        <div className={styles["overlay-above"]}></div>
+        <div className={classList}>
+            <div className={styles["modal-content"]}>
+                {message}
+            </div>
+            <div className={styles["modal-controls"]}>
+                <Button text="no" onClick={onCancel} />
+                <Button text="yes" onClick={onOK} />
+            </div>
         </div>
     </>
 };
@@ -233,6 +281,8 @@ export {
     Input,
     LoadingSpinner,
     ModalWindow,
+    ModalAlert,
+    ModalConfirm,
     TextArea,
     TickImage,
     Title,

@@ -3,6 +3,7 @@ import { restaurantmenusRequests, ordersRequests, ordersSubscriptions } from "st
 import { cloneObject, currentTimeString, todayAsString } from "store/utils.js";
 import { Button, Card, DropDownList, LoadingSpinner, Title } from "components/generic.js";
 import { MENUS, ORDERS } from "store/config.js";
+import { useModal } from "store/hooks.js";
 import AvailableMenuItemsList from "components/WaitersSection/AvailableMenuItemsList.js";
 import MenuItem_Modal from "components/WaitersSection/MenuItem_Modal.js";
 import Order_Modal from "components/WaitersSection/Order_Modal.js";
@@ -17,76 +18,84 @@ import styles from "styles/WaitersSection.module.css";
  * @returns {JSX}
  */
 const WaitersSection = () => {
-    const [isLoading, setIsLoading] = useState(true);
-    const [availableItems, setAvailableItems] = useState( cloneObject(ORDERS.items) );
-    const [currentOrder, setCurrentOrder] = useState( cloneObject(ORDERS.order) );
-    const [selectedTable, setSelectedTable] = useState(null);
-    const [selectedMenuItemType, setSelectedMenuItemType] = useState("foods");
-    const [selectedItem, setSelectedItem] = useState({ data: null, index: null });
-    const [currentMode, setCurrentMode] = useState("add");
-    const [orderModalIsVisible, setOrderModalIsVisible] = useState(false);
+    const [ isLoading, setIsLoading ] = useState(true);
+    const [ availableItems, setAvailableItems ] = useState( cloneObject(ORDERS.items) );
+    const [ foodAvailabilities, setFoodAvailabilities ] = useState({});
+    const [ currentOrder, setCurrentOrder ] = useState( cloneObject(ORDERS.order) );
+    const [ selectedTable, setSelectedTable ] = useState(null);
+    const [ selectedMenuItemType, setSelectedMenuItemType ] = useState("foods");
+    const [ selectedItem, setSelectedItem ] = useState({ data: null, index: null });
+    const [ currentMode, setCurrentMode ] = useState("add");
+    const [ orderModalIsVisible, setOrderModalIsVisible ] = useState(false);
+    const { displayAlert, displayConfirm } = useModal();
 
     // runs only first time, checks for an unprocessed pending order and loads today's menu
     useEffect(() => {
-        // check for an unprocessed pending order
-        const pendingOrder = JSON.parse(localStorage.getItem("currentOrder"));
-        if (pendingOrder) {
-            setCurrentOrder(pendingOrder);
-            setSelectedTable(pendingOrder.table);
-        }
-
         loadAvailableItems();
 
         // set websocket connection
         const socketCleanup = ordersSubscriptions.menuUpdates(loadAvailableItems);
-        return socketCleanup;
+        return () => {
+            socketCleanup();
+        };
     }, []);
 
     useEffect(() => {
-        const tmp = cloneObject(currentOrder.foods);
-        if (tmp.length) {
-            tmp.forEach(food => {
-                food.availability = availableItems
-                    .foods[food.category]
-                    .find(itm => itm._id === food._id)
-                    .availability;
-            });
-
-            setCurrentOrder(snapshot => {
-                return {
-                    ...snapshot,
-                    foods: tmp
-                }
+        // update available items with correct availabilities
+        setAvailableItems(snapshot => {
+            const result = { ...snapshot };
+            Object.entries(foodAvailabilities).forEach(([_id, data]) => {
+                const {category, availability, index} = data;
+                result.foods[category][index].availability = availability;
             })
-        }
+            return result;
+        });
+    }, [foodAvailabilities])
 
-        if (selectedItem.data) {
-            setSelectedItem(snapshot => {
-                const { _id, category } = snapshot.data;
-                const newData = {
-                    ...snapshot.data,
-                    availability: availableItems.foods[category].find(itm => itm._id === _id).availability
-                }
+    useEffect(() => {
+        setSelectedItem(snapshot => {
+            if (!snapshot.data) return snapshot;
+            const result = cloneObject(snapshot);
+            const { category, _id } = result.data;
+            const index = availableItems.foods[category].findIndex(food => food._id === _id);
+            result.data.availability = availableItems.foods[category][index].availability;
+            return result;
+        });
 
-                return newData.availability > 0
-                    ? { ...snapshot, data: newData }
-                    : { data: null, index: null }
-            })
-            // loop more and remove unavailables
-        }
-    }, [availableItems]);
+        // if there is a current order, handle availabilities for it  STEF:TODO
+        
+    }, [availableItems])
 
     /**
      * Load available items of today's menu from DB
      */
     const loadAvailableItems = async () => {
         const currentMenu = await restaurantmenusRequests.getCurrent();
-        setAvailableItems(snapshot => currentMenu ?? snapshot);
+
+        setAvailableItems(currentMenu ?? snapshot);
+        
+        setFoodAvailabilities(snapshot => {
+            const result = {}  // {foodId: {category: String, availability: Number, index: Number, orderedCount: Number}}
+            Object.values(currentMenu.foods).forEach(foodArr => {
+                foodArr.forEach((food, index) => {
+                    const { _id, category, availability } = food;
+                    result[_id] = { 
+                        category, 
+                        availability, 
+                        index, 
+                        orderedCount: snapshot[_id]?.orderedCount ?? 0 
+                    };
+                });
+            })
+            return result;
+        });
+        
         setIsLoading(false);
     }
 
     const reset = () => {
-        localStorage.removeItem("currentOrder");
+        // localStorage.removeItem("currentOrder");
+        loadAvailableItems();
         setCurrentOrder( cloneObject(ORDERS.order) )
         setSelectedTable(null);
         setOrderModalIsVisible(false);
@@ -100,7 +109,7 @@ const WaitersSection = () => {
         setSelectedTable(table);
         setCurrentOrder(snapshot => { 
             const result = { ...snapshot, table };
-            localStorage.setItem("currentOrder", JSON.stringify(result));
+            // localStorage.setItem("currentOrder", JSON.stringify(result));
             return result; 
         });
     }
@@ -143,14 +152,27 @@ const WaitersSection = () => {
      * @param {String} menuItemType "foods" or "drinks"
      * @param {Object} chosenItem currently selected menu item
      */
-    const cbMenuItemAdd = (menuItemType, chosenItem, quantity) => {
+     const cbMenuItemAdd = (menuItemType, chosenItem, quantity) => {
         setSelectedItem({ data: null, index: null });
+        const { _id } = chosenItem;
+
+        if (menuItemType === "foods") {
+            // push to DB
+
+            setFoodAvailabilities(snapshot => {
+                const result = cloneObject(snapshot);
+                result[_id].availability -= quantity;
+                result[_id].orderedCount += quantity;
+                return result;
+            });
+        }
 
         const selection = [];
         for (let i = 0; i < quantity; i++) {
             selection.push(chosenItem);
         }
 
+        // update order
         setCurrentOrder(snapshot => {
             const result = {
                 ...snapshot,
@@ -158,7 +180,7 @@ const WaitersSection = () => {
             };
 
             result.totalCost = calculateTotalCost(result);
-            localStorage.setItem("currentOrder", JSON.stringify(result));
+            // localStorage.setItem("currentOrder", JSON.stringify(result));
             return result;
         });
     }
@@ -167,20 +189,15 @@ const WaitersSection = () => {
      * CLICK button handler. Edit menu item in current order
      * @param {String} menuItemType "foods" or "drinks"
      * @param {Object} chosenItem currently selected menu item
+     * @param {Number} orderIndex order's index for currently selected menu item
      */
-    const cbMenuItemEdit = (menuItemType, chosenItem, index) => {
+    const cbMenuItemEdit = (menuItemType, chosenItem, orderIndex) => {
         setSelectedItem({ data: null, index: null });
         setCurrentOrder(snapshot => {
-            const itemList = [...snapshot[menuItemType]];
-            itemList[index] = chosenItem;
-            
-            const result = {
-                ...snapshot,
-                [menuItemType]: itemList
-            };
-
+            const result = cloneObject(snapshot);
+            result[menuItemType][orderIndex] = chosenItem;
             result.totalCost = calculateTotalCost(result);
-            localStorage.setItem("currentOrder", JSON.stringify(result));
+            // localStorage.setItem("currentOrder", JSON.stringify(result));
             return result;
         });
     }
@@ -188,18 +205,32 @@ const WaitersSection = () => {
     /**
      * CLICK button handler. Remove menu item from current order
      * @param {String} menuItemType "foods" or "drinks"
-     * @param {String} chosenItemId currently selected menu item
+     * @param {Number} orderIndex order's index for currently selected menu item
      */
-    const cbMenuItemRemove = (menuItemType, chosenItemId) => {
+    const cbMenuItemRemove = (menuItemType, orderIndex) => {
         setSelectedItem({ data: null, index: null });
+        const { _id } = currentOrder[menuItemType][orderIndex];
+
+        // update availabilities
+        if (menuItemType === "foods") {
+            setFoodAvailabilities(snapshot => {
+                const result = cloneObject(snapshot);
+                result[_id].availability += 1;
+                result[_id].orderedCount -= 1;
+                return result;
+            });
+        }
+
+        // update order
         setCurrentOrder(snapshot => {
-            const itemList = snapshot[menuItemType];
+            const itemList = cloneObject(snapshot[menuItemType]);
+            itemList.splice(orderIndex, 1);
             const result = {
                 ...snapshot,
-                [menuItemType]: itemList.filter(item => item._id !== chosenItemId),
+                [menuItemType]: itemList
             };
             result.totalCost = calculateTotalCost(result);
-            localStorage.setItem("currentOrder", JSON.stringify(result));
+            // localStorage.setItem("currentOrder", JSON.stringify(result));
             return result;
         });
     }
@@ -217,14 +248,15 @@ const WaitersSection = () => {
      * @returns {Boolean}
      */
     const hasSelectedItems = () => {
-        return Boolean(currentOrder.foods.length + currentOrder.drinks.length);
+        return Boolean(currentOrder.foods.length + currentOrder.drinks?.length);
     }
 
     /**
      * CLICK handler for the CLEAR ORDER button. Resets this section.
      */
-    const cbClearOrder = () => {
-        if ( !window.confirm("Are you sure you want to clear this order?") ) return;
+    const cbClearOrder = async () => {
+        const proceed = await displayConfirm("Are you sure you want to clear this order?");
+        if (!proceed) return;
         reset();
     }
 
@@ -234,9 +266,9 @@ const WaitersSection = () => {
      */
     const cbSubmitOrder = () => {
         if (!hasSelectedItems()) {
-            alert("No menu items have been selected");
+            displayConfirm("No menu items have been selected");
         } else if (!currentOrder.table) {
-            alert("A table must be selected");
+            displayConfirm("A table must be selected");
         } else {
             const finalizedOrder = prepFinalizedOrder();
 

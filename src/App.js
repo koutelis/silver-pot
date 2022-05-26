@@ -3,15 +3,19 @@ import { BrowserRouter } from "react-router-dom";
 import Header from "sections/Header.js";
 import Main from "sections/Main.js";
 import Footer from "sections/Footer.js"
+import { GlobalModalProvider, GlobalModal } from "store/hooks.js";
 
 /**
  * MASTER container of all
  * @returns {JSX}
  */
-function App() {
+const App = () => {
     return <BrowserRouter>
         <Header />
-        <Main />
+        <GlobalModalProvider>
+            <Main />
+            <GlobalModal />
+        </GlobalModalProvider>
         <Footer />
     </BrowserRouter>
 }
