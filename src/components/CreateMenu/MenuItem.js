@@ -11,34 +11,38 @@ const MenuItemBlock = (props) => {
         onAvailabilityChange(e, itemData);
     }
 
-    return <div className={styles["menu-item"]}>
-        <div>
-            <h3>{name}<span> - {toCurrency(basePrice)}</span></h3>
-            <div>{description}</div>
+    return (
+        <div className={styles["menu-item"]}>
+            <div>
+                <h3>{name}<span> - {toCurrency(basePrice)}</span></h3>
+                <div>{description}</div>
+            </div>
+            
+            <Input 
+                title="set availability"
+                name={name} 
+                type="number" min="0" step="1" 
+                value={availability} 
+                onChange={cbAvailabilityChange} 
+            />
         </div>
-        
-        <Input 
-            title="set availability"
-            name={name} 
-            type="number" min="0" step="1" 
-            value={availability} 
-            onChange={cbAvailabilityChange} 
-        />
-    </div>
+    );
 }
 
 const MenuItemPrintable = (props) => {
     const { itemData, fontSize } = props;
     const { basePrice, name, description } = itemData;
 
-    return <div style={{fontSize: `${fontSize}px`}}>
-        <div>
-            <h3>{name}<span> - {toCurrency(basePrice)}</span></h3>
+    return (
+        <div style={{fontSize: `${fontSize}px`}}>
+            <div>
+                <h3>{name}<span> - {toCurrency(basePrice)}</span></h3>
+            </div>
+            <div>
+                {description}
+            </div>
         </div>
-        <div>
-            {description}
-        </div>
-    </div>
+    );
 }
 
 /**
@@ -48,9 +52,11 @@ const MenuItemPrintable = (props) => {
  * @returns {JSX}
  */
 const MenuItem = (props) => {
-    return (props.isPrintView)
+    return (
+        props.isPrintView
         ? <MenuItemPrintable {...props} />
         : <MenuItemBlock {...props} />
+    );
 }
 
 export default MenuItem;

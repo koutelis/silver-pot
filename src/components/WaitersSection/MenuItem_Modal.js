@@ -11,34 +11,36 @@ const MenuItemMainData = (props) => {
     let displayTotal = toCurrency(totalPrice);
     if (quantity > 1) displayTotal += ` x ${quantity} = ${toCurrency(totalPrice * quantity)}`;
 
-    return <div className={styles["add-item-form__data1"]}>
-        <div>
-            <span>[ {category} ] - {menuItem.availability} available</span>
-        </div>
-        <div>
-            <h2>{name}</h2>
-        </div>
-        <div className={styles["add-item-form__data2"]}>
+    return (
+        <div className={styles["add-item-form__data1"]}>
             <div>
-                <label htmlFor="description">description:</label>
-                <span name="description">{description ?? "-"}</span>
+                <span>[ {category} ] - {menuItem.availability} available</span>
             </div>
             <div>
-                <label htmlFor="basePrice">regular price:</label>
-                <span name="basePrice">{toCurrency(basePrice)}</span>
+                <h2>{name}</h2>
             </div>
-            <div>
-                <label htmlFor="totalPrice">total cost:</label>
-                <span name="totalPrice">{displayTotal}</span>
+            <div className={styles["add-item-form__data2"]}>
+                <div>
+                    <label htmlFor="description">description:</label>
+                    <span name="description">{description ?? "-"}</span>
+                </div>
+                <div>
+                    <label htmlFor="basePrice">regular price:</label>
+                    <span name="basePrice">{toCurrency(basePrice)}</span>
+                </div>
+                <div>
+                    <label htmlFor="totalPrice">total cost:</label>
+                    <span name="totalPrice">{displayTotal}</span>
+                </div>
+                {
+                    (mode === "edit") && 
+                    <DelButton className={styles["add-item-form__del"]} 
+                        onClick={onRemoveItem} tooltip={`delete ${name}`} 
+                    />
+                }
             </div>
-            {
-                (mode === "edit") && 
-                <DelButton className={styles["add-item-form__del"]} 
-                    onClick={onRemoveItem} tooltip={`delete ${name}`} 
-                />
-            }
         </div>
-    </div>
+     );
 }
 
 const QuantityInput = (props) => {
@@ -46,14 +48,16 @@ const QuantityInput = (props) => {
 
     if (mode !== "add") return null;
 
-    return <Input 
-        className="" 
-        type="number" 
-        min="1" max={max} step="1" value={value} 
-        label="quantity" 
-        name="quantity" 
-        onChange={onChange} 
-    />
+    return (
+        <Input 
+            className="" 
+            type="number" 
+            min="1" max={max} step="1" value={value} 
+            label="quantity" 
+            name="quantity" 
+            onChange={onChange} 
+        />
+    );
 }
 
 /**
@@ -215,44 +219,48 @@ const MenuItem_Modal = (props) => {
     
     if (!visible || !menuItem) return null;
 
-    const form = <form className={styles["add-item-form"]} >
-        <MenuItemMainData menuItem={menuItem} mode={mode} quantity={quantity}
-            totalPrice={itemTotalCost} onRemoveItem={cbRemoveItem} 
-        />
-        {
-            (menuItemType === "foods")
-                ? <FoodOptions onCheckboxChange={cbOptionsChanged_cbx} options={selectedOptions} />
-                : <DrinkOptions onRadioChange={cbOptionsChanged_radio} options={selectedOptions} /> 
-        }
-        <TextArea 
-            label="Comments:" 
-            name="comments" 
-            value={selectedOptions.comments} 
-            onChange={cbInputChanged} 
-            placeholder="special requests"
-            type="text"
-        />
+    const form = (
+        <form className={styles["add-item-form"]} >
+            <MenuItemMainData menuItem={menuItem} mode={mode} quantity={quantity}
+                totalPrice={itemTotalCost} onRemoveItem={cbRemoveItem} 
+            />
+            {
+                (menuItemType === "foods")
+                    ? <FoodOptions onCheckboxChange={cbOptionsChanged_cbx} options={selectedOptions} />
+                    : <DrinkOptions onRadioChange={cbOptionsChanged_radio} options={selectedOptions} /> 
+            }
+            <TextArea 
+                label="Comments:" 
+                name="comments" 
+                value={selectedOptions.comments} 
+                onChange={cbInputChanged} 
+                placeholder="special requests"
+                type="text"
+            />
 
-        <QuantityInput
-            mode={mode}
-            value={quantity}
-            max={menuItem.availability ?? 10} 
-            onChange={(e) => setQuantity(+e.target.value)}
-        />
-        
-        <Button 
-            className={styles["btn--add"]}
-            onClick={cbSubmit} 
-            text={(mode === "add") ? "Add to Menu" : "Save Changes"} 
-        />
-    </form>
+            <QuantityInput
+                mode={mode}
+                value={quantity}
+                max={menuItem.availability ?? 10} 
+                onChange={(e) => setQuantity(+e.target.value)}
+            />
+            
+            <Button 
+                className={styles["btn--add"]}
+                onClick={cbSubmit} 
+                text={(mode === "add") ? "Add to Menu" : "Save Changes"} 
+            />
+        </form>
+     );
 
-    return <ModalWindow 
-                onClose={cbCloseModal} 
-                visible={visible} 
-                isClosable={mode === "add"}> 
-        {form} 
-    </ModalWindow>
+    return (
+        <ModalWindow 
+                    onClose={cbCloseModal} 
+                    visible={visible} 
+                    isClosable={mode === "add"}> 
+            {form} 
+        </ModalWindow>
+     );
 }
 
 export default MenuItem_Modal;

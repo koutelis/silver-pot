@@ -11,24 +11,26 @@ import styles from "styles/WaitersSection.module.css";
 const FoodOptions = (props) => {
     const { onCheckboxChange, options } = props;
 
-    return <>
-        <OptionsGroup 
-            className={styles["food-addons"]}
-            type="checkbox" 
-            groupName="Select Addons" 
-            propertyName="addons" 
-            selections={options.addons} 
-            onClick={onCheckboxChange} 
-        />
-        <OptionsGroup 
-            className={styles["food-removables"]}
-            type="checkbox" 
-            groupName="Select Removables" 
-            propertyName="removables" 
-            selections={options.removables} 
-            onClick={onCheckboxChange} 
-        />
-    </>
+    return (
+        <>
+            <OptionsGroup 
+                className={styles["food-addons"]}
+                type="checkbox" 
+                groupName="Select Addons" 
+                propertyName="addons" 
+                selections={options.addons} 
+                onClick={onCheckboxChange} 
+            />
+            <OptionsGroup 
+                className={styles["food-removables"]}
+                type="checkbox" 
+                groupName="Select Removables" 
+                propertyName="removables" 
+                selections={options.removables} 
+                onClick={onCheckboxChange} 
+            />
+        </>
+     );
 }
 
 /**
@@ -73,23 +75,27 @@ const FoodOptions = (props) => {
         onClick(propertyName, !prevCheckedStatus, index);
     }
     
-    return <div className={styles["option-group-container"]}>
-        <div>{groupName}</div>
-        <div className={classList}>
-            {selections.map((selection, index) => {
-                const { checked, name, price } = selection;
-                return <Checkbox_Label 
-                    key={index} 
-                    type={type} 
-                    name={name} 
-                    value={price} 
-                    checked={checked} 
-                    label={`${name} - ${toCurrency(price)}`}
-                    onClick={() => cbClick(checked, index)} 
-                />
-            })}
+    return (
+        <div className={styles["option-group-container"]}>
+            <div>{groupName}</div>
+            <div className={classList}>
+                {selections.map((selection, index) => {
+                    const { checked, name, price } = selection;
+                    return (
+                        <Checkbox_Label 
+                            key={index} 
+                            type={type} 
+                            name={name} 
+                            value={price} 
+                            checked={checked} 
+                            label={`${name} - ${toCurrency(price)}`}
+                            onClick={() => cbClick(checked, index)} 
+                        />
+                    );
+                })}
+            </div>
         </div>
-    </div>
+     );
 }
 
 export { FoodOptions, DrinkOptions };

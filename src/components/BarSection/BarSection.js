@@ -64,15 +64,18 @@ const BarSection = () => {
         ordersRequests.put(completedOrder._id, completedOrder);
     }
 
-    if (isLoading) return <LoadingSpinner />
-    return <div className={styles["master-container"]}>
-        <div className={styles["top-panel"]} >
-            <Title className={styles["title"]} text="BAR SECTION" />
+    if (isLoading) return ( <LoadingSpinner /> );
+
+    return (
+        <div className={styles["master-container"]}>
+            <div className={styles["top-panel"]} >
+                <Title className={styles["title"]} text="BAR SECTION" />
+            </div>
+            <Card className={styles["card"]}>
+                <OrdersList orders={orders} onOrderComplete={cbOrderComplete} />
+            </Card>
         </div>
-        <Card className={styles["card"]}>
-            <OrdersList orders={orders} onOrderComplete={cbOrderComplete} />
-        </Card>
-    </div>
+    );
 }
 
 export default BarSection;

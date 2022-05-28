@@ -8,11 +8,13 @@ const KitchenFoodsDetails = (props) => {
     const { foods, onClick } = props;
     return foods.map((food, index) => {
         if (food.category !== "dessert") {
-            return <FoodDetails 
-                key={index} 
-                data={food} 
-                onClick={() => onClick(food.complete, index)} 
-            />;
+            return (
+                <FoodDetails 
+                    key={index} 
+                    data={food} 
+                    onClick={() => onClick(food.complete, index)} 
+                />
+            );
         }
     });
 }
@@ -86,22 +88,24 @@ const Order = (props) => {
     const headingSide = `(${isVisible ? "hide" : "show"})`;
     const detailsClassList = [styles["order__details"], isVisible ? "" : "hidden"].join(" ");
 
-    return <div className={styles["order-container"]} style={{ backgroundColor }}>
-        <div className={styles["order__heading"]} onClick={cbToggleVisibility}>
-            <h3>{orderData.time} {"\u2013"} Table {orderData.table}</h3>
-            <span>{headingSide}</span>
-        </div>
-        <div className={detailsClassList}>
-            <div>
-                <KitchenFoodsDetails foods={foods} onClick={cbFoodClick} />
+    return (
+        <div className={styles["order-container"]} style={{ backgroundColor }}>
+            <div className={styles["order__heading"]} onClick={cbToggleVisibility}>
+                <h3>{orderData.time} {"\u2013"} Table {orderData.table}</h3>
+                <span>{headingSide}</span>
             </div>
-            <CompleteButton 
-                className={styles["btn--order-complete"]} 
-                tooltip={`submit order for ${orderData.table}`} 
-                onClick={cbComplete} 
-            />
+            <div className={detailsClassList}>
+                <div>
+                    <KitchenFoodsDetails foods={foods} onClick={cbFoodClick} />
+                </div>
+                <CompleteButton 
+                    className={styles["btn--order-complete"]} 
+                    tooltip={`submit order for ${orderData.table}`} 
+                    onClick={cbComplete} 
+                />
+            </div>
         </div>
-    </div>
+    );
 }
 
 export default Order;

@@ -14,13 +14,15 @@ const MenuItem = (props) => {
     const tickMast = complete ? "" : styles["invisible"];
     const tickClassList = [styles["tick-container"], tickMast].join(" ");
 
-    return <div className={styles["menu-item"]}>
-        <TickImage className={tickClassList} />
-        <div>
-            <h3><span className={styles["menu-item__price"]}> {toCurrency(totalPrice)}</span> - {name}</h3>
-            <div>{posDirections ?? ""}</div>
+    return (
+        <div className={styles["menu-item"]}>
+            <TickImage className={tickClassList} />
+            <div>
+                <h3><span className={styles["menu-item__price"]}> {toCurrency(totalPrice)}</span> - {name}</h3>
+                <div>{posDirections ?? ""}</div>
+            </div>
         </div>
-    </div>
+    );
 }
 
 export default MenuItem;

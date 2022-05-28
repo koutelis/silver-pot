@@ -49,8 +49,10 @@ const ManageAvailabilities = (props, ref) => {
     }
 
     if (!visible) return null;
-    if (isLoading) return <LoadingSpinner />
-    return <FoodsList_Availabilities foods={foods} onChange={cbInputChange} />
+    
+    if (isLoading) return ( <LoadingSpinner /> );
+
+    return ( <FoodsList_Availabilities foods={foods} onChange={cbInputChange} /> );
 };
 
 export default React.forwardRef(ManageAvailabilities);

@@ -1,5 +1,5 @@
 import React from "react";
-import { GrClose, GrFormCheckmark, GrStatusGood, GrTrash, GrTroubleshoot } from "react-icons/gr";
+import { GrBug, GrClose, GrFormCheckmark, GrStatusGood, GrTrash, GrTroubleshoot } from "react-icons/gr";
 import styles from "styles/generic.module.css";
 
 /**
@@ -11,9 +11,11 @@ const Button = (props) => {
     const { text, className, ...rest } = props;
     const classList = [styles["btn"], className ?? ""].join(" ");
 
-    return <button className={classList} type="button" {...rest}>
-        {text}
-    </button>
+    return (
+        <button className={classList} type="button" {...rest}>
+            {text}
+        </button>
+    );
 };
 
 /**
@@ -24,7 +26,7 @@ const Button = (props) => {
 const Card = (props) => {
     const classList = [styles["card"], props.className ?? ""].join(" ");
 
-    return <div className={classList}>{props.children}</div>;
+    return ( <div className={classList}>{props.children}</div> );
 };
 
 /**
@@ -36,12 +38,14 @@ const Checkbox_Label = (props) => {
     const {type, name, value, checked, label, onClick} = props;
     const classList = [styles["checkbox-label-pair"], props.className ?? ""].join(" ");
 
-    return <div className={classList}>
-        <input type={type} name={name} onChange={onClick} value={value} checked={checked}  />
-        <label htmlFor={name} onClick={onClick}>
-            {label}
-        </label>
-    </div>
+    return (
+        <div className={classList}>
+            <input type={type} name={name} onChange={onClick} value={value} checked={checked}  />
+            <label htmlFor={name} onClick={onClick}>
+                {label}
+            </label>
+        </div>
+    );
 }
 
 /**
@@ -58,9 +62,11 @@ const Checkbox_Label = (props) => {
         onClick();
     };
 
-    return <div title={tooltip} className={classList} onClick={cbClick}>
-        <GrStatusGood />
-    </div>
+    return (
+        <div title={tooltip} className={classList} onClick={cbClick}>
+            <GrStatusGood />
+        </div>
+    );
 };
 
 /**
@@ -77,9 +83,11 @@ const DelButton = (props) => {
         onClick();
     };
 
-    return <div title={tooltip} className={classList} onClick={cbClick}>
-        <GrTrash /><span>{text ?? ""}</span>
-    </div>
+    return (
+        <div title={tooltip} className={classList} onClick={cbClick}>
+            <GrTrash /><span>{text ?? ""}</span>
+        </div>
+    );
 };
 
 /**
@@ -95,20 +103,24 @@ const DropDownList = (props) => {
     ));
 
     if (options.length === 0) {
-        return <div className={classList}>
-            <label>No options available</label>
-        </div>
+        return (
+            <div className={classList}>
+                <label>No options available</label>
+            </div>
+        );
     }
 
     hasEmpty = hasEmpty ?? false;
     if (hasEmpty) options.splice(0, 0, <option key="empty" value="">-</option>);
 
-    return <div className={classList}>
-        <label htmlFor={label}> {label} </label>
-        <select name={label} onChange={onChange} value={value ?? ""}>
-            {options}
-        </select>
-    </div>
+    return (
+        <div className={classList}>
+            <label htmlFor={label}> {label} </label>
+            <select name={label} onChange={onChange} value={value ?? ""}>
+                {options}
+            </select>
+        </div>
+    );
 };
 
 /**
@@ -120,10 +132,12 @@ const Input = (props) => {
     const { className, label, name, ...rest } = props;
     const classList = [styles["input"], className ?? ""].join(" ");
 
-    return <div className={classList}>
-        <label htmlFor={name}>{label}</label>
-        <input name={name} {...rest} />
-    </div>
+    return (
+        <div className={classList}>
+            <label htmlFor={name}>{label}</label>
+            <input name={name} {...rest} />
+        </div>
+    );
 };
 
 /**
@@ -152,15 +166,17 @@ const ModalWindow = (props) => {
         if (isClosable) onClose();
     };
 
-    return <>
-        <div className={overlayClassList} onClick={cbOverlayClick}></div>
-        <div className={modalClassList}>
-            <div className={styles["btn--close-modal"]} onClick={onClose}>
-                <GrClose />
+    return (
+        <>
+            <div className={overlayClassList} onClick={cbOverlayClick}></div>
+            <div className={modalClassList}>
+                <div className={styles["btn--close-modal"]} onClick={onClose}>
+                    <GrClose />
+                </div>
+                {props.children}
             </div>
-            {props.children}
-        </div>
-    </>
+        </>
+    );
 };
 
 /**
@@ -173,17 +189,19 @@ const ModalWindow = (props) => {
 
     const classList = [styles["modal-window"], styles["modal-alert"]].join(" ");
 
-    return <>
-        <div className={styles["overlay-above"]}></div>
-        <div className={classList}>
-            <div className={styles["modal-content"]}>
-                {message}
+    return (
+        <>
+            <div className={styles["overlay-above"]}></div>
+            <div className={classList}>
+                <div className={styles["modal-content"]}>
+                    {message}
+                </div>
+                <div className={styles["modal-controls"]}>
+                    <Button className={styles["btn-pass"]} text="OK" onClick={onOK} />
+                </div>
             </div>
-            <div className={styles["modal-controls"]}>
-                <Button text="OK" onClick={onOK} />
-            </div>
-        </div>
-    </>
+        </>
+    );
 };
 
 /**
@@ -196,18 +214,20 @@ const ModalWindow = (props) => {
 
     const classList = [styles["modal-window"], styles["modal-alert"]].join(" ");
 
-    return <>
-        <div className={styles["overlay-above"]}></div>
-        <div className={classList}>
-            <div className={styles["modal-content"]}>
-                {message}
+    return (
+        <>
+            <div className={styles["overlay-above"]}></div>
+            <div className={classList}>
+                <div className={styles["modal-content"]}>
+                    {message}
+                </div>
+                <div className={styles["modal-controls"]}>
+                    <Button className={styles["btn-pass"]} text="no" onClick={onCancel} />
+                    <Button className={styles["btn-act"]} text="yes" onClick={onOK} />
+                </div>
             </div>
-            <div className={styles["modal-controls"]}>
-                <Button text="no" onClick={onCancel} />
-                <Button text="yes" onClick={onOK} />
-            </div>
-        </div>
-    </>
+        </>
+    );
 };
 
 const LoadingSpinner = (props) => {
@@ -227,19 +247,23 @@ const TextArea = (props) => {
     const { className, label, name, ...rest } = props;
     const classList = [styles["input-textarea"], className ?? ""].join(" ");
 
-    return <div className={classList}>
-        <label htmlFor={name}>{label}</label>
-        <textarea name={name} {...rest} />
-    </div>
+    return (
+        <div className={classList}>
+            <label htmlFor={name}>{label}</label>
+            <textarea name={name} {...rest} />
+        </div>
+    );
 };
 
 const TickImage = (props) => {
     const { className } = props;
     const classList = [styles["tick-container"], className ?? ""].join(" ");
     
-    return <div className={classList}>
-        <GrFormCheckmark />
-    </div>
+    return (
+        <div className={classList}>
+            <GrFormCheckmark />
+        </div>
+    );
 }
 
 /**
@@ -251,9 +275,11 @@ const Title = (props) => {
     const { className, text } = props;
     const classList = [styles["title"], className ?? ""].join(" ");
 
-    return <div className={classList}>
-        <h1>{text}</h1>
-    </div>
+    return (
+        <div className={classList}>
+            <h1>{text}</h1>
+        </div>
+    );
 };
 
 /**
@@ -262,13 +288,32 @@ const Title = (props) => {
  * @returns {JSX}
  */
 const Unimplemented = (props) => {
-    return <div className={styles["unimplemented"]}>
-        <h2>{props.title}</h2>
-        <h3>Not implemented yet...</h3>
-        <div>
-            <GrTroubleshoot />
+    return (
+        <div className={styles["unimplemented"]}>
+            <h2>{props.title}</h2>
+            <h3>Not implemented yet...</h3>
+            <div>
+                <GrTroubleshoot />
+            </div>
         </div>
-    </div>
+    );
+};
+
+/**
+ * Temporary component designating a pending implementation.
+ * @param {Object} props
+ * @returns {JSX}
+ */
+ const NotFound = (props) => {
+    return (
+        <div className={styles["unimplemented"]}>
+            <h2>{props.title}</h2>
+            <h3>404 - Page not found...</h3>
+            <div>
+                <GrBug />
+            </div>
+        </div>
+    );
 };
 
 export {
@@ -287,4 +332,5 @@ export {
     TickImage,
     Title,
     Unimplemented,
+    NotFound,
 };

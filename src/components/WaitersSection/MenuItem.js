@@ -17,16 +17,18 @@ const OptionList = (props) => {
     const prefix = optionVars[optionType].prefix;
     const className = styles[optionVars[optionType].className];
 
-    return <div className={className}>
-        <span>{prefix}</span>{'\u00A0'}{options.map(opt => opt.name).join(", ")}
-    </div>
+    return (
+        <div className={className}>
+            <span>{prefix}</span>{'\u00A0'}{options.map(opt => opt.name).join(", ")}
+        </div>
+     );
 }
 
 const Comment = (props) => {
     const { content } = props;
 
     if (!content || content === "") return null;
-    return <div className={styles["comments"]}>comment: "{content}"</div>
+    return ( <div className={styles["comments"]}>comment: "{content}"</div>  );
 }
 
 /**
@@ -38,17 +40,19 @@ const Comment = (props) => {
     const { itemData, onClick } = props;
     const { basePrice, name, totalPrice } = itemData;
 
-    return <div className={styles["menu-item"]} onClick={onClick}>
-        <div>
-            <h3>{name} - <span> {toCurrency(totalPrice ?? basePrice)}</span></h3>
+    return (
+        <div className={styles["menu-item"]} onClick={onClick}>
+            <div>
+                <h3>{name} - <span> {toCurrency(totalPrice ?? basePrice)}</span></h3>
+            </div>
+            <div className={styles["customizations"]}>
+                <OptionList options={itemData.sizes} optionType="sizes" />
+                <OptionList options={itemData.addons} optionType="addons" />
+                <OptionList options={itemData.removables} optionType="removables" />
+                <Comment content={itemData.comments} />
+            </div>
         </div>
-        <div className={styles["customizations"]}>
-            <OptionList options={itemData.sizes} optionType="sizes" />
-            <OptionList options={itemData.addons} optionType="addons" />
-            <OptionList options={itemData.removables} optionType="removables" />
-            <Comment content={itemData.comments} />
-        </div>
-    </div>
+     );
 }
 
 /**
@@ -68,12 +72,14 @@ export const AvailableMenuItem = (props) => {
     const strikeOut = !isAvailable ? styles["unavailable"] : "";
     const classList = [styles["menu-item"], styles["selectable"], strikeOut].join(" ");
 
-    return <div className={classList} onClick={cbClick}>
-        <div>
-            <h3>{name} - <span> {toCurrency(totalPrice ?? basePrice)}</span></h3>
+    return (
+        <div className={classList} onClick={cbClick}>
+            <div>
+                <h3>{name} - <span> {toCurrency(totalPrice ?? basePrice)}</span></h3>
+            </div>
+            <div>
+                {description}
+            </div>
         </div>
-        <div>
-            {description}
-        </div>
-    </div>
+     );
 }

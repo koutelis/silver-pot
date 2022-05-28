@@ -34,32 +34,34 @@ export const FoodOptions = (props) => {
         })
     }
 
-    return <>
-        <MenuItemOptionsForm
-            visible={optionsVisibility.addons}
-            optionsList={itemData.addons}
-            optionsProperty="addons"
-            optionName="addon"
-            priceLabel={`extra cost (${CURRENCY.sign})`}
-            btnLabel="+1 addon"
-            onSelect={cbToggleVisibility}
-            onChange={onChange}
-            onAdd={onAdd}
-            onRemove={onRemove}
-        />
-        <MenuItemOptionsForm 
-            visible={optionsVisibility.removables}
-            optionsList={itemData.removables}
-            optionsProperty="removables"
-            optionName="removable"
-            priceLabel={`dicount (${CURRENCY.sign})`}
-            btnLabel="+1 removable"
-            onSelect={cbToggleVisibility}
-            onChange={onChange}
-            onAdd={onAdd}
-            onRemove={onRemove}
-        />
-    </>
+    return (
+        <>
+            <MenuItemOptionsForm
+                visible={optionsVisibility.addons}
+                optionsList={itemData.addons}
+                optionsProperty="addons"
+                optionName="addon"
+                priceLabel={`extra cost (${CURRENCY.sign})`}
+                btnLabel="+1 addon"
+                onSelect={cbToggleVisibility}
+                onChange={onChange}
+                onAdd={onAdd}
+                onRemove={onRemove}
+            />
+            <MenuItemOptionsForm 
+                visible={optionsVisibility.removables}
+                optionsList={itemData.removables}
+                optionsProperty="removables"
+                optionName="removable"
+                priceLabel={`dicount (${CURRENCY.sign})`}
+                btnLabel="+1 removable"
+                onSelect={cbToggleVisibility}
+                onChange={onChange}
+                onAdd={onAdd}
+                onRemove={onRemove}
+            />
+        </>
+    );
 }
 
 /**
@@ -88,16 +90,18 @@ export const DrinkOptions = (props) => {
         })
     }
 
-    return <MenuItemOptionsForm 
-        visible={optionsVisibility.sizes}
-        optionsList={itemData.sizes} 
-        optionsProperty="sizes"
-        optionName="size"
-        priceLabel={`Price (${CURRENCY.sign})`}
-        btnLabel="+1 size"
-        onSelect={cbToggleVisibility} 
-        onChange={onChange} 
-        onAdd={onAdd} 
-        onRemove={onRemove}
-    />
+    return (
+        <MenuItemOptionsForm 
+            visible={optionsVisibility.sizes}
+            optionsList={itemData.sizes} 
+            optionsProperty="sizes"
+            optionName="size"
+            priceLabel={`Price (${CURRENCY.sign})`}
+            btnLabel="+1 size"
+            onSelect={cbToggleVisibility} 
+            onChange={onChange} 
+            onAdd={onAdd} 
+            onRemove={onRemove}
+        />
+    );
 }

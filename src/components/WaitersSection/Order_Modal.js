@@ -16,41 +16,43 @@ const Order_Modal = (props) => {
     const btnClassList = [styles["btn--order-control"], btnMask].join(" ");
     const totalCost = `${toCurrency(currentOrder.totalCost)}`;
 
-    return <>
-        <ModalWindow onClose={onClose} visible={visible}>
-            <DropDownList 
-                hasEmpty={true} 
-                label="Selected table" 
-                onChange={onTableChange} 
-                options={ORDERS.tables} 
-                value={currentOrder.table}
-            />
-            <div className={styles["order-list"]}>
-                <SelectedMenuItemsList 
-                    itemsType={"foods"} 
-                    items={currentOrder.foods} 
-                    onSelect={onSelect} 
+    return (
+        <>
+            <ModalWindow onClose={onClose} visible={visible}>
+                <DropDownList 
+                    hasEmpty={true} 
+                    label="Selected table" 
+                    onChange={onTableChange} 
+                    options={ORDERS.tables} 
+                    value={currentOrder.table}
                 />
-                <SelectedMenuItemsList 
-                    itemsType={"drinks"} 
-                    items={currentOrder.drinks} 
-                    onSelect={onSelect} 
-                />
-            </div>
-            <div className={styles["order-controls"]}>
-                <Button 
-                    className={btnClassList} 
-                    text={`Clear Order`}
-                    onClick={onClear} 
-                />
-                <Button 
-                    className={btnClassList} 
-                    text={`Send Order (${totalCost})`}
-                    onClick={onSubmit} 
-                />
-            </div>
-        </ModalWindow>
-    </>
+                <div className={styles["order-list"]}>
+                    <SelectedMenuItemsList 
+                        itemsType={"foods"} 
+                        items={currentOrder.foods} 
+                        onSelect={onSelect} 
+                    />
+                    <SelectedMenuItemsList 
+                        itemsType={"drinks"} 
+                        items={currentOrder.drinks} 
+                        onSelect={onSelect} 
+                    />
+                </div>
+                <div className={styles["order-controls"]}>
+                    <Button 
+                        className={btnClassList} 
+                        text={`Clear Order`}
+                        onClick={onClear} 
+                    />
+                    <Button 
+                        className={btnClassList} 
+                        text={`Send Order (${totalCost})`}
+                        onClick={onSubmit} 
+                    />
+                </div>
+            </ModalWindow>
+        </>
+     );
 }
 
 export default Order_Modal;

@@ -20,35 +20,39 @@ const DailyMenu_DnD = React.forwardRef((props, ref) => {
     categories.forEach(category => {
         const currentList = itemList[category];
         if (currentList && currentList.length) {
-            dndList.push(<div key={category}>
-                <div className={styles["menu-category-heading"]}>~ {defaults.categories[category].label} ~</div>
-                <DragDropContext onDragEnd={onDragDrop}>
-                    <Droppable droppableId={category}>
-                        {provided => setDroppables(provided, currentList)}
-                    </Droppable>
-                </DragDropContext>
-            </div>);
+            dndList.push(
+                <div key={category}>
+                    <div className={styles["menu-category-heading"]}>~ {defaults.categories[category].label} ~</div>
+                    <DragDropContext onDragEnd={onDragDrop}>
+                        <Droppable droppableId={category}>
+                            {provided => setDroppables(provided, currentList)}
+                        </Droppable>
+                    </DragDropContext>
+                </div>
+            );
         }
     });
 
     const setDroppables = (provided, currentList) => {
-        return <div {...provided.droppableProps} ref={provided.innerRef}>
-            {currentList.map((item, index) => (
-                <Draggable key={item._id + index} draggableId={item._id} index={index}>
-                    {provided => (
-                        <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                            <MenuItem 
-                                itemData={item} 
-                                fontSize={fontSize} 
-                                isPrintView={isPrintView} 
-                                onAvailabilityChange={onAvailabilityChange}
-                            />
-                        </div>
-                    )}
-                </Draggable>
-            ))}
-            {provided.placeholder}
-        </div>
+        return (
+            <div {...provided.droppableProps} ref={provided.innerRef}>
+                {currentList.map((item, index) => (
+                    <Draggable key={item._id + index} draggableId={item._id} index={index}>
+                        {provided => (
+                            <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                                <MenuItem 
+                                    itemData={item} 
+                                    fontSize={fontSize} 
+                                    isPrintView={isPrintView} 
+                                    onAvailabilityChange={onAvailabilityChange}
+                                />
+                            </div>
+                        )}
+                    </Draggable>
+                ))}
+                {provided.placeholder}
+            </div>
+        );
     }
 
     if (dndList.length === 0) dndList = <h2>No menu options have been selected...</h2>;
@@ -56,12 +60,14 @@ const DailyMenu_DnD = React.forwardRef((props, ref) => {
     const outerDivClassName = isPrintView ? styles["printable"] : "";
     const innerDivClassName = isPrintView ? styles["printableInside"] : "";
     
-    return <div className={outerDivClassName} ref={ref}>
-        <div className={innerDivClassName} >
-            <h2>Lunch menu, {toPrintableDate(menuDate)}</h2>
-            {dndList}
+    return (
+        <div className={outerDivClassName} ref={ref}>
+            <div className={innerDivClassName} >
+                <h2>Lunch menu, {toPrintableDate(menuDate)}</h2>
+                {dndList}
+            </div>
         </div>
-    </div>
+    );
 })
 
 export default DailyMenu_DnD;

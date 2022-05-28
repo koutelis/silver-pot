@@ -18,18 +18,23 @@ const Navigation = (props) => {
     ).map(category => {
         const activeMask = filter === category ? styles["active"] : "";
         const classList = [styles["categories-nav--link"], activeMask].join(" "); 
-        return <div 
-            key={category}
-            id={category}
-            className={classList}
-            onClick={onClick}>
+        return (
+            <div 
+                key={category}
+                id={category}
+                className={classList}
+                onClick={onClick}
+            >
                 {defaultCategories[category].label}
-        </div>;
+            </div>
+        );
     });
 
-    return <div className={styles["categories-nav"]}>
-        {itemsNav}
-    </div>
+    return (
+        <div className={styles["categories-nav"]}>
+            {itemsNav}
+        </div>
+    );
 }
 
 const ItemsList = (props) => {
@@ -63,9 +68,11 @@ const ItemsList = (props) => {
      */
     const getMenuItemsHeading = (title) => {
         if (filter === "none") {
-            return <div className={styles["menu-category-heading"]}>
-                ~ {title} ~
-            </div>
+            return (
+                <div className={styles["menu-category-heading"]}>
+                    ~ {title} ~
+                </div>
+            );
         }
     }
 
@@ -73,17 +80,21 @@ const ItemsList = (props) => {
         const categorizedList = items[category];
         if (!categorizedList || !categorizedList.length) return;
 
-        return <div key={category}>
-            {getMenuItemsHeading(defaults.categories[category].label)}
-            <div>{populateMenuItems(categorizedList)}</div>
-        </div>;
+        return (
+            <div key={category}>
+                {getMenuItemsHeading(defaults.categories[category].label)}
+                <div>{populateMenuItems(categorizedList)}</div>
+            </div>
+        );
     });
 
-    return <div className={styles["item-list-container"]}>
-        <div className={styles["item-list"]}>
-            {itemsList.length ? itemsList : <h2>No {itemsType} found...</h2>}
+    return (
+        <div className={styles["item-list-container"]}>
+            <div className={styles["item-list"]}>
+                {itemsList.length ? itemsList : <h2>No {itemsType} found...</h2>}
+            </div>
         </div>
-    </div>
+    );
 }
 
 /**
@@ -97,9 +108,11 @@ const AvailableMenuItemsList = (props) => {
     const [filter, setFilter] = useState("none");
 
     const foodMenuExists = Object.keys(menuItems.foods).length > 0;
-    if (itemsType === "foods" && !foodMenuExists) return <h2 className={styles["title"]}>
-        A menu has not been set for today...
-    </h2>;
+    if (itemsType === "foods" && !foodMenuExists) return ( 
+        <h2 className={styles["title"]}>
+            A menu has not been set for today...
+        </h2>
+     );
 
     useEffect(() => {
         const defaults = (itemsType === "foods") ? FOODS : DRINKS;
@@ -112,21 +125,23 @@ const AvailableMenuItemsList = (props) => {
         setFilter(e.target.id);
     }
 
-    return <div>
-        <Navigation 
-            itemsType={itemsType}
-            filter={filter}
-            menuItems={menuItems}
-            onClick={cbCategoryChange}
-        />
+    return (
+        <div>
+            <Navigation 
+                itemsType={itemsType}
+                filter={filter}
+                menuItems={menuItems}
+                onClick={cbCategoryChange}
+            />
 
-        <ItemsList
-            itemsType={itemsType}
-            filter={filter}
-            menuItems={menuItems}
-            onSelect={onSelect}
-        />
-    </div>
+            <ItemsList
+                itemsType={itemsType}
+                filter={filter}
+                menuItems={menuItems}
+                onSelect={onSelect}
+            />
+        </div>
+    );
 }
 
 export default AvailableMenuItemsList;

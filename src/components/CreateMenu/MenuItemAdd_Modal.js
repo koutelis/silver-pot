@@ -61,33 +61,35 @@ const MenuItemAdd_Modal = (props) => {
         labelText = `Add ${article} ${filter}`;
     }
 
-    return <ModalWindow onClose={onClose} visible={visible}>
-        <form className={styles["modal-form"]} >
-            <DropDownList 
-                className={styles["ddl--menu-item-add"]} 
-                hasEmpty={true} 
-                label={labelText} 
-                onChange={e => setSelectedItemId(e.target.value)} 
-                options={filteredOptions} 
-                value={selectedItemId}
-            />
-            <Input 
-                label="Approximate servings available" name="availability" type="number" 
-                min="1" max="1000" step="1" value={availability} onChange={cbAvailabilityChanged} />
-            <DropDownList 
-                className={styles["ddl--category"]} 
-                hasEmpty={true} 
-                label="Filter by Category"
-                onChange={e => setFilter(e.target.value)} 
-                options={defaults.categories} 
-                value={filter}
-            />
-            <Button 
-                onClick={() => onSelection(selectedItemId, availability)} 
-                text="ADD TO MENU" 
-            />
-        </form>
-    </ModalWindow>
+    return (
+        <ModalWindow onClose={onClose} visible={visible}>
+            <form className={styles["modal-form"]} >
+                <DropDownList 
+                    className={styles["ddl--menu-item-add"]} 
+                    hasEmpty={true} 
+                    label={labelText} 
+                    onChange={e => setSelectedItemId(e.target.value)} 
+                    options={filteredOptions} 
+                    value={selectedItemId}
+                />
+                <Input 
+                    label="Approximate servings available" name="availability" type="number" 
+                    min="1" max="1000" step="1" value={availability} onChange={cbAvailabilityChanged} />
+                <DropDownList 
+                    className={styles["ddl--category"]} 
+                    hasEmpty={true} 
+                    label="Filter by Category"
+                    onChange={e => setFilter(e.target.value)} 
+                    options={defaults.categories} 
+                    value={filter}
+                />
+                <Button 
+                    onClick={() => onSelection(selectedItemId, availability)} 
+                    text="ADD TO MENU" 
+                />
+            </form>
+        </ModalWindow>
+    );
 }
 
 export default MenuItemAdd_Modal;

@@ -126,35 +126,38 @@ const ManageMenuItem_Modal = (props) => {
     }
 
     if (!visible) return null;
-    return <ModalWindow onClose={() => cbModalClose()} visible={visible} >
-        <form className={styles["add-item-form"]} >
-            <MenuItemDataForm 
-                itemData={itemData}
-                heading="Item data"
-                categories={defaults.categories}
-                onChange={cbItemDataChanged} 
-            />
-            {
-                (menuItemType === "foods")
-                    ? <FoodOptions
-                        itemData={itemData} 
-                        onChange={cbOptionDataChanged} 
-                        onAdd={cbAddOption} 
-                        onRemove={cbRemoveOption}
-                    />
-                    : <DrinkOptions 
-                        itemData={itemData} 
-                        onChange={cbOptionDataChanged} 
-                        onAdd={cbAddOption} 
-                        onRemove={cbRemoveOption}
-                    />
-            }
-            <Button 
-                onClick={cbButtonSubmit} 
-                text={selectedItemId ? "Save" : "Add"} 
-            />
-        </form>
-    </ModalWindow>
+    
+    return (
+        <ModalWindow onClose={() => cbModalClose()} visible={visible} >
+            <form className={styles["add-item-form"]} >
+                <MenuItemDataForm 
+                    itemData={itemData}
+                    heading="Item data"
+                    categories={defaults.categories}
+                    onChange={cbItemDataChanged} 
+                />
+                {
+                    (menuItemType === "foods")
+                        ? <FoodOptions
+                            itemData={itemData} 
+                            onChange={cbOptionDataChanged} 
+                            onAdd={cbAddOption} 
+                            onRemove={cbRemoveOption}
+                        />
+                        : <DrinkOptions 
+                            itemData={itemData} 
+                            onChange={cbOptionDataChanged} 
+                            onAdd={cbAddOption} 
+                            onRemove={cbRemoveOption}
+                        />
+                }
+                <Button 
+                    onClick={cbButtonSubmit} 
+                    text={selectedItemId ? "Save" : "Add"} 
+                />
+            </form>
+        </ModalWindow>
+    );
 }
 
 export default ManageMenuItem_Modal

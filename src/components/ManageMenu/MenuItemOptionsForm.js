@@ -16,31 +16,35 @@ const MenuItemOptionsForm = (props) => {
     const containerClassList = [styles["options-container"], mask].join(" ");
     const headingSide = `(${visible ? "hide" : "show"})`;
 
-    return <div className={styles["inputs__column"]}>
-        <div className={styles["inputs__heading"]} onClick={() => onSelect(optionsProperty)}>
-            <h3>{optionsProperty}</h3>
-            <span>{headingSide}</span>
-        </div>
-        <div className={containerClassList} >
-            {optionsList.map((item, index) => {
-                return <MenuItemOptionsForm_Input
-                    key={index}
-                    label={`${optionName} ${index + 1}`} 
-                    nameLabel="Name"
-                    name={item.name} 
-                    priceLabel={priceLabel}
-                    price={item.price} 
-                    cbInputChanged={(data) => liftStateUp(optionsProperty, data, index)} 
-                    cbRemove={() => onRemove(optionsProperty, index)}
+    return (
+        <div className={styles["inputs__column"]}>
+            <div className={styles["inputs__heading"]} onClick={() => onSelect(optionsProperty)}>
+                <h3>{optionsProperty}</h3>
+                <span>{headingSide}</span>
+            </div>
+            <div className={containerClassList} >
+                {optionsList.map((item, index) => {
+                    return ( 
+                        <MenuItemOptionsForm_Input
+                            key={index}
+                            label={`${optionName} ${index + 1}`} 
+                            nameLabel="Name"
+                            name={item.name} 
+                            priceLabel={priceLabel}
+                            price={item.price} 
+                            cbInputChanged={(data) => liftStateUp(optionsProperty, data, index)} 
+                            cbRemove={() => onRemove(optionsProperty, index)}
+                        />
+                    );
+                })}
+                <Button 
+                    className={styles["btn--add-option"]} 
+                    onClick={() => onAdd(optionsProperty)} 
+                    text={btnLabel} 
                 />
-            })}
-            <Button 
-                className={styles["btn--add-option"]} 
-                onClick={() => onAdd(optionsProperty)} 
-                text={btnLabel} 
-            />
+            </div>
         </div>
-    </div>
+    );
 }
 
 export default MenuItemOptionsForm

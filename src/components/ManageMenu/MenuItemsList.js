@@ -16,19 +16,21 @@ const MenuItemsList = (props) => {
         </div>
     )
 
-    return <div className={styles["item-list-container"]} >
-        <h3>Available Options:</h3>
-        <div className={styles["item-list"]} >
-            {items.map(item => 
-                <MenuItem 
-                    key={item._id} 
-                    itemData={item} 
-                    onClick={() => onItemClick(item._id)} 
-                    onDelete={onDeleteItem} 
-                />)
-            }
+    return (
+        <div className={styles["item-list-container"]} >
+            <h3>Available Options:</h3>
+            <div className={styles["item-list"]} >
+                {items.map(item => 
+                    <MenuItem 
+                        key={item._id} 
+                        itemData={item} 
+                        onClick={() => onItemClick(item._id)} 
+                        onDelete={onDeleteItem} 
+                    />)
+                }
+            </div>
         </div>
-    </div>
+    );
 }
 
 export default MenuItemsList

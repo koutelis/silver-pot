@@ -15,14 +15,17 @@ const OrdersList = (props) => {
                 .filter(order => !order.kitchenComplete)
                 .map(order => <Order key={order._id} orderData={order} onComplete={onOrderComplete}/>);
         } else {
-            return <h2 className={styles["title"]}>No pending orders...</h2>;
+            return ( <h2 className={styles["title"]}>No pending orders...</h2> );
         }
     }
         
     if (!visible) return null;
-    return <div className={styles["orders-container"]}>
-        {getContent()}
-    </div>
+    
+    return (
+        <div className={styles["orders-container"]}>
+            {getContent()}
+        </div>
+    );
 }
 
 export default OrdersList;

@@ -88,9 +88,9 @@ const GlobalModal = () => {
     const getComponent = () => {
         switch (modalState.show) {
             case SHOW_ALERT:
-                return <ModalAlert onOK={onOK} message={modalState?.text ?? ""} />
+                return ( <ModalAlert onOK={onOK} message={modalState?.text ?? ""} />  );
             case SHOW_CONFIRM:
-                return <ModalConfirm onOK={onOK} onCancel={onCancel} message={modalState?.text ?? ""} />
+                return ( <ModalConfirm onOK={onOK} onCancel={onCancel} message={modalState?.text ?? ""} />  );
             default:
                 return null;
         }

@@ -15,9 +15,11 @@ const OrdersList = (props) => {
     
     const output = list.length ? list : <h2 className={styles["title"]}>No pending orders...</h2>
 
-    return <div className={styles["orders-container"]}>
-        {output}
-    </div>
+    return (
+        <div className={styles["orders-container"]}>
+            {output}
+        </div>
+    );
 }
 
 export default OrdersList;

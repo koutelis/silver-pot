@@ -149,46 +149,49 @@ const CreateMenu = () => {
     const btnSwitchText = `Switch to ${isPrintView ? "Block" : "Print"} view`;
 
     
-    if (isLoading) return <LoadingSpinner />
-    return <div className={styles["master-container"]}>
-        <div className={styles["top-panel"]} >
-            <Title className={styles["title"]} text="Set Menu of the Day" />
-            <Input 
-                className={styles["date"]} label="Select date" htmlFor="font-size" name="font-size" type="date" 
-                onChange={cbDateChange} value={date} 
-            />
-            <div className={styles["top-panel-btns"]}>
-                <Button className={styles["btn--toggle-view"]} text={btnSwitchText} onClick={() => setIsPrintView(!isPrintView)} />
-                <Button className={styles["btn--open-modal"]} text="Add Item" onClick={() => setModalIsVisible(true)} />
-                <Button className={styles["btn--save-menu"]} text="Save Menu" onClick={cbSaveMenu} />
-                <Button className={[styles["btn--print-menu"], printMask].join(" ")} text="Print Menu" onClick={handlePrint} />
-            </div>
-        </div>
-        <Card className={styles["card"]}>
-            <div className={[styles["printable-ctrls"], printMask].join(" ")}>
-                <Input className={styles["input--font-size"]}
-                    label="Font size" htmlFor="font-size" name="font-size" type="number" min="8" max="20" step="1"
-                    onChange={(e) => setFontSize(e.target.value)} value={fontSize}
+    if (isLoading) return ( <LoadingSpinner /> );
+    
+    return (
+        <div className={styles["master-container"]}>
+            <div className={styles["top-panel"]} >
+                <Title className={styles["title"]} text="Set Menu of the Day" />
+                <Input 
+                    className={styles["date"]} label="Select date" htmlFor="font-size" name="font-size" type="date" 
+                    onChange={cbDateChange} value={date} 
                 />
-                <Button className={styles["btn--save-template"]} text="Save Template" onClick={cbSaveTemplate} />
+                <div className={styles["top-panel-btns"]}>
+                    <Button className={styles["btn--toggle-view"]} text={btnSwitchText} onClick={() => setIsPrintView(!isPrintView)} />
+                    <Button className={styles["btn--open-modal"]} text="Add Item" onClick={() => setModalIsVisible(true)} />
+                    <Button className={styles["btn--save-menu"]} text="Save Menu" onClick={cbSaveMenu} />
+                    <Button className={[styles["btn--print-menu"], printMask].join(" ")} text="Print Menu" onClick={handlePrint} />
+                </div>
             </div>
-            <DailyMenu_DnD 
-                isPrintView={isPrintView}
-                menuDate={date}
-                itemList={foods} 
-                onDragDrop={cbHandleDragDrop} 
-                onAvailabilityChange={cbAvailabilityChange}
-                fontSize={fontSize} 
-                ref={printableMenuRef} 
+            <Card className={styles["card"]}>
+                <div className={[styles["printable-ctrls"], printMask].join(" ")}>
+                    <Input className={styles["input--font-size"]}
+                        label="Font size" htmlFor="font-size" name="font-size" type="number" min="8" max="20" step="1"
+                        onChange={(e) => setFontSize(e.target.value)} value={fontSize}
+                    />
+                    <Button className={styles["btn--save-template"]} text="Save Template" onClick={cbSaveTemplate} />
+                </div>
+                <DailyMenu_DnD 
+                    isPrintView={isPrintView}
+                    menuDate={date}
+                    itemList={foods} 
+                    onDragDrop={cbHandleDragDrop} 
+                    onAvailabilityChange={cbAvailabilityChange}
+                    fontSize={fontSize} 
+                    ref={printableMenuRef} 
+                />
+            </Card>
+            <MenuItemAdd_Modal 
+                onClose={() => setModalIsVisible(false)} 
+                onSelection={cbSelectFoodAdd} 
+                selectedItems={foods} 
+                visible={modalIsVisible} 
             />
-        </Card>
-        <MenuItemAdd_Modal 
-            onClose={() => setModalIsVisible(false)} 
-            onSelection={cbSelectFoodAdd} 
-            selectedItems={foods} 
-            visible={modalIsVisible} 
-        />
-    </div>
+        </div>
+    );
 }
 
 export default CreateMenu;

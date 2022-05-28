@@ -24,7 +24,7 @@
 }
 
 .btn:active {
-    background-color: var(--active-color);
+    background-color: var(--active-color) !important;
 }
 
 .btn > *:first-child {
@@ -291,15 +291,24 @@
 
 .modal-alert .modal-controls {
     display: flex;
+    gap: 0.5rem;
     justify-content: space-around;
+    width: 100%;
 }
 
-.modal-alert .modal-controls button {
+.modal-alert .modal-controls .btn-pass {
+    background-color: var(--main-bg-color__bright);
+    border: 1px solid var(--main-border-color__pale);
+    color: var(--main-txt-color__dark);
     min-width: 8rem;
 }
 
-.modal-alert .modal-controls button:first-child {
-    color: var(--main-txt-color__pale);
+.modal-alert .modal-controls .btn-act {
+    min-width: 8rem;
+}
+
+.modal-alert .modal-controls .btn-act:hover {
+    color: var(--attentive-color);
 }
 
 /************/

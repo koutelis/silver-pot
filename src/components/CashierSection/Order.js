@@ -12,14 +12,16 @@ const MenuItemsList = (props) => {
     const itemsList = items.map((item, index) => <li key={index}><MenuItem itemData={item} /></li>)
     const itemsTotalPrice = items.reduce((total, item) => total + item.totalPrice, 0);
 
-    return <>
-        <div>
-            <h3>{label}: <span className={styles["order-content__price"]}>{toCurrency(itemsTotalPrice)}</span></h3>
-        </div>
-        <div>
-            <ul>{itemsList}</ul>
-        </div>
-    </>        
+    return (
+        <>
+            <div>
+                <h3>{label}: <span className={styles["order-content__price"]}>{toCurrency(itemsTotalPrice)}</span></h3>
+            </div>
+            <div>
+                <ul>{itemsList}</ul>
+            </div>
+        </>     
+    );   
 }
 
 /**
@@ -33,13 +35,15 @@ const Order = (props) => {
 
     const backgroundColor = ORDERS.tables[orderData.table].color;
 
-    return <div className={styles["order-content"]} style={{ backgroundColor }} onClick={() => onClick(_id)} >
-        <fieldset>
-            <legend>{time} {"\u2013"} Table {table} {"\u2013"} <span className={styles["order-content__totalCost"]}>{toCurrency(totalCost)}</span></legend>
-            <MenuItemsList label="Foods" items={foods} />
-            <MenuItemsList label="Drinks" items={drinks} />
-        </fieldset>
-    </div>
+    return (
+        <div className={styles["order-content"]} style={{ backgroundColor }} onClick={() => onClick(_id)} >
+            <fieldset>
+                <legend>{time} {"\u2013"} Table {table} {"\u2013"} <span className={styles["order-content__totalCost"]}>{toCurrency(totalCost)}</span></legend>
+                <MenuItemsList label="Foods" items={foods} />
+                <MenuItemsList label="Drinks" items={drinks} />
+            </fieldset>
+        </div>
+    );
 }
 
 export default Order;

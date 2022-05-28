@@ -13,9 +13,11 @@ const OrdersList = (props) => {
         .entries(orders)
         .map(([id, order]) => <Order key={id} orderData={order} onClick={onOrderClick} />);
 
-    return <div className={styles["orders-container"]}>
-        {createList}
-    </div>
+    return (
+        <div className={styles["orders-container"]}>
+            {createList}
+        </div>
+    );
 }
 
 export default OrdersList;

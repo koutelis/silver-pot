@@ -47,20 +47,23 @@ const CashierSection = () => {
         setSelectedOrderType(e.target.value);
     }
 
-    if (isLoading) return <LoadingSpinner />
-    return <div className={styles["master-container"]}>
-        <div className={styles["top-panel"]} >
-            <Title text="Cashier Section" />
-            <DropDownList
-                className={styles["ddl--order-type"]} 
-                label="Select order type" 
-                options={ORDERS.orderTypes} 
-                onChange={cbSectionSelected}
-                value={selectedOrderType}
-            />
+    if (isLoading) return ( <LoadingSpinner /> );
+
+    return (
+        <div className={styles["master-container"]}>
+            <div className={styles["top-panel"]} >
+                <Title text="Cashier Section" />
+                <DropDownList
+                    className={styles["ddl--order-type"]} 
+                    label="Select order type" 
+                    options={ORDERS.orderTypes} 
+                    onChange={cbSectionSelected}
+                    value={selectedOrderType}
+                />
+            </div>
+            <ManageOrders orderType={selectedOrderType} orders={orders} />
         </div>
-        <ManageOrders orderType={selectedOrderType} orders={orders} />
-    </div>
+    );
 }
 
 export default CashierSection;

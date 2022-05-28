@@ -14,35 +14,39 @@ const OptionList = (props) => {
     const prefix = optionVars[optionType].prefix;
     const className = styles[optionVars[optionType].className];
 
-    return <div className={className}>
-        <span>{prefix}</span>{'\u00A0'}{options.map(opt => opt.name).join(", ")}
-    </div>
+    return (
+        <div className={className}>
+            <span>{prefix}</span>{'\u00A0'}{options.map(opt => opt.name).join(", ")}
+        </div>
+    );
 }
 
 const Comment = (props) => {
     const { content } = props;
 
     if (!content || content === "") return null;
-    return <div className={styles["comments"]}>customer comment: "{content}"</div>
+    return ( <div className={styles["comments"]}>customer comment: "{content}"</div> );
 }
 
 const FoodDetails = (props) => {
     const { data, onClick } = props;
 
-    return <div className={styles["food-container"]}>
-        <Checkbox_Label 
-            type="checkbox" 
-            name={data.name} 
-            checked={data.complete} 
-            label={data.name} 
-            onClick={onClick} 
-        />
-        <div className={styles["customizations"]}>
-            <OptionList options={data.addons} optionType="addons" />
-            <OptionList options={data.removables} optionType="removables" />
-            <Comment content={data.comments} />
+    return (
+        <div className={styles["food-container"]}>
+            <Checkbox_Label 
+                type="checkbox" 
+                name={data.name} 
+                checked={data.complete} 
+                label={data.name} 
+                onClick={onClick} 
+            />
+            <div className={styles["customizations"]}>
+                <OptionList options={data.addons} optionType="addons" />
+                <OptionList options={data.removables} optionType="removables" />
+                <Comment content={data.comments} />
+            </div>
         </div>
-    </div>
+    );
 }
 
 export default FoodDetails;

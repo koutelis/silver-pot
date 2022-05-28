@@ -102,33 +102,36 @@ const ManageMenuItems = (props) => {
         setCategoryFilter(selectedCategory);
     }
 
-    if (isLoading) return <LoadingSpinner />
-    return <Card>
-        <div className={styles["upper-panel"]}>
-            <h2>MANAGE {menuItemType.toUpperCase()}</h2>
-            <DropDownList hasEmpty={true} label="Filter by Category" className={styles["ddl--category"]}
-                options={defaults.categories} onChange={cbCategoryFilter} value={categoryFilter}
+    if (isLoading) return ( <LoadingSpinner /> );
+
+    return (
+        <Card>
+            <div className={styles["upper-panel"]}>
+                <h2>MANAGE {menuItemType.toUpperCase()}</h2>
+                <DropDownList hasEmpty={true} label="Filter by Category" className={styles["ddl--category"]}
+                    options={defaults.categories} onChange={cbCategoryFilter} value={categoryFilter}
+                />
+                <Button 
+                    className={styles["btn--add-item"]} 
+                    text={menuItemType === "foods" ? "add food" : "add drink"} 
+                    onClick={() => cbModalOpen(null)} 
+                />
+            </div>
+            <MenuItemsList 
+                items={filteredItems} 
+                onItemClick={cbModalOpen} 
+                onDeleteItem={cbDeleteItem}
             />
-            <Button 
-                className={styles["btn--add-item"]} 
-                text={menuItemType === "foods" ? "add food" : "add drink"} 
-                onClick={() => cbModalOpen(null)} 
+            <ManageMenuItem_Modal 
+                cbModalClose={cbModalClose}
+                menuItemType={menuItemType}
+                selectedCategory={categoryFilter === "" ? "other" : categoryFilter}
+                selectedItemId={selectedItemId}
+                cbModalSubmit={cbModalSubmit} 
+                visible={modalIsVisible} 
             />
-        </div>
-        <MenuItemsList 
-            items={filteredItems} 
-            onItemClick={cbModalOpen} 
-            onDeleteItem={cbDeleteItem}
-        />
-        <ManageMenuItem_Modal 
-            cbModalClose={cbModalClose}
-            menuItemType={menuItemType}
-            selectedCategory={categoryFilter === "" ? "other" : categoryFilter}
-            selectedItemId={selectedItemId}
-            cbModalSubmit={cbModalSubmit} 
-            visible={modalIsVisible} 
-        />
-    </Card>
+        </Card>
+    );
 }
 
 export default ManageMenuItems;

@@ -23,19 +23,21 @@ const ManageMenu = () => {
         setSelectedMenuItemType(e.target.value);
     }
 
-    return <div className={styles["master-container"]}>
-        <div className={styles["top-panel"]} >
-            <Title text="Manage Menu" />
-            <DropDownList
-                className={styles["ddl--menu-item-type"]} 
-                label="Select menu-item type" 
-                options={MENUS.itemTypes} 
-                onChange={cbSectionSelected}
-                value={selectedMenuItemType}
-            />
+    return (
+        <div className={styles["master-container"]}>
+            <div className={styles["top-panel"]} >
+                <Title text="Manage Menu" />
+                <DropDownList
+                    className={styles["ddl--menu-item-type"]} 
+                    label="Select menu-item type" 
+                    options={MENUS.itemTypes} 
+                    onChange={cbSectionSelected}
+                    value={selectedMenuItemType}
+                />
+            </div>
+            <ManageMenuItems menuItemType={selectedMenuItemType} />
         </div>
-        <ManageMenuItems menuItemType={selectedMenuItemType} />
-    </div>
+    );
 }
 
 export default ManageMenu;

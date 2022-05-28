@@ -133,24 +133,26 @@ const ManageOrders = (props) => {
     if (tableFilter !== "") title += ` for table ${tableFilter}`
     const ddlClassList = [styles["ddl--category"], (hasNoEntries ? "hidden" : "")].join(" ");
 
-    return <Card>
-        <div className={styles["upper-panel"]}>
-            <h2>{title}</h2>
-            <DropDownList hasEmpty={true} label="Filter by Table" className={ddlClassList}
-                options={ORDERS.tables} onChange={cbTableFilter} value={tableFilter}
+    return (
+        <Card>
+            <div className={styles["upper-panel"]}>
+                <h2>{title}</h2>
+                <DropDownList hasEmpty={true} label="Filter by Table" className={ddlClassList}
+                    options={ORDERS.tables} onChange={cbTableFilter} value={tableFilter}
+                />
+            </div>
+            <OrdersList 
+                orders={filteredOrders} 
+                onOrderClick={cbModalOpen} 
             />
-        </div>
-        <OrdersList 
-            orders={filteredOrders} 
-            onOrderClick={cbModalOpen} 
-        />
-        <ManageOrder_Modal 
-            onClose={cbModalClose}
-            onCancelOrder={cbOrderCancel}
-            onCompleteOrder={cbOrderComplete}
-            orderData={selectedOrder}
-        />
-    </Card>
+            <ManageOrder_Modal 
+                onClose={cbModalClose}
+                onCancelOrder={cbOrderCancel}
+                onCompleteOrder={cbOrderComplete}
+                orderData={selectedOrder}
+            />
+        </Card>
+    );
 }
 
 export default ManageOrders;

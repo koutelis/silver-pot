@@ -4,7 +4,6 @@ import { ORDERS } from "store/config.js";
 import { DrinkDetails, DessertDetails } from "components/BarSection/BarItemDetails.js";
 import styles from "styles/BarSection.module.css";
 
-
 const DrinksList = (props) => {
     const { drinks, onClick } = props;
     return drinks.map((drink, index) => (
@@ -20,11 +19,13 @@ const DessertsList = (props) => {
     const { foods, onClick } = props;
     return foods.map((food, index) => {
         if (food.category === "dessert") {
-            return <DessertDetails 
-                key={index} 
-                data={food} 
-                onClick={() => onClick(food.complete, index)} 
-            />;
+            return (
+                <DessertDetails 
+                    key={index} 
+                    data={food} 
+                    onClick={() => onClick(food.complete, index)} 
+                />
+            );
         }
     });
 }
@@ -43,6 +44,7 @@ const Order = (props) => {
         // set drinks
         const drinksCache = JSON.parse(localStorage.getItem(`orderDrinks-${orderData._id}`));
         if (drinksCache) {
+            console.log("exw", drinksCache)
             const updatedCache = orderData.drinks.map(drink => {
                 const tmp = { ...drink };
                 if (drinksCache[tmp._id]) {
@@ -88,7 +90,8 @@ const Order = (props) => {
         else {
             const tmp = {};
             drinks.forEach(drink => tmp[drink._id] = drink);
-            localStorage.setItem(`orderDrinks-${orderData._id}`, JSON.stringify(drinks))
+            console.log(tmp)
+            localStorage.setItem(`orderDrinks-${orderData._id}`, JSON.stringify(tmp))
         };
     }, [drinks]);
 
@@ -124,9 +127,7 @@ const Order = (props) => {
     const cbComplete = () => {
         // clear relevant cache
         ["orderDrinks-", "orderBarFoods-"].forEach(prefix => {
-            const key = `${prefix}${orderData._id}`;
-            const cache = localStorage.getItem(key);
-            if (cache) localStorage.removeItem(key);
+            localStorage.removeItem(`${prefix}${orderData._id}`);
         })
 
         const completedOrder = { ...orderData, drinks, foods };
@@ -142,29 +143,31 @@ const Order = (props) => {
     const headingSide = `(${isVisible ? "hide" : "show"})`;
     const detailsClassList = [styles["order__details"], isVisible ? "" : "hidden"].join(" ");
 
-    return <div className={styles["order-container"]} style={{ backgroundColor }}>
-        <div className={styles["order__heading"]} onClick={cbToggleVisibility}>
-            <h3>{orderData.time} {"\u2013"} Table {orderData.table}</h3>
-            <span>{headingSide}</span>
-        </div>
-        <div className={detailsClassList}>
-            <div>
-                <DrinksList 
-                    drinks={drinks}
-                    onClick={cbDrinkClick}
-                />
-                <DessertsList 
-                    foods={foods}
-                    onClick={cbDessertClick}
+    return (
+        <div className={styles["order-container"]} style={{ backgroundColor }}>
+            <div className={styles["order__heading"]} onClick={cbToggleVisibility}>
+                <h3>{orderData.time} {"\u2013"} Table {orderData.table}</h3>
+                <span>{headingSide}</span>
+            </div>
+            <div className={detailsClassList}>
+                <div>
+                    <DrinksList 
+                        drinks={drinks}
+                        onClick={cbDrinkClick}
+                    />
+                    <DessertsList 
+                        foods={foods}
+                        onClick={cbDessertClick}
+                    />
+                </div>
+                <CompleteButton 
+                    className={styles["btn--order-complete"]} 
+                    tooltip={`submit order for ${orderData.table}`} 
+                    onClick={cbComplete} 
                 />
             </div>
-            <CompleteButton 
-                className={styles["btn--order-complete"]} 
-                tooltip={`submit order for ${orderData.table}`} 
-                onClick={cbComplete} 
-            />
         </div>
-    </div>
+    );
 }
 
 export default Order;
