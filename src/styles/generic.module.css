@@ -1,0 +1,469 @@
+/**********/
+/* Button */
+/**********/
+
+.btn {
+    background-color: var(--main-color);
+    border: none;
+    border-radius: var(--border-radius-small);
+    color: var(--main-txt-color__bright);
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: 0.6rem 1.2rem;
+    text-transform: uppercase;
+    transition: all 0.2s;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+}
+
+.btn:focus {
+    outline: none;
+}
+
+.btn:active {
+    background-color: var(--active-color) !important;
+}
+
+.btn > *:first-child {
+    margin-right: 1rem;
+}
+
+/********/
+/* Card */
+/********/
+
+.card {
+    background-color: var(--main-bg-color__bright);
+    border-radius: 14px;
+    box-shadow: var(--box-shadow-size2) var(--box-shadow-color__dark);
+    padding: 1rem;
+}
+
+.card h2 {
+    text-align: center;
+    text-transform: uppercase;
+}
+
+/******************/
+/* Checkbox_Label */
+/******************/
+
+.checkbox-label-pair {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    padding: 0.8rem 0;
+}
+
+.checkbox-label-pair > *:hover {
+    cursor: pointer;
+}
+
+.checkbox-label-pair input[type=checkbox],
+.checkbox-label-pair input[type=radio] {
+    filter: hue-rotate(260deg);
+    margin-left: 1rem;
+    transform: scale(2.5);
+    -webkit-transform: scale(2.5);
+}
+
+/******************/
+/* CompleteButton */
+/******************/
+
+.btn--complete {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 2.5rem;
+}
+
+.btn--complete path {
+    stroke: var(--attentive-color);
+}
+
+.btn--complete:hover path {
+    stroke: var(--attentive-color__focus);
+}
+
+/*************/
+/* DelButton */
+/*************/
+
+.btn--del {
+    align-items: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    font-family: inherit;
+    font-size: 2.5rem;
+    gap: 20px;
+}
+
+.btn--del span {
+    font-size: 1rem;
+}
+
+.btn--del path {
+    stroke: var(--attentive-color__pale);
+}
+
+.btn--del:hover path {
+    stroke: var(--attentive-color__focus);
+}
+
+/****************/
+/* DropDownList */
+/****************/
+
+.dropdownlist {
+    align-items: center;
+    color: var(--main-txt-color__dark);
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    padding: 10px;
+    position: relative;
+}
+.dropdownlist label {
+    color: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+}
+.dropdownlist select {
+    border: 1px solid var(--main-border-color__bright);
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    padding: 0.8rem 1rem;
+    transition: all 0.2s;
+}
+
+.dropdownlist select:focus {
+    border-color: var(--main-border-color__focus);
+}
+
+.dropdownlist option {
+    font-size: 1.2rem;
+}
+
+/*********/
+/* Input */
+/*********/
+
+.input {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    padding: 10px;
+}
+
+.input label {
+    color: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.input input {
+    border: 1px solid var(--main-border-color__bright);
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    padding: 0.8rem 1rem;
+    transition: all 0.2s;
+}
+
+.input input::placeholder {
+    color: var(--main-txt-color__pale);
+}
+
+.input input:focus {
+    background-color: var(--main-bg-color__focus);
+    border-color: var(--main-border-color__focus);
+    outline: none;
+}
+
+/****************/
+/* ModalWindow  */
+/* ModalAlert   */
+/* ModalConfirm */
+/****************/
+
+.overlay,
+.overlay-trans,
+.overlay-above {
+    backdrop-filter: blur(4px);
+    background-color: var(--overlay-bg-color);
+    left: 0;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    transition: all 0.5s;
+    width: 100%;
+    z-index: 20;
+}
+
+.overlay-trans {
+    background-color: var(--overlay-bg-color__trans);
+    z-index: 40;
+}
+
+.overlay-above {
+    z-index: 55;
+}
+
+.modal-window {
+    background-color: var(--main-bg-color__bright);
+    background: linear-gradient(var(--main-bg-color__bright), rgb(211, 231, 222));
+    border-radius: 9px;
+    box-shadow: var(--box-shadow-size1) var(--box-shadow-color__bright);
+    left: 50%;
+    max-height: 70%;
+    overflow-y: auto;
+    padding: 1rem 1rem;
+    position: fixed;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.5s;
+    width: 50%;
+    z-index: 30;
+}
+
+.modal-window__2 {
+    z-index: 50;
+}
+
+.modal-alert {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    z-index: 60;
+}
+
+.modal-window:hover .btn--close-modal {
+    visibility: visible;
+}
+
+.btn--close-modal {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 2.5rem;
+    position: absolute;
+    right: 4px;
+    top: 0;
+    visibility: hidden;
+}
+
+.modal-window .btn--close-modal{
+    z-index: 35;
+}
+
+.modal-window__2 .btn--close-modal{
+    z-index: 55;
+}
+
+.btn--close-modal:hover {
+    font-weight: 600;
+    visibility: visible;
+}
+
+.btn--close-modal path {
+    fill: var(--main-color);
+    stroke: var(--main-color);
+}
+
+.btn--close-modal:hover path {
+    fill: var(--attentive-color__pale);
+    stroke: var(--attentive-color__pale);
+}
+
+.modal-alert .modal-content {
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.modal-alert .modal-controls {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.modal-alert .modal-controls .btn-pass {
+    background-color: var(--main-bg-color__bright);
+    border: 1px solid var(--main-border-color__pale);
+    color: var(--main-txt-color__dark);
+    min-width: 8rem;
+}
+
+.modal-alert .modal-controls .btn-act {
+    min-width: 8rem;
+}
+
+.modal-alert .modal-controls .btn-act:hover {
+    color: var(--attentive-color);
+}
+
+/************/
+/* Textarea */
+/************/
+
+.input-textarea {
+    display: flex;
+    flex-direction: column;
+    font-size: 1rem;
+    padding: 0.8rem 1rem;
+    position: relative;
+    transition: all 0.2s;
+}
+
+.input-textarea fieldset {
+    border: 1px solid var(--main-border-color__dark);
+    border-radius: 0.5rem;
+    padding: 1.5rem 2rem;
+}
+
+.input-textarea label {
+    color: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.input-textarea textarea {
+    border: 1px solid var(--main-border-color__bright);
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    padding: 0.8rem 1rem;
+    transition: all 0.2s;
+    width: 100%;
+}
+
+.input-textarea textarea::placeholder {
+    color: var(--main-txt-color__pale);
+}
+
+.input-textarea textarea:focus {
+    background-color: var(--main-bg-color__focus);
+    border: 1px solid var(--main-border-color__focus);
+    outline: none;
+}
+
+/******************/
+/* LoadingSpinner */
+/******************/
+
+@keyframes spinner {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.spinner-container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 10px solid #f3f3f3;
+    border-top: 10px solid #383636;
+    border-radius: 50%;
+    animation: spinner 1.5s linear infinite;
+}
+
+/*************/
+/* TickImage */
+/*************/
+
+.tick-container {
+    align-items: center;
+    display: flex;
+    font-size: 1rem;
+}
+
+.tick-container polyline {
+    stroke: var(--main-color);
+}
+
+/*********/
+/* Title */
+/*********/
+
+.title h1 {
+    text-align: center;
+    text-transform: uppercase;
+}
+
+/*****************/
+/* Unimplemented */
+/*****************/
+
+.unimplemented {
+    color: var(--main-txt-color__bright);
+    height: 50vh;
+    text-align: center;
+}
+
+.unimplemented h2 {
+    color: var(--attentive-color__pale);
+}
+
+.unimplemented > div {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    font-size: 7rem;
+    height: 100%;
+    justify-content: center;
+}
+
+.unimplemented path {
+    stroke: var(--attentive-color__pale);
+}
+
+.unimplemented > div svg {
+    transition: transform 2s;
+}
+
+.unimplemented > div:hover svg {
+    transform: rotate(360deg);
+    transition: transform 0.5s;
+}
+
+/* RESPONSIVENESS */
+/******************/
+
+@media (max-width: 1200px) {
+    .modal-window {
+        width: 70%;
+    }
+}
+
+@media (max-width: 768px) {
+    .modal-window {
+        max-height: 80%;
+        width: 100%;
+    }
+
+    .modal-alert .modal-content {
+        font-size: 1.3rem;
+    }
+}
+
+@media (pointer:none), (pointer:coarse) {
+    .btn--close-modal path {
+        visibility: visible !important;
+    }
+}

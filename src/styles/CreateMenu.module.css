@@ -1,0 +1,213 @@
+/*****************/
+/* CreateMenu.js */
+/*****************/
+
+.master-container {
+    background-color: var(--main-color);
+    border-radius: var(--border-radius-medium);
+}
+
+.top-panel {
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 10px;
+}
+
+.title h1 {
+    color: var(--main-txt-color__bright);
+    margin-bottom: 10px;
+}
+
+.date {
+    align-self: center;
+    color: var(--main-txt-color__bright);
+}
+
+.top-panel-btns {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.btn--toggle-view,
+.btn--open-modal,
+.btn--save-menu,
+.btn--print-menu {
+    background-color: var(--main-txt-color__bright);
+    color: var(--main-color);
+    font-size: 1rem;
+}
+
+.btn--print-menu {
+    color: var(--attentive-color);
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.printable-ctrls {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.input--font-size {
+    padding: 0;
+}
+
+.btn--save-template {
+    font-size: 1rem;
+}
+
+/********************/
+/* DailyMenu_DnD.js */
+/********************/
+
+.printable {
+    background-color: var(--main-bg-color__bright);
+    background-image: url(assets/printable-bg.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    border: 1px solid var(--main-border-color__bright);
+    box-shadow: var(--box-shadow-size1) var(--box-shadow-color__dark);
+    margin: 0 auto;
+    padding: 8mm;
+    height: 29.7cm;
+    width: 21cm;
+    /* size: A4; */
+}
+
+.printableInside {
+    font-family: 'Handlee', sans-serif;
+    height: 100%;
+    padding-top: 12%;
+    width: 100%;
+}
+
+.printableInside h2 {
+    color: var(--printable-menu__headings);
+    margin: 13px 0;
+    text-align: center;
+    text-transform: none;
+}
+
+.printableInside > div {
+    padding: 5px 0;
+}
+
+.menu-category-heading {
+    color: var(--printable-menu__headings);
+    text-align: center;
+}
+
+/************************/
+/* MenuItemAdd_Modal.js */
+/************************/
+
+.modal-form {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.modal-form button {
+    align-self: center;
+}
+
+.ddl--menu-item-add,
+.ddl--category {
+    color: var(--main-txt-color__dark);
+    justify-content: flex-start;
+}
+
+.ddl--menu-item-add select {
+    border-color: var(--main-border-color__dark);
+    width: 65%;
+}
+
+/***************/
+/* MenuItem.js */
+/***************/
+
+.menu-item {
+    background-color: var(--main-bg-color__bright);
+    border-radius: 4px;
+    box-shadow: 0 2px 8px var(--box-shadow-color__dark);
+    margin: 0.2rem 0;
+    padding: 0.2rem;
+    position: relative;
+}
+
+.menu-item:hover {
+    background-color: var(--main-color__pale);
+}
+
+.menu-item:hover .btn--del-item {
+    visibility: visible;
+}
+
+.menu-item {
+    display: flex;
+    justify-content: space-between;
+}
+
+.menu-item input {
+    padding: 0.4rem;
+    width: 4rem;
+}
+
+
+/* RESPONSIVENESS */
+/******************/
+
+@media (max-width: 768px) {
+    .top-panel {
+        gap: 10px;
+    }
+
+    .top-panel-btns {
+        gap: 10px;
+        justify-content: flex-start;
+    }
+
+    .menu-item {
+        font-size: 0.8rem;
+        margin: 0.4rem 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .top-panel-btns {
+        flex-direction: column;
+    }
+
+    .modal-form > div {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .ddl--menu-item-add select {
+        width: 100%;
+    }
+}
+
+@media (max-width: 360px) {
+    .printable-ctrls {
+        flex-direction: column-reverse;
+    }
+}
+
+@media print {
+    .printable {
+        border: none;
+        page-break-before: always;
+    }
+}

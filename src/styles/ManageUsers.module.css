@@ -1,0 +1,154 @@
+/******************/
+/* ManageUsers.js */
+/******************/
+
+.master-container {
+    background-color: var(--main-color);
+    border-radius: var(--border-radius-medium);
+}
+
+.top-panel {
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 10px;
+}
+
+.top-panel h1 {
+    color: var(--main-txt-color__bright);
+}
+
+.btn--add-user {
+    background-color: var(--main-txt-color__bright);
+    color: var(--main-color);
+    font-size: 1rem;
+}
+
+
+/****************/
+/* UsersList.js */
+/****************/
+
+.user-list-container {
+    background-color: var(--main-bg-color__focus);
+    border: 1px solid var(--attentive-color__pale);
+    border-radius: var(--border-radius-small);
+    margin-top: 7px;
+    padding: 6px;
+}
+
+.user-list-container > h3 {
+    justify-self: center;
+    color: var(--main-txt-color__dark);
+    padding: 6px 0;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.user-list-container__empty {
+    border: none;
+    border-radius: none;
+}
+
+.user-list {
+    height: 70vh;
+    overflow-y: auto;
+}
+
+/***********/
+/* User.js */
+/***********/
+
+.user {
+    background-color: var(--main-bg-color__bright);
+    border-radius: 4px;
+    box-shadow: 0 2px 8px var(--box-shadow-color__dark);
+    margin: 0.2rem 0;
+    padding: 0.2rem;
+    position: relative;
+}
+
+.user:hover {
+    background-color: var(--main-color__pale);
+}
+
+.user fieldset {
+    border-color: var(--main-color__pale);
+    padding: 0.5rem;
+}
+
+.user legend {
+    color: var(--main-color);
+    font-size: 1.2rem;
+    text-transform: uppercase;
+}
+
+.user:hover .btn--del-user {
+    visibility: visible;
+}
+
+.user:hover fieldset {
+    border-color: var(--attentive-color__pale);
+}
+
+.btn--del-user {
+    font-size: 2rem;
+    visibility: hidden;
+    position: absolute;
+    right: 0.3rem;
+    top: 0;
+}
+
+
+/******************/
+/* User_Modal.js */
+/******************/
+
+.modal-form {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.modal-form > div {
+    width: 100%;
+}
+
+.modal-form input[type="text"] {
+    width: 100%;
+}
+
+.cbx-roles {
+    justify-content: flex-start;
+    display: flex;
+    gap: 2rem;
+    padding: 10px;
+}
+
+.cbx-roles > div > label {
+    font-weight: bold;
+}
+
+.btn-save {
+    align-self: center;
+}
+
+
+/* RESPONSIVENESS */
+/******************/
+
+@media (max-width: 480px) {
+    .cbx-roles {
+        justify-content: center;
+        flex-direction: column;
+        gap: 0.3rem;
+    }
+}
+
+@media (pointer:none), (pointer:coarse) {
+    .btn--del-user {
+        visibility: visible !important;
+    }
+}

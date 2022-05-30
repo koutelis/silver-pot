@@ -1,0 +1,340 @@
+/*********************/
+/* WaitersSection.js */
+/*********************/
+
+.master-container {
+    background-color: var(--main-color);
+    border-radius: var(--border-radius-medium);
+}
+
+.top-panel {
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 10px;
+}
+
+.title h1 {
+    color: var(--main-txt-color__bright);
+}
+
+.top-panel-ctrls {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: space-between;
+}
+
+.top-panel-ctrls__ddls {
+    align-items: flex-end;
+    display: flex;
+    flex-direction: column;
+}
+
+.ddl--restaurant-table,
+.ddl--menu-item-type {
+    color: var(--main-txt-color__bright);
+}
+
+.ddl--menu-item-type select {
+    border-color: var(--main-border-color__dark);
+}
+
+.btn--open-order-modal {
+    background-color: var(--main-txt-color__bright);
+    color: var(--attentive-color);
+    height: 100px;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/*****************************/
+/* AvailableMenuItemsList.js */
+/*****************************/
+
+h2.title {
+    color: var(--main-color);
+}
+
+.categories-nav {
+    justify-content: space-evenly;
+    background-color: var(--main-bg-color__focus);
+    border-radius: var(--border-radius-medium);
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    padding: 10px;
+    overflow-y: hidden;
+}
+
+.categories-nav--link {
+    color: var(--main-txt-color__dark);
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: transform .3s;
+}
+
+.categories-nav--link:hover {
+    color: var(--attentive-color__pale);
+    transform: scale(105%, 105%);
+    transition: transform .2s;
+}
+
+.categories-nav--link.active {
+    color: var(--attentive-color__pale);
+}
+
+.menu-category-heading {
+    color: var(--attentive-color__pale);
+    font-weight: 600;
+    text-align: center;
+}
+
+.item-list-container {
+    background-color: var(--main-bg-color__focus);
+    border: 1px solid var(--attentive-color__pale);
+    border-radius: var(--border-radius-small);
+    margin-top: 7px;
+    padding: 6px;
+}
+
+.item-list-container__empty {
+    border: none;
+    border-radius: none;
+}
+
+.item-list {
+    /* height: 60vh; */
+    overflow-y: auto;
+}
+
+/***************/
+/* MenuItem.js */
+/***************/
+
+.menu-item {
+    background-color: var(--main-bg-color__bright);
+    border-radius: 4px;
+    box-shadow: 0 2px 8px var(--box-shadow-color__dark);
+    margin: 0.2rem 0;
+    padding: 0.2rem;
+    position: relative;
+}
+
+.menu-item:hover {
+    background-color: var(--main-color__pale);
+}
+
+.menu-item:not(.selectable) h3 span {
+    color: var(--attentive-color__pale);
+}
+
+.unavailable {
+    background-color: var(--disabled-bg);
+    text-decoration: line-through;
+}
+
+.unavailable:hover {
+    background-color: var(--disabled-bg__hover);
+}
+
+.addons span {
+    color: green;
+}
+
+.removables span {
+    color: red;
+}
+
+.size span {
+    color: darkblue;
+}
+
+.comments {
+    color: gray;
+}
+
+.customizations {
+    padding-left: 0.5rem;
+}
+
+/*********************/
+/* MenuItem_Modal.js */
+/*********************/
+
+.add-item-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.add-item-form__data1 {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 0.8rem 1rem;
+    text-transform: capitalize;
+}
+
+.add-item-form__data1 h2 {
+    color: var(--main-color);
+    text-align: center;
+}
+
+.add-item-form__data2 {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: relative;
+}
+
+.add-item-form__data2 span {
+    font-weight: 600;
+    text-transform: lowercase;
+}
+
+.add-item-form__data2 label {
+    margin-right: 10px;
+}
+
+.add-item-form__del {
+    font-size: 3rem;
+    bottom: 0;
+    position: absolute;
+    right: 0;
+}
+
+.btn--add {
+    align-self: center;
+}
+
+/**********************/
+/* MenuItemOptions.js */
+/**********************/
+
+.food-addons {
+    background-color: rgb(220, 255, 220);
+}
+
+.food-removables {
+    background-color: rgb(255, 220, 220);
+}
+
+.food-removables input[type=checkbox],
+.food-removables input[type=radio] {
+    filter: hue-rotate(150deg);
+    transform: scale(2.5);
+}
+
+.option-group-container {
+    padding: 0 1rem;
+    text-align: center;
+}
+
+.option-group {
+    border: 1px solid var(--main-border-color__pale);
+    border-radius: var(--border-radius-medium);
+    padding: 0.8rem 1rem;
+    text-transform: capitalize;
+}
+
+/******************/
+/* Order_Modal.js */
+/******************/
+
+.order-list {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.order-list h2 {
+    text-align: center;
+}
+
+.order-controls {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    justify-content: space-between;
+    padding: 1rem;
+}
+
+.btn--order-control {
+    align-self: center;
+}
+
+/****************************/
+/* SelectedMenuItemsList.js */
+/****************************/
+
+.selected-items-group {
+    border: 1px solid var(--main-border-color__pale);
+    border-radius: var(--border-radius-medium);
+    padding: 1rem;
+}
+
+.selected-items-group-title {
+    align-items: center;
+    color: var(--main-color);
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: center;
+}
+
+/* RESPONSIVENESS */
+/******************/
+
+@media (max-width: 768px) {
+    .top-panel {
+        gap: 10px;
+    }
+
+    .menu-item {
+        margin: 0.4rem 0;
+    }
+
+    .categories-nav {
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 600px) {
+    .top-panel-ctrls {
+        align-items: flex-end;
+        flex-direction: column;
+    }
+
+    .order-controls {
+        flex-direction: column;
+    }
+
+    .btn--open-order-modal {
+        margin-right: 10px;
+        height: auto;
+    }
+}
+@media (max-width: 480px) {
+    .top-panel-ctrls,
+    .top-panel-ctrls__ddls {
+        align-items: center;
+    }
+
+    .ddl--restaurant-table,
+    .ddl--menu-item-type {
+        flex-direction: column;
+    }
+}
+
+@media (pointer:none), (pointer:coarse) {
+    .btn--del-item {
+        visibility: visible !important;
+    }
+}

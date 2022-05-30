@@ -1,0 +1,193 @@
+/*********************/
+/* KitchenSection.js */
+/*********************/
+
+.master-container {
+    background-color: var(--main-color);
+    border-radius: var(--border-radius-medium);
+}
+
+.top-panel {
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 10px;
+}
+
+.title h1 {
+    color: var(--main-txt-color__bright);
+    margin-bottom: 10px;
+}
+
+.top-panel__controls {
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn--kitchen-mode {
+    /* align-self: flex-start; */
+    background-color: var(--main-txt-color__bright);
+    color: var(--main-color);
+    font-size: 1rem;
+}
+
+.btn--submit-availabilities {
+    background-color: var(--main-txt-color__bright);
+    color: var(--attentive-color);
+    font-size: 1rem;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.card h2 {
+    color: var(--main-color);
+}
+
+/*****************/
+/* OrdersList.js */
+/*****************/
+
+h2.title {
+    color: var(--main-color);
+}
+
+.orders-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.orders-container h2 {
+    text-align: center;
+}
+
+/************/
+/* Order.js */
+/************/
+
+.order-container {
+    border-radius: var(--border-radius-small);
+    padding: 1rem;
+    position: relative;
+}
+
+.order__heading {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.order__details {
+    border-top: 1px dotted var(--main-border-color__pale);
+}
+
+.btn--order-complete {
+    bottom: 0;
+    padding: 5px;
+    position: absolute;
+    right: 0;
+}
+
+/******************/
+/* FoodDetails.js */
+/******************/
+
+.food-container {
+    margin-bottom: 1rem;
+}
+
+.addons span {
+    color: green;
+}
+
+.removables span {
+    color: red;
+}
+
+.comments {
+    color: gray;
+}
+
+.customizations {
+    padding-left: 3rem;
+}
+
+/*******************************/
+/* FoodsList_Availabilities.js */
+/*******************************/
+
+.menu-category-heading {
+    color: var(--printable-menu__headings);
+    text-align: center;
+}
+
+.food-list-container {
+    background-color: var(--main-bg-color__focus);
+    border: 1px solid var(--attentive-color__pale);
+    border-radius: var(--border-radius-small);
+    margin-top: 7px;
+    padding: 6px;
+}
+
+.food-list-container > h3 {
+    justify-self: center;
+    color: var(--main-txt-color__dark);
+    padding: 6px 0;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.food-list-container__empty {
+    border: none;
+    border-radius: none;
+}
+
+.food-list {
+    height: 70vh;
+    overflow-y: auto;
+}
+
+/* FoodItem */
+/************/
+
+.food-item {
+    align-items: center;
+    justify-content: space-between;
+    display: flex;
+    background-color: var(--main-bg-color__bright);
+    border-radius: 4px;
+    box-shadow: 0 2px 8px var(--box-shadow-color__dark);
+    margin: 0.2rem 0;
+    padding: 0.2rem;
+    position: relative;
+    width: 100%;
+}
+
+.food-item:hover {
+    background-color: var(--main-color__pale);
+}
+
+.food-item:not(.selectable) h3 span {
+    color: var(--attentive-color__pale);
+}
+
+.food-item input {
+    width: 5rem;
+}
+
+.unavailable {
+    background-color: var(--disabled-bg);
+    text-decoration: line-through;
+}
+
+.unavailable:hover {
+    background-color: var(--disabled-bg__hover);
+}

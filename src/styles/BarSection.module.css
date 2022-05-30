@@ -1,0 +1,87 @@
+/*****************/
+/* BarSection.js */
+/*****************/
+
+.master-container {
+    background-color: var(--main-color);
+    border-radius: var(--border-radius-medium);
+}
+
+.title h1 {
+    color: var(--main-txt-color__bright);
+    margin-bottom: 10px;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/*****************/
+/* OrdersList.js */
+/*****************/
+
+h2.title {
+    color: var(--main-color);
+}
+
+.orders-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.orders-container h2 {
+    text-align: center;
+}
+
+/************/
+/* Order.js */
+/************/
+
+.order-container {
+    border-radius: var(--border-radius-small);
+    padding: 1rem;
+    position: relative;
+}
+
+.order__heading {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.order__details {
+    border-top: 1px dotted var(--main-border-color__pale);
+}
+
+.btn--order-complete {
+    bottom: 0;
+    padding: 5px;
+    position: absolute;
+    right: 0;
+}
+
+/*******************/
+/* DrinkDetails.js */
+/*******************/
+
+.drink-container {
+    margin-bottom: 1rem;
+}
+
+.size span {
+    color: darkblue;
+}
+
+.comments {
+    color: gray;
+}
+
+.customizations {
+    padding-left: 3rem;
+}

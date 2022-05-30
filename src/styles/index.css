@@ -1,0 +1,163 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Handlee&display=swap');
+
+:root {
+    --active-color: rgb(204, 241, 225);
+    --attentive-color: rgb(255, 72, 0);
+    --attentive-color__focus: rgb(231, 35, 0);
+    --attentive-color__pale: rgb(151, 79, 50);
+    --border-radius-small: 8px;
+    --border-radius-medium: 20px;
+    --box-shadow-size1: 5px 5px 5px;
+    --box-shadow-size1: 5px 5px 8px;
+    --box-shadow-color__dark: rgba(0, 0, 0, 0.25);
+    --box-shadow-color__bright: rgba(255, 72, 0, 0.5);
+    --ham-bars-size: 2.6rem;
+    --main-bg-color__bright: white;
+    --main-bg-color__dark: black;
+    --main-bg-color__focus: #f9f5f3;
+    --main-body-color__dark: black;
+    --main-border-color__bright: #ddd;
+    --main-border-color__dark: black;
+    --main-border-color__focus: rgb(34, 82, 66);
+    --main-border-color__pale: #d3c7c3;
+    --main-color: rgb(34, 82, 66);
+    --main-color__pale: rgb(204, 241, 225);
+    --main-txt-color__bright: white;
+    --main-txt-color__dark: black;
+    --main-txt-color__pale: #d3c7c3;
+    --nav-bg-color: rgb(27, 63, 51);
+    --nav-bg-color-portrait: rgb(44, 44, 44);
+    --overlay-bg-color: rgba(0, 0, 0, 0.8);
+    --overlay-bg-color__trans: rgba(0, 0, 0, 0.2);
+    --printable-menu__headings: rgb(0, 32, 0);
+    --disabled-bg: #555555;
+    --disabled-bg__hover: #999999;
+}
+
+* {
+    caret-color: transparent;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+input {
+    caret-color: auto;
+}
+
+html {
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+body {
+    background-attachment: fixed;
+    background-color: transparent;
+    background-image: url(../assets/bg1.jpg);
+    background-repeat: no-repeat;
+    background-size:auto;
+    margin: 0 auto;
+    width: 60%;
+}
+
+#root {
+    background-color: var(--main-body-color__dark);
+    border-radius: var(--border-radius-small);
+}
+
+header {
+    align-items: center;
+    background-color: var(--nav-bg-color);
+    background: linear-gradient(
+        0deg, 
+        var(--main-body-color__dark) 10%, 
+        var(--nav-bg-color) 100%
+    );
+    border-radius: var(--border-radius-small) var(--border-radius-small) 0 0;
+    display: flex;
+    min-height: 5vh;
+    position: relative;
+}
+
+nav {
+    width: 100%;
+}
+
+main {
+    background-color: transparent;
+    margin: 0 auto;
+    min-height: 91vh;
+    width: 99%;
+}
+
+footer {
+    align-items: center;
+    align-content: center;
+    background-color: var(--nav-bg-color);
+    background: linear-gradient(
+        180deg, 
+        var(--main-body-color__dark) 10%,
+        var(--nav-bg-color) 100%
+    );
+    border-radius: 0 0 var(--border-radius-small) var(--border-radius-small);
+    color: var(--main-txt-color__pale);
+    display: flex;
+    flex-direction: column;
+    padding: 10px 5px 5px 5px;
+    min-height: 4vh;
+    justify-content: center;
+}
+
+a {
+    text-decoration: none;
+}
+
+a.active {
+    color: var(--attentive-color) !important;
+}
+
+ul {
+    list-style-type: none;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.invisible {
+    visibility: hidden !important;
+}
+
+/* RESPONSIVENESS */
+/******************/
+
+@media screen and (max-width: 1200px) {
+    body {
+        width: 80%;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    body {
+        width: 100%;
+    }
+}
+
+/* @media (max-width: 768px) {} */
+
+@page {
+    size: A4;
+}
+
+@media print {
+    body {
+        margin: 0 auto;
+        background-color: var(--main-bg-color__bright);
+        width: 100%;
+    }
+}

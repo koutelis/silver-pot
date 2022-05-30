@@ -1,0 +1,219 @@
+/*********************/
+/* CashierSection.js */
+/*********************/
+
+.master-container {
+    background-color: var(--main-color);
+    border-radius: var(--border-radius-medium);
+}
+
+.top-panel h1 {
+    color: var(--main-txt-color__bright);
+    padding: 10px;
+}
+
+.ddl--order-type {
+    color: var(--main-txt-color__bright);
+    justify-content: flex-end;
+}
+
+.ddl--order-type select {
+    border-color: var(--main-border-color__dark);
+}
+
+/********************/
+/* ManageOrders.js  */
+/********************/
+
+.upper-panel {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.upper-panel h2 {
+    color: var(--main-color);
+}
+
+.ddl--category {
+    align-self: flex-start;
+}
+
+/*****************/
+/* OrdersList.js */
+/*****************/
+
+.orders-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+/************/
+/* Order.js */
+/************/
+
+.order-content {
+    background-color: var(--main-bg-color__bright);
+    border-radius: 4px;
+    box-shadow: 0 2px 8px var(--box-shadow-color__dark);
+    margin: 0.2rem 0;
+    padding: 0.2rem;
+    position: relative;
+}
+
+.order-content:hover {
+    filter: brightness(1.05);
+}
+
+.order-content fieldset {
+    border-color: var(--main-color__pale);
+    border-radius: var(--border-radius-small);
+    padding: 0.5rem;
+}
+
+.order-content legend {
+    color: var(--main-color);
+    font-size: 1.2rem;
+    padding: 0 0.5rem;
+    text-transform: uppercase;
+}
+
+.order-content:hover fieldset {
+    border-color: var(--attentive-color__pale);
+}
+
+.order-content__price {
+    color: var(--attentive-color__pale);
+}
+
+.order-content__totalCost {
+    color: var(--attentive-color);
+}
+
+/***************/
+/* MenuItem.js */
+/***************/
+
+.menu-item {
+    background-color: var(--main-bg-color__bright);
+    border-radius: 4px;
+    box-shadow: 0 2px 8px var(--box-shadow-color__dark);
+    display: flex;
+    gap: 1rem;
+    margin: 0.2rem 0;
+    padding: 0.2rem;
+    position: relative;
+}
+
+.menu-item__price {
+    color: var(--attentive-color__pale);
+}
+
+.tick-container {
+    font-size: 2rem;
+    min-width: 2rem;
+}
+
+.tick-container.invisible {
+    visibility: hidden;
+}
+
+/************************/
+/* ManageOrder_Modal.js */
+/************************/
+
+.order-details__form {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.order-details__form > div {
+    max-width: 100%;
+    overflow-wrap: break-word;
+}
+
+.modal__heading {
+    align-self: start;
+    border-bottom: 1px solid var(--main-color);
+    margin-bottom: 1rem;
+    width: 100%;
+}
+
+.modal__heading h3 {
+    color: var(--main-color);
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.modal__heading .total {
+    color: var(--attentive-color);
+}
+
+.tables-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-bottom: 2rem;
+}
+
+.modal__controls {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.btn--cancel-order {
+    background-color: var(--main-bg-color__bright);
+    border: 1px solid var(--main-border-color__pale);
+    color: var(--main-txt-color__dark);
+}
+
+.btn--complete-order:hover {
+    color: var(--attentive-color);
+}
+
+/* FoodTable  */
+/* DrinkTable */
+/**************/
+
+.table {
+    border-spacing: 15px 0;
+    text-align: end;
+}
+
+.table thead {
+    text-align: center;
+}
+
+.table thead th {
+    border-bottom: 1px dotted var(--main-txt-color__dark);
+}
+
+.table .total {
+    color: var(--attentive-color);
+}
+
+/* RESPONSIVENESS */
+/******************/
+
+@media (max-width: 768px) {
+    .top-panel {
+        gap: 10px;
+    }
+
+    .menu-item {
+        margin: 0.4rem 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .modal__controls {
+        flex-direction: column;
+    }
+}

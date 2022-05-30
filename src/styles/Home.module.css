@@ -1,0 +1,28 @@
+.container {
+    align-items: center;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 50vh;
+}
+
+.title {
+    color: var(--main-color__pale);
+}
+
+.title-name {
+    color: var(--attentive-color);
+    font-size: 1.2rem;
+}
+
+.txt-login {
+    display: inline;
+    color: var(--attentive-color);
+    padding: 0 0.3rem;
+}
+
+.txt-login:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}

@@ -1,0 +1,138 @@
+/*************/
+/* NavBar.js */
+/*************/
+
+.nav-link,
+.nav-linkmenu {
+    cursor: pointer;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.nav-link.active {
+    color: var(--attentive-color__pale);
+}
+
+.nav-link a {
+    width: 100%;
+}
+
+/* LANDSCAPE */
+/*************/
+
+.nav-menu__landscape {
+    align-items: stretch;
+    color: var(--main-txt-color__bright);
+    display: flex;
+    justify-content: flex-start;
+    padding: 0 0.4rem;
+}
+
+.nav-linkmenu .submenus {
+    position: absolute;
+    z-index: 10;
+}
+
+.nav-linkmenu .submenus .nav-link {
+    background-color: var(--nav-bg-color-portrait);
+}
+
+.nav-linkmenu:hover {
+    color: var(--attentive-color__pale);
+}
+
+.nav-menu__landscape a {
+    color: var(--main-txt-color__bright);
+    text-decoration: none;
+}
+
+.nav-menu__landscape .nav-link {
+    background-color: var(--main-bg-color__dark);
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--main-border-color__dark);
+    font-size: 1.1rem;
+    display: flex;
+    margin-left: 5px;
+    padding: 4px;
+    transition: transform .4s;
+}
+
+.nav-menu__landscape .nav-link:hover a {
+    color: var(--attentive-color__pale);
+}
+
+.nav-menu__landscape .nav-link:hover {
+    border-color: var(--main-color);
+    transform: scale(105%, 105%);
+    transition: transform .3s;
+}
+
+/* PORTRAIT */
+/************/
+
+.hamburger {
+    color: var(--attentive-color__pale);
+    cursor: pointer;
+    display: none;
+    font-size: 2rem;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+}
+
+.hamburger svg {
+    font-size: var(--hamburger-size);
+}
+
+.nav-menu__portrait {
+    background-color: var(--nav-bg-color-portrait);
+    border-radius: var(--border-radius-medium);
+    box-sizing: border-box;
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    right: 0;
+    top: var(--hamburger-size);
+    width: 80vw;
+}
+
+.nav-menu__portrait a {
+    color: var(--main-txt-color__bright);
+}
+
+.nav-menu__portrait .nav-link:hover a {
+    color: var(--main-color);
+}
+
+.nav-menu__portrait .nav-link:hover {
+    background-color: var(--main-bg-color__focus);
+    border-radius: var(--border-radius-medium);
+    font-weight: 600;
+}
+
+/* RESPONSIVENESS */
+/******************/
+
+@media screen and (max-width: 768px) {
+    .nav-menu__landscape {
+        display: none;
+    }
+
+    .nav-menu__portrait {
+        display: flex;
+    }
+
+    .hamburger {
+        display: block;
+    }
+}
+
+@media screen and (max-width: 350px) {
+    .nav-link {
+        font-size: 1.4rem;
+    }
+}
