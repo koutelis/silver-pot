@@ -1,6 +1,8 @@
 .mstr-container {
     background-color: transparent;
     background-image: url(../assets/img/home-bg.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
     background-position: center;
     min-height: 100%;
     min-width: 100%;
