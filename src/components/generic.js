@@ -1,5 +1,5 @@
 import React from "react";
-import { GrBug, GrClose, GrFormCheckmark, GrStatusGood, GrTrash, GrTroubleshoot } from "react-icons/gr";
+import { GrBug, GrClose, GrFormCheckmark, GrFormPrevious, GrFormNext, GrStatusGood, GrTrash, GrTroubleshoot } from "react-icons/gr";
 import styles from "styles/generic.module.css";
 
 /**
@@ -141,6 +141,51 @@ const Input = (props) => {
 };
 
 /**
+ * Generic label & input text box for integers with incr/decr buttons.
+ * @param {Object} props
+ * @returns {JSX}
+ */
+ const IntegerInput = (props) => {
+    const { className, label, name, onChange, ...rest } = props;
+    let { min, max, step, value } = props;
+    min = min ? Number(min) : 999;
+    max = max ? Number(max) : 999;
+    step = (step && step !== "any") ? Number(step) : 1;
+    value = Number(value);
+
+    const classList = [styles["input"], styles["input-numeric"], className ?? ""].join(" ");
+
+    const cbChange = (e) => {
+        let newValue = Number(e.target.value);
+        if (isNaN(newValue) || newValue < min || newValue > max) {
+            newValue = value;
+        }
+        onChange(newValue);
+    }
+
+    const cbClickLeft = () => {
+        const newValue = value - step;
+        onChange(newValue >= min ? newValue : value);
+    }
+
+    const cbClickRight = () => {
+        const newValue = value + step;
+        onChange(newValue <= max ? newValue : value);
+    }
+
+    return (
+        <div className={classList}>
+            <label htmlFor={name}>{label}</label>
+            <div className={styles["input-numeric__controls"]}>
+                <div onClick={cbClickLeft}><GrFormPrevious /></div>
+                <input name={name} min={min} max={max} step={step} onChange={cbChange} value={value} {...rest} />
+                <div onClick={cbClickRight}><GrFormNext /></div>
+            </div>
+        </div>
+    );
+};
+
+/**
  * Generic modal window with overlay and close button.
  * @param {Object} props
  * @returns {JSX}
@@ -231,9 +276,12 @@ const ModalWindow = (props) => {
 };
 
 const LoadingSpinner = (props) => {
+    const { text } = props;
+    
     return (
         <div className={styles["spinner-container"]}>
             <div className={styles["spinner"]}></div>
+            <div>{text ?? ""}</div>
         </div>
     );
 };
@@ -328,6 +376,7 @@ export {
     ModalWindow,
     ModalAlert,
     ModalConfirm,
+    IntegerInput,
     TextArea,
     TickImage,
     Title,

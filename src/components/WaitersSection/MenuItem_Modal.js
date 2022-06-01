@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, DelButton, Input, TextArea, ModalWindow } from "components/generic.js";
+import { Button, DelButton, IntegerInput, TextArea, ModalWindow } from "components/generic.js";
 import { cloneObject, toCurrency } from "store/utils.js";
 import { FoodOptions, DrinkOptions } from "components/WaitersSection/MenuItemOptions.js";
 import styles from "styles/WaitersSection.module.css";
@@ -49,13 +49,14 @@ const QuantityInput = (props) => {
     if (mode !== "add") return null;
 
     return (
-        <Input 
-            className="" 
-            type="number" 
-            min="1" max={max} step="1" value={value} 
-            label="quantity" 
-            name="quantity" 
-            onChange={onChange} 
+        <IntegerInput 
+            label="quantity:"
+            name="quantity"
+            min="1"
+            max={max}
+            step="1"
+            value={value}
+            onChange={onChange}
         />
     );
 }
@@ -242,7 +243,7 @@ const MenuItem_Modal = (props) => {
                 mode={mode}
                 value={quantity}
                 max={menuItem.availability ?? 10} 
-                onChange={(e) => setQuantity(+e.target.value)}
+                onChange={setQuantity}
             />
             
             <Button 

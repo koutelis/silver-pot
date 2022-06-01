@@ -7,16 +7,17 @@ const CURRENCIES = {
 const CURRENCY = CURRENCIES.euro;
 
 const url = (process.env.REACT_APP_IS_DEV_MODE === "true")
-    ? "http://localhost:3001" 
-    : "https://silver-pot-srv.herokuapp.com";
+    ? "http://localhost:3001/api" 
+    : "https://silver-pot-srv.herokuapp.com/api";
 
 const ENDPOINTS = {
-    drinks: "/api/drinks/",
-    drinksCategorized: "/api/drinkscat/",
-    foods: "/api/foods/",
-    menus: "/api/restaurantmenus/",
-    orders: "/api/orders/",
-    users: "/api/users/"
+    base: "/",
+    drinks: "/drinks/",
+    drinksCategorized: "/drinkscat/",
+    foods: "/foods/",
+    menus: "/restaurantmenus/",
+    orders: "/orders/",
+    users: "/users/"
 }
 Object.keys(ENDPOINTS).forEach(key => ENDPOINTS[key] = url + ENDPOINTS[key]);
 

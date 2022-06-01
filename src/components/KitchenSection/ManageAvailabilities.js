@@ -50,7 +50,7 @@ const ManageAvailabilities = (props, ref) => {
 
     if (!visible) return null;
     
-    if (isLoading) return ( <LoadingSpinner /> );
+    if (isLoading) return ( <LoadingSpinner text="Loading current menu. Please wait..." /> );
 
     return ( <FoodsList_Availabilities foods={foods} onChange={cbInputChange} /> );
 };

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { LoadingSpinner, Title } from "components/generic.js";
 import { LogButton, useAuth0 } from "store/auth.js";
-import { usersRequests } from "store/connections.js";
+import { getConnection, usersRequests } from "store/connections.js";
 import styles from "styles/Home.module.css";
 
 const GuestPage = (props) => {
@@ -27,24 +27,43 @@ const StaffPage = (props) => {
 }
 
 export default () => {
+    const [ isConnected, setIsConnected ] = useState(false);
     const [ isLoading, setIsLoading ] = useState(true);
     const [ currentUser, setCurrentUser ] = useState(null);
     const { user } = useAuth0();
 
     useEffect(async () => {
+        const interval = checkConnection();
+        return () => clearInterval(interval);
+
+    }, []);
+
+    const checkConnection = () => {
+        const interval = setInterval(async () => {
+            const response = await getConnection();
+            if (response) {
+                clearInterval(interval);
+                setIsConnected(true);
+                setIsLoading(false);
+            }
+        }, 3000);
+
+        return interval;
+    }
+
+    useEffect(async () => {
         let isMounted = true;
-        if (user) {
+        if (isConnected && user) {
             const fetchedUser = await usersRequests.get(user.email);
-            if (isMounted) {
+            if (fetchedUser && isMounted) {
                 setCurrentUser(() => ({...user, roles: fetchedUser.roles, spName: fetchedUser.name}));
             }
         }
 
-        setIsLoading(false);
         return () => { isMounted = false };
-    }, [user]);
+    }, [user, isConnected]);
 
-    if (isLoading) return ( <LoadingSpinner /> );
+    if (isLoading) return ( <LoadingSpinner text="Connecting. Please wait..." /> );
 
     return (
         <div className={styles["container"]}>

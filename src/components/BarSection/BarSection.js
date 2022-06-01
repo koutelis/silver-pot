@@ -66,7 +66,7 @@ export default () => {
         ordersRequests.put(completedOrder._id, completedOrder);
     }
 
-    if (isLoading) return ( <LoadingSpinner /> );
+    if (isLoading) return ( <LoadingSpinner text="Loading orders. Please wait..." /> );
 
     return (
         <div className={styles["master-container"]}>

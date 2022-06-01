@@ -325,7 +325,7 @@ export default () => {
         (hasSelectedItems() ? "" : "hidden")
     ].join(" ");
 
-    if (isLoading) return ( <LoadingSpinner /> );
+    if (isLoading) return ( <LoadingSpinner text="Loading menu. Please wait..." /> );
     
     return (
         <div className={styles["master-container"]}>

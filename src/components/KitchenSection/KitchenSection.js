@@ -82,7 +82,7 @@ import styles from "styles/KitchenSection.module.css";
         ? <h2>{viewMode === "orders" ? "PENDING ORDERS" : "MANAGE AVAILABILITIES"}</h2>
         : null;
 
-    if (isLoading) return ( <LoadingSpinner /> );
+    if (isLoading) return ( <LoadingSpinner text="Loading orders. Please wait..." /> );
 
     return (
         <div className={styles["master-container"]}>

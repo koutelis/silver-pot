@@ -29,7 +29,7 @@ import styles from "styles/CreateMenu.module.css";
     useEffect(async () => {
         let isMounted = true;
         const fetchedTemplateMenu = await restaurantmenusRequests.getTemplate();
-        if (isMounted) {
+        if (fetchedTemplateMenu && isMounted) {
             setFontSize(fetchedTemplateMenu.fontSize ?? defaults.template.fontSize);
             setFoods(fetchedTemplateMenu.foods ?? cloneObject(defaults.template.foods));
             setDrinks(fetchedTemplateMenu.drinks ?? cloneObject(defaults.template.drinks));
@@ -149,7 +149,7 @@ import styles from "styles/CreateMenu.module.css";
     const btnSwitchText = `Switch to ${isPrintView ? "Block" : "Print"} view`;
 
     
-    if (isLoading) return ( <LoadingSpinner /> );
+    if (isLoading) return ( <LoadingSpinner text="Loading template menu. Please wait..." /> );
     
     return (
         <div className={styles["master-container"]}>

@@ -102,7 +102,7 @@ const ManageMenuItems = (props) => {
         setCategoryFilter(selectedCategory);
     }
 
-    if (isLoading) return ( <LoadingSpinner /> );
+    if (isLoading) return ( <LoadingSpinner text="Loading menu items. Please wait..." /> );
 
     return (
         <Card>

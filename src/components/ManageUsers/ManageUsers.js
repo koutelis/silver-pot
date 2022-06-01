@@ -83,7 +83,7 @@ import styles from "styles/ManageUsers.module.css";
         setModalIsVisible(false);
     }
 
-    if (isLoading) return ( <LoadingSpinner /> );
+    if (isLoading) return ( <LoadingSpinner text="Loading users. Please wait..." /> );
 
     return (
         <div className={styles["master-container"]}>

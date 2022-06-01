@@ -171,6 +171,7 @@
 }
 
 .input input {
+    background-color: var(--main-bg-color__bright);
     border: 1px solid var(--main-border-color__bright);
     border-radius: 0.5rem;
     font-size: 1rem;
@@ -186,6 +187,32 @@
     background-color: var(--main-bg-color__focus);
     border-color: var(--main-border-color__focus);
     outline: none;
+}
+
+.input-numeric {
+    padding: 0;
+}
+
+.input-numeric__controls {
+    align-items: center;
+    display: flex;
+    font-size: 3rem;
+}
+
+.input-numeric__controls input {
+    width: 5rem;
+}
+
+.input-numeric polyline {
+    stroke: var(--main-txt-color__pale);
+}
+
+.input-numeric__controls > div:hover polyline {
+    stroke: var(--main-color);
+}
+
+.input-numeric svg:active polyline {
+    stroke: var(--main-color__pale)
 }
 
 /****************/
@@ -370,6 +397,7 @@
 
 .spinner-container {
     align-items: center;
+    color: var(--main-txt-color__pale);
     display: flex;
     flex-direction: column;
 }

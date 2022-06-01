@@ -128,7 +128,7 @@ const Navbar = () => {
 
     const loadUser = async (isMounted = true) => {
         const fetchedUser = await usersRequests.get(user.email);
-        if (isMounted) {
+        if (fetchedUser && isMounted) {
             setCurrentUser(() => ({...user, roles: fetchedUser.roles}));
         }
     }

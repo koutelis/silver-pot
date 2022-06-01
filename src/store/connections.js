@@ -3,6 +3,7 @@ import { ENDPOINTS, WEB_SOCKETS } from 'store/config.js';
 import { todayAsString } from "store/utils.js";
 
 const socket = io(WEB_SOCKETS.orders);
+const apiBaseIrl = ENDPOINTS.base;
 const apiDrinksUrl = ENDPOINTS.drinks;
 const apiDrinksCatUrl = ENDPOINTS.drinksCategorized;
 const apiFoodsUrl = ENDPOINTS.foods;
@@ -134,6 +135,8 @@ const onError = (err) => {
 
 //#region "HTTP REQUESTS"
 
+const getConnection = () => getAll(apiBaseIrl);
+
 const foodsRequests = {
     getAll: () => getAll(apiFoodsUrl),
     get: (_id) => getItem(apiFoodsUrl, _id),
@@ -199,6 +202,7 @@ const subscriptions = {
 //#endregion
 
 export { 
+    getConnection,
     foodsRequests, 
     drinksRequests, 
     restaurantmenusRequests, 

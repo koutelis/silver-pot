@@ -1,5 +1,5 @@
 import React from "react";
-import { Input } from "components/generic.js";
+import { IntegerInput } from "components/generic.js";
 import { FOODS } from "store/config.js";
 import styles from "styles/KitchenSection.module.css";
 
@@ -13,8 +13,8 @@ const FoodItem = (props) => {
     const { availability, category, _id, name } = foodData;
     const isAvailable = availability > 0;
 
-    const cbChange = (e) => {
-        onChange(_id, category, +e.target.value);
+    const cbChange = (value) => {
+        onChange(_id, category, value);
     }
 
     const strikeOut = !isAvailable ? styles["unavailable"] : "";
@@ -23,10 +23,11 @@ const FoodItem = (props) => {
     return (
         <div className={classList}>
             <div>{name}</div>
-            <Input 
+            <IntegerInput
                 title="set availability"
                 name={_id} 
-                type="number" min="0" step="1" 
+                min="0" 
+                step="1" 
                 value={availability} 
                 onChange={cbChange} 
             />

@@ -47,7 +47,7 @@ import styles from "styles/CashierSection.module.css";
         setSelectedOrderType(e.target.value);
     }
 
-    if (isLoading) return ( <LoadingSpinner /> );
+    if (isLoading) return ( <LoadingSpinner text="Loading orders. Please wait..." /> );
 
     return (
         <div className={styles["master-container"]}>
