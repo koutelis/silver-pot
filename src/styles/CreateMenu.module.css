@@ -72,7 +72,7 @@
 
 .printable {
     background-color: var(--main-bg-color__bright);
-    background-image: url(assets/printable-bg.png);
+    background-image: url(assets/img/printable-bg.png);
     background-repeat: no-repeat;
     background-size: cover;
     border: 1px solid var(--main-border-color__bright);

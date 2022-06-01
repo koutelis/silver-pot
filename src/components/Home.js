@@ -26,6 +26,16 @@ const StaffPage = (props) => {
     );
 }
 
+const Blackboard = (props) => {
+    return (
+        <div className={styles["blackboard-container"]}>
+            <div className={styles["blackboard"]}>
+                {props.children}
+            </div>
+        </div>
+    )
+}
+
 export default () => {
     const [ isConnected, setIsConnected ] = useState(false);
     const [ isLoading, setIsLoading ] = useState(true);
@@ -66,8 +76,13 @@ export default () => {
     if (isLoading) return ( <LoadingSpinner text="Connecting. Please wait..." /> );
 
     return (
-        <div className={styles["container"]}>
-            {currentUser ? <StaffPage user={currentUser}/> : <GuestPage />}
+        <div className={styles["mstr-container"]}>
+            <div className={styles["container"]}>
+                <Blackboard>
+                    {currentUser ? <StaffPage user={currentUser}/> : <GuestPage />}
+                    <br /><br />
+                </Blackboard>
+            </div>
         </div>
     );
 }

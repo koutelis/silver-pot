@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Handlee&display=swap');
+@font-face {
+    font-family: chalk;
+    src: url(../assets/fonts/chawp.otf);
+  }
 
 :root {
     --active-color: rgb(204, 241, 225);
@@ -58,7 +62,7 @@ html {
 body {
     background-attachment: fixed;
     background-color: transparent;
-    background-image: url(../assets/bg1.jpg);
+    background-image: url(../assets/img/bg1.jpg);
     background-repeat: no-repeat;
     background-size:auto;
     margin: 0 auto;
@@ -90,8 +94,10 @@ nav {
 
 main {
     background-color: transparent;
+    flex-direction: column;
     margin: 0 auto;
-    min-height: 91vh;
+    height: 91vh;
+    position: relative;
     width: 99%;
 }
 

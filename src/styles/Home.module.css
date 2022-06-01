@@ -1,10 +1,23 @@
+.mstr-container {
+    background-color: transparent;
+    background-image: url(../assets/img/home-bg.jpg);
+    background-position: center;
+    min-height: 100%;
+    min-width: 100%;
+}
+
 .container {
     align-items: center;
     color: white;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: 50vh;
+    height: 80vh;
+    left: 50%;
+    position: absolute;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 100%;
 }
 
 .title {
@@ -12,7 +25,7 @@
 }
 
 .title-name {
-    color: var(--attentive-color);
+    color: var(--main-txt-color__bright);
     font-size: 1.2rem;
 }
 
@@ -25,4 +38,36 @@
 .txt-login:hover {
     cursor: pointer;
     text-decoration: underline;
+}
+
+
+.blackboard-container {
+    height: 100%;
+    max-width: 90%;
+}
+
+.blackboard {
+    justify-content: center;
+    background-color: rgb(34, 34, 34);
+    background-image: url(../assets/img/blackboard-bg.jpg);
+    background-size: cover;
+    border: 35px solid black;
+    border-image: url(../assets/img/blackboard-border.png) 200 stretch;
+    box-shadow: inset 0px 0px 10px black;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    font-family: chalk, 'Noto Sans JP', sans-serif;
+    gap: 4rem;
+    height: 100%;
+    padding: 2rem;
+    width: 100%;
+    transform: perspective(60em) rotateX(5deg);
+}
+
+
+@media screen and (max-width: 620px) {
+    .container {
+        height: 70vh;
+    }
 }
