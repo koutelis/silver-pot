@@ -7,15 +7,15 @@ import "styles/index.css";
 
 ReactDOM.render(
     <React.StrictMode>
-        <BrowserRouter>
-            <Auth0Provider
-                domain={process.env.REACT_APP_AUTH0_DOMAIN}
-                clientId={process.env.REACT_APP_AUTH0_CLIENT_ID}
-                redirectUri={window.location.origin}
-            >
+        <Auth0Provider
+            domain={process.env.REACT_APP_AUTH0_DOMAIN}
+            clientId={process.env.REACT_APP_AUTH0_CLIENT_ID}
+            redirectUri={window.location.origin}
+        >
+            <BrowserRouter>
                 <App />
-            </Auth0Provider>
-        </BrowserRouter>
+            </BrowserRouter>
+        </Auth0Provider>
     </React.StrictMode>,
     document.getElementById("root")
 );

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FaBars } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
-import { NAV_ROUTES } from "store/config.js";
+import { NAV_ROUTES } from "components/Body/Main.js";
 import { usersRequests, subscriptions } from "store/connections.js";
 import { LogButton, hasPermission, useAuth0 } from "store/auth.js";
 import styles from "styles/Header.module.css";

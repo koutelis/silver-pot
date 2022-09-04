@@ -1,6 +1,7 @@
 import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useModal } from "store/hooks.js";
+import { ROLES } from "store/config.js";
 
 const LogButton = (props) => {
     const { className } = props;
@@ -28,7 +29,7 @@ const LogButton = (props) => {
 const hasPermission = (user, route) => {
     const permittedRoles = route.permissions;
     if (!permittedRoles.length) return false;
-    if (permittedRoles.includes("guest")) return true;
+    if (permittedRoles.includes(ROLES.GUEST)) return true;
     if (!user) return false;
 
     for (let role of user.roles) {

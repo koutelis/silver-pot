@@ -41,7 +41,7 @@ const GlobalModalProvider = ({ children }) => {
     );
 };
 
-let resolveCallback = () => console.info("not function selected...");
+let resolveCallback = () => console.info("no function selected...");
 
 const useModal = () => {
     const [modalState, dispatch] = useContext(ModalContext);

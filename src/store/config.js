@@ -25,18 +25,6 @@ const WEB_SOCKETS = {
     orders: url
 }
 
-const NAV_ROUTES = {
-    root: {path: "/", label: "HOME", permissions: ["guest"]},
-    manageUsers: {path: "/manageUsers", label: "Users", hamLabel: "Manage Users", permissions: ["admin", "manager"]},
-    manageMenu: {path: "/manageMenu", label: "Restaurant Menu-Items", hamLabel: "Manage Menu", permissions: ["admin", "manager"]},
-    createMenu: {path: "/createMenu", label: "Restaurant Menu", hamLabel: "Create Menu", permissions: ["admin", "manager"]},
-    waitersSection: {path: "/waiters", label: "Waiters", permissions: ["admin", "manager", "waiter"]},
-    kitchenSection: {path: "/kitchen", label: "Kitchen", permissions: ["admin", "manager", "chef"]},
-    barSection: {path: "/bar", label: "Bar", permissions: ["admin", "manager", "barista"]},
-    cashSection: {path: "/cashier", label: "Cashdesk", permissions: ["admin", "manager", "cashier"]},
-    notFound: {path: "*", label: "404 - Not Found", permissions: ["guest"]},
-}
-
 const FOODS = {
     itemData: {
         category: "other",
@@ -110,7 +98,7 @@ const MENUS = {
         foods: {label: "FOOD"},
         drinks: {label: "BEVERAGE"}
     }
-}
+};
 
 const ORDERS = {
     order: {
@@ -140,21 +128,25 @@ const ORDERS = {
     sortOrder: {
         foods: ["starter", "soup", "salad", "other", "dessert"]
     }
-}
+};
+
+const ROLES = {
+    GUEST: "guest", ADMIN: "admin", MANAGER: "manager", WAITER: "waiter", CHEF: "chef", BARISTA: "barista", CASHIER: "cashier"
+};
 
 const USERS = { 
     user: {
         _id: "",  // user's email
         name: "", 
         roles: {
-            admin: {label: "Admin", checked: false},
-            manager: {label: "Manager", checked: false},
-            waiter: {label: "Waiter", checked: false},
-            chef: {label: "Chef", checked: false},
-            barista: {label: "Barista", checked: false},
-            cashier: {label: "Cashier", checked: false}
+            admin: {label: ROLES.ADMIN, checked: false},
+            manager: {label: ROLES.MANAGER, checked: false},
+            waiter: {label: ROLES.WAITER, checked: false},
+            chef: {label: ROLES.CHEF, checked: false},
+            barista: {label: ROLES.BARISTA, checked: false},
+            cashier: {label: ROLES.CASHIER, checked: false}
         } 
     }
 }
 
-export { CURRENCY, ENDPOINTS, WEB_SOCKETS, NAV_ROUTES, FOODS, DRINKS, MENUS, ORDERS, USERS };
+export { CURRENCY, ENDPOINTS, WEB_SOCKETS, FOODS, DRINKS, MENUS, ORDERS, USERS, ROLES };

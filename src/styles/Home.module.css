@@ -49,6 +49,7 @@
 }
 
 .blackboard {
+    align-items: center;
     justify-content: center;
     background-color: rgb(34, 34, 34);
     background-image: url(../assets/img/blackboard-bg.jpg);
